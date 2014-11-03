@@ -2,7 +2,7 @@
 
 import numpy as np
 from constants import *
-
+from globals import *
  
 def Y2(m,theta,phi):
     """These are exactly Ylm's as defined on wikipaedia; seems to match Teja's."""

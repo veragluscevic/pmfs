@@ -8,9 +8,9 @@ from globals import *
 
 
 
-def make_camb_ini(zs, out_root=MAIN_PATH+'matter_power/', kmax=2):
+def make_camb_ini(zs, out_root=MATTER_POWER_PATH, kmax=2):
     """This makes the .ini file (for a chosen cosmology) which can be used for a CAMB run.
-    Inputs are: array of redshifts, name of the output file (including path), and maximum wave number[1/Mpc]. """
+    Inputs are: array of redshifts, the location for output files, and maximum wave number[1/Mpc]. """
     
     fout = open(out_root+'parameters.ini', 'w')
     
@@ -45,15 +45,6 @@ k_eta_max_scalar  = 4000000
 #  Tensor settings should be less than or equal to the above
 l_max_tensor      = 1500
 k_eta_max_tensor  = 3000
-
-#Main cosmological parameters, neutrino masses are assumed degenerate
-# If use_phyical set physical densities in baryons, CDM and neutrinos + Omega_k
-use_physical   = T
-ombh2          = 0.0226
-omch2          = 0.112
-omnuh2         = 0.00064
-omk            = 0
-hubble         = 70
 
 #effective equation of state parameter for dark energy
 w              = -1
@@ -269,8 +260,17 @@ l_accuracy_boost        = 1
 #Decrease to speed up non-flat models a bit
 l_sample_boost          = 1
 
+#Main cosmological parameters, neutrino masses are assumed degenerate
+# If use_phyical set physical densities in baryons, CDM and neutrinos + Omega_k
+use_physical   = T
+
     """)
 
+    fout.write('ombh2          = %f\n' % Obaryonh2)
+    fout.write('omch2          = %f\n' % 0.112)
+    fout.write('omnuh2         = %f\n' % 0.00064)
+    fout.write('omk            = 0\n')
+    fout.write('hubble         = %f\n\n' % (h0*100.))
     
     fout.write('transfer_kmax           =%f\n' % kmax)
     fout.write('transfer_k_per_logint   = 0\n')

@@ -2,6 +2,7 @@
 
 import numpy as np
 from scipy.interpolate import LinearNDInterpolator as interpnd
+import cosmolopy.distance as cd
 from constants import *
 from globals import *
 
@@ -25,10 +26,21 @@ def nH(z, delta):
     res = Obaryonh2 * ( 1. - yHe ) * ( 1.+ z )**3 / mH * rho_critical * ( 1. + delta )
     return res   
 
+
+
+def val_dA( z ):
+    """This returns angular-diameter distance in [cm comoving]. It only takes z.""" 
+    cosmo = {'omega_M_0' : Omatter, 'omega_lambda_0' : Olambda, 'h' : h0}
+    cosmo = cd.set_omega_k_0( cosmo )
+
+    res =  cd.angular_diameter_distance( z, **cosmo ) * Mpc_in_cm * ( 1 + z )
+    return res
+
 def gpdepth(z,x1s,delta):
     """ Given neutral fraction x1s, redshift, and overdensity delta [unitless],
     this returns Gunn-Peterson optical depth [unitless], according to Hirata 2005 Eq. (35).
     Note that it uses physical constants from constants.py."""
+    
     res = 3. * nH( z, delta ) * x1s * lambdaLya**3 * gamma / ( 2. * H(z) )
     return res
 
@@ -45,10 +57,10 @@ def val_Salpha(Ts, Tk, z, x1s, delta):
 
 
 
-def read_Pdelta_fn(root=MAIN_PATH+'matter_power/',**kwargs):
+def read_Pdelta(root=MAIN_PATH+'matter_power/',**kwargs):
     """This is an interpolation in k and z, for array P_delta(k,z) output by CAMB.
     Input parameters for this function are the root where the power spectra arrays are stored, plus kwargs.
-    This returns result in [cm^3???]. It takes k[1/Mpc comoving].
+    This returns result in [cm^3 comoving]. It takes z, and k[1/Mpc comoving].
     Note1: Array of redshifts corresponding to the grid P must be stored in the location root/zs.txt.
     Note2: This also relies on particular file naming (regulated by CAMB), which can be adjusted in the function."""
 
@@ -57,6 +69,8 @@ def read_Pdelta_fn(root=MAIN_PATH+'matter_power/',**kwargs):
     all_Pdeltas = []
     for i,z in enumerate(zs):
         ks,Ps = np.loadtxt('%s/_matterpower_%i.dat' % (root,i),unpack=True)
+        ks *= h0 
+        Ps *= (Mpc_in_cm/h0)**3
         all_Pdeltas.append(Ps)
     all_Pdeltas = np.array(all_Pdeltas).T
     Zs,Ks = np.meshgrid(zs,ks)
@@ -64,3 +78,4 @@ def read_Pdelta_fn(root=MAIN_PATH+'matter_power/',**kwargs):
     return interpnd(points,all_Pdeltas.ravel(),**kwargs)
 
 
+val_Pdelta = read_Pdelta()

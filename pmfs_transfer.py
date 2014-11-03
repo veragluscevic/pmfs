@@ -2,7 +2,9 @@
 
 import numpy as np
 import cosmo_functions as cf
+reload(cf)
 from constants import *
+from globals import *
 from geometric_functions import *
 
 def calc_Tb(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4., 
@@ -39,7 +41,7 @@ def calc_Tb(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4.,
 
 
     
-def calc_deltaTb(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4., 
+def calc_deltaTb(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
             delta=0., Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, xB=0.365092, x1s=1.):
     
@@ -64,7 +66,7 @@ def calc_deltaTb(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4.,
 
 
 
-def calc_G(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4., 
+def calc_G(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
             Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, xB=0.365092, x1s=1.):
     
@@ -83,12 +85,13 @@ def calc_G(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4.,
     second_term = 2. + 2.*k_dot_n**2 - 4.*np.pi/75.*summ
 
     res = x1s * ( 1 - Tg/Ts ) * np.sqrt( (1 + z)/10. ) * ( 26.4 * first_term - 0.128 * x1s * (Tg/Ts) * np.sqrt( (1 + z)/10. ) * second_term)
-    
+
+    #print res/1000.
     return res/1000. #this is to make it to K from mK.
 
 
 
-def calc_dGdB(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4., 
+def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
             Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, xBcoeff=3.65092e18, x1s=1.):
 
@@ -97,16 +100,16 @@ def calc_dGdB(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4.,
     from analytic derivative of eq 138 of Teja's draft v3. Result is in [K/Gauss].
     B is along z.  It takes x's (all unitless), temperatures in [K], and angles in [rad]."""
 
-    
-    k_dot_n = np.cos(thetan)*np.cos(thetak) + np.sin(thetan)*np.sin(thetak)*np.cos(phin)*np.cos(phik) + np.sin(thetan)*np.sin(thetak)*np.sin(phin)*np.sin(phik)
-     
     summ = 0.
     for i,m in enumerate( np.array([-2,-1,0,1,2]) ):
         summand =  1j * m * xBcoeff * Y2( m,thetak,phik ) * np.conjugate( Y2(m,thetan,phin) ) / ( 1. + xalpha + xc )**2
+        #print summand
         summ += summand.real
 
-    #res = (0.128*4.*np.pi/75.) * x1s**2 * ( 1 - Tg/Ts ) * (Tg/Ts) * (1 + z)/10. * summ 
-    res = (0.128*4.*np.pi/75.) * x1s**2 * ( 1 - Tg/Ts ) * (Tg/Ts) * (1 + z)**3/10. * summ 
-    #!!!!!!!!! the deriv should be wrt B0 today, so there are factors of (1+z)**2 that might have been pushed to fisher...check this: thats why now (1+z)**3.
+    #print summ
+    res = (0.128*4.*np.pi/75.) * x1s**2 * ( 1 - Tg/Ts ) * (Tg/Ts) * (1 + z)**3/10. * summ
     
+    #print 0.128*4.*np.pi/75. * x1s**2 * ( 1 - Tg/Ts ) * Tg/Ts * (1 + z)**3/10.
+    #print res/1000./(1+z)**2
+    #return calc_G(thetak=thetak, phik=phik, thetan=thetan, phin=phin,Ts=Ts, Tg=Tg, z=z, verbose=False,xalpha=xalpha, xc=xc, xBcoeff=3.65092e18, x1s=1.)
     return res/1000. #this is to make it to K from mK.
