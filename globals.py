@@ -2,7 +2,8 @@
 
 import os.path
 
-MAIN_PATH = '/Users/verag/Dropbox/PMFs_analytic_code/'
+#MAIN_PATH = '/Users/verag/Dropbox/PMFs_analytic_code/'
+MAIN_PATH = '/Users/verag/Research/21pmfs/'
 
 RESULTS_PATH = MAIN_PATH + 'results/'
 INPUTS_PATH = MAIN_PATH + 'inputs/'

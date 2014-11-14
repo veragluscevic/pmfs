@@ -31,7 +31,10 @@ H0 = 2.1972484e-18        # [1/sec] Hubble rate at z=0, from Planck 2013
 Neff = 3.046              # Effective neutrino number, theoretical value
 rho_critical = 3. * H0**2. / (8. * np.pi * Newton_G) #critical density today.
 h0 = 0.72                 #Hubble rate normalized???
-
+mp = 1.67262178e-24       #proton mass in [grams]
+erg_in_ev = 6.24150934e11 #erg in eV
+RH = 109737.316           #Rydberg constant in [1/cm]
+t_universe = 13.6*1e9*365.*24.*3600. #age of the universe in [sec] 
 
 ##set up cosmological parameters from cosmolopy:
 #from cosmolopy.parameters import WMAP7_ML

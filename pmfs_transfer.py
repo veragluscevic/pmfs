@@ -113,3 +113,51 @@ def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     #print res/1000./(1+z)**2
     #return calc_G(thetak=thetak, phik=phik, thetan=thetan, phin=phin,Ts=Ts, Tg=Tg, z=z, verbose=False,xalpha=xalpha, xc=xc, xBcoeff=3.65092e18, x1s=1.)
     return res/1000. #this is to make it to K from mK.
+
+
+
+
+def calc_G_Bzero(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
+            Ts=11.1, Tg=57.23508, z=20, verbose=False,
+            xalpha=34.247221, xc=0.004176, x1s=1.):
+    
+    """In the limit B->0 calculates the transfer function, which is the total derivative dTb/ddelta evaluated at delta=0, 
+    from analytic derivative of eq 138 of Teja's draft v3.
+    Result is in [K]. It takes x's (all unitless), temperatures in [K], and angles in [rad].
+    B is along z!"""
+    
+    k_dot_n = np.cos(thetan)*np.cos(thetak) + np.sin(thetan)*np.sin(thetak)*np.cos(phin)*np.cos(phik) + np.sin(thetan)*np.sin(thetak)*np.sin(phin)*np.sin(phik)
+
+
+    summ = 0.5*(3.*k_dot_n**2 - 1.)/ ( 1. + xalpha + xc )
+        
+    first_term = 1 + k_dot_n**2
+    second_term = 2. + 2.*k_dot_n**2 - 1./15.*summ
+
+    res = x1s * ( 1 - Tg/Ts ) * np.sqrt( (1 + z)/10. ) * ( 26.4 * first_term - 0.128 * x1s * (Tg/Ts) * np.sqrt( (1 + z)/10. ) * second_term)
+
+    return res/1000. #this is to make it to K from mK.
+
+
+
+def calc_G_Binfinity(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
+            Ts=11.1, Tg=57.23508, z=20, verbose=False,
+            xalpha=34.247221, xc=0.004176, x1s=1.):
+    
+    """In the limit B->infinity calculates the transfer function, which is the total derivative dTb/ddelta evaluated at delta=0, 
+    from analytic derivative of eq 138 of Teja's draft v3.
+    Result is in [K]. It takes x's (all unitless), temperatures in [K], and angles in [rad].
+    B is along z!"""
+    
+    k_dot_n = np.cos(thetan)*np.cos(thetak) + np.sin(thetan)*np.sin(thetak)*np.cos(phin)*np.cos(phik) + np.sin(thetan)*np.sin(thetak)*np.sin(phin)*np.sin(phik)
+
+
+    summ = 0.5*(3.*(np.cos(thetak))**2 + 3.*(np.cos(thetan))**2 - 2.)/ ( 1. + xalpha + xc )
+        
+    first_term = 1 + k_dot_n**2
+    second_term = 2. + 2.*k_dot_n**2 - 1./15.*summ
+
+    res = x1s * ( 1 - Tg/Ts ) * np.sqrt( (1 + z)/10. ) * ( 26.4 * first_term - 0.128 * x1s * (Tg/Ts) * np.sqrt( (1 + z)/10. ) * second_term)
+
+    return res/1000. #this is to make it to K from mK.
+
