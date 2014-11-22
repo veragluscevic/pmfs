@@ -33,6 +33,21 @@ Pnp_tuple = ((2,1.), (3,0), (4,0.2609), (5,0.3078), (6,0.3259), (7,0.3353), (8,0
        (17,0.3556), (18,0.3561), (19,0.3565), (20,0.3569), (21,0.3572), (22,0.3575), (23,0.3578),
        (24,0.3580), (25,0.3582), (26,0.3584), (27,0.3586), (28,0.3587), (29,0.3589), (30,0.3590))
 
+
+file_21cmfast = np.loadtxt('21cmfast_teja_nov2014.txt')
+Tks_21cmfast = file_21cmfast[:,2][::-1]
+Tgs_21cmfast = file_21cmfast[:,5][::-1]
+Tss_21cmfast = file_21cmfast[:,4][::-1]
+Jlyas_21cmfast = file_21cmfast[:,6][::-1]
+zs_21cmfast = file_21cmfast[:,0][::-1]
+
+Tk_21cmfast_interp = interpolate(zs_21cmfast, Tks_21cmfast, s=0)
+Tg_21cmfast_interp = interpolate(zs_21cmfast, Tgs_21cmfast, s=0)
+Ts_21cmfast_interp = interpolate(zs_21cmfast, Tss_21cmfast, s=0)
+
+Jlya_21cmfast_interp = interpolate(zs_21cmfast, Jlyas_21cmfast, s=0)
+
+
 def calc_simple_Jlya( z ):
     """ This returns Lyman-alpha flux as a function of redshift, Jlya(z) [# of photons/cm^2/sec/Hz/sr],
     as calculated using Chen and Miralda-Escude 2004 Eq. (16). """

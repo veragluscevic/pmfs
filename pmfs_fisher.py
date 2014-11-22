@@ -15,7 +15,7 @@ def P21_N(z, dA=3.1695653382881036e+28, H_z=1.1905643664441961e-16, Tsys=1000, t
           observation time tobs[sec], angular size of the survey [sr], system temperature Tsys[K],
           effective area of an antenna Ae[cm^2], minimum and maximum baselines, both in [cm],
           sin of angle between k and line of sight, and the number density of baselines per k mode nk[unitless].
-          It returns noise power in [K^2 (comoving cm)^3 comoving]. """
+          It returns noise power in [K^2 (comoving cm)^3]. """
     
     res = dA**2 * c * (1+z)**2 * lambda_z**2 * Tsys**2 * Omega_survey / ( Ae * nu21 * tobs *nk * H_z ) 
     return res
@@ -56,7 +56,23 @@ def one_over_u_nk(k, Ntot=523776, lambda_z=443.1, dA=3.1695653382881032e+28, sin
     
     return res
 
+def one_over_u2_nk(k, Ntot=523776, lambda_z=443.1, dA=3.1695653382881032e+28, sin_thetak_n=0.7, Lmax=1200000, Lmin=1000):
+    """This gives the UV coverage density in baselines per k mode, which in UV space goes as ~1/u^2; the result is unitless.
+    It takes k[1/cm comoving], total number of antenna pairs (baselines) Ntot, 21cm wavelength at z,
+    ang. diam. distance in [comoving cm], sin of vector k wrt line of sight, maximum and minimum baselines [both in cm]. """
 
+    res = 4. * np.pi * Ntot / ( k * dA * sin_thetak_n )**2 / np.log( Lmax / Lmin )
+    
+    return res
+
+def const_nk(k, Ntot=523776, lambda_z=443.1, dA=3.1695653382881032e+28, sin_thetak_n=0.7, Lmax=1200000, Lmin=1000):
+    """This gives the UV coverage density in baselines per k mode, which in UV space is constant; the result is unitless.
+    It takes k[1/cm comoving], total number of antenna pairs (baselines) Ntot, 21cm wavelength at z,
+    ang. diam. distance in [comoving cm], sin of vector k wrt line of sight, maximum and minimum baselines [both in cm]. """
+
+    res = 2. / np.pi * Ntot * lambda_z / ( Lmax - Lmin )
+    
+    return res
 
 def Fisher_integrand(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., Ts=11., xalpha=34.247221, xc=0.004176,
                      Tsys=1000, tobs=10*86400., Ae=(3500)**2, Lmax=100000, Lmin=100, N_ant=1024, x1s=1., Omega_survey=0.3,
@@ -97,7 +113,7 @@ def Fisher_integrand(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2., phi
     Numerator = (2.*G*dGdB*Pdelta)**2
     #for testing purposes: Numerator = (2.*G*G*Pdelta)**2
     Denominator = 2.*(Psignal + Pnoise)**2
-
+    #print 'signal=%e' % Pdelta
     res = k_in_Mpc**2*np.sin(thetak)* Vpatch * Numerator/Denominator/(2.*np.pi)**3 
     if verbose:
         print '@(z, k[1/Mpc])=(%i, %i):  Psignal=%e, Pnoise=%e\n' % (z, k_in_Mpc, Psignal, Pnoise)
@@ -111,10 +127,11 @@ def Fisher_integrand(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2., phi
 
 
 
-def write_Fisher_grid(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_Hirata05, val_Tk=rf.Tk_simple, val_Jlya=rf.calc_simple_Jlya, val_x1s=rf.ones_x1s,
+def write_Fisher_grid(root, val_nk=one_over_u_nk,
+                      val_Ts=rf.Ts_21cmfast_interp, val_Tk=rf.Tk_21cmfast_interp, val_Jlya=rf.Jlya_21cmfast_interp, val_x1s=rf.ones_x1s,
                       z_lims=(15,30), Nzs=20, Nks=100, Nthetak=21, Nphik=22, phin=0., thetan=np.pi/2.,
                       val_Tsys=Tsys_simple, tobs=365.*86400, Ae=3500**2, Lmax=1200000, Lmin=1000, N_ant=1024, Omega_survey=0.3,
-                      kminmin=0.001, kmaxmax=100):
+                      kminmin=0.001, kmaxmax=100, val_Tg=rf.Tg_21cmfast_interp):
     """ This writes a grid of Fisher integrands, for a homogeneous B field.
     The grid has the following dimensions: z, k, thetak, and phik, where the last two are the position angles of
     the density wave-vector k, in the coordinate system with LOS n along the z-axis. nz, nk, nthetak, and nphik define the number of points
@@ -140,10 +157,10 @@ def write_Fisher_grid(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_Hirata05, val_Tk=
         x1s = val_x1s( z )
         lambda_z = lambda21 * (1. + z)
         Tsys = val_Tsys( z )
-        Tg = Tcmb * (1. + z)
+        Tg = val_Tg( z ) #Tcmb * (1. + z)
         Tk = val_Tk( z )
         Jlya = val_Jlya( z )        
-        Ts = val_Ts( z, Tk=Tk, Jlya=Jlya, x1s=x1s )        
+        Ts = val_Ts( z ) #val_Ts( z, Tk=Tk, Jlya=Jlya, x1s=x1s )        
         Salpha = cf.val_Salpha(Ts, Tk, z, x1s, 0) #is this true that delta = 0 here???
         
         xalpha = rf.val_xalpha( Salpha=Salpha, Jlya=Jlya, Tg=Tg )
@@ -271,11 +288,11 @@ def Fisher_integrand_zeta(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2.
 
 
 
-def write_Fisher_grid_zeta(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_Hirata05, val_Tk=rf.Tk_simple,
-                           val_Jlya=rf.calc_simple_Jlya, val_x1s=rf.ones_x1s,
+def write_Fisher_grid_zeta(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_21cmfast_interp, val_Tk=rf.Tk_21cmfast_interp,
+                           val_Jlya=rf.Jlya_21cmfast_interp, val_x1s=rf.ones_x1s,
                            z_lims=(15,30), Nzs=20, Nks=100, Nthetak=21, Nphik=22, phin=0., thetan=np.pi/2.,
                            val_Tsys=Tsys_simple, tobs=365.*86400, Ae=3500**2, Lmax=1200000, Lmin=1000, N_ant=1024, Omega_survey=0.3,
-                           kminmin=0.001, kmaxmax=100):
+                           kminmin=0.001, kmaxmax=100, val_Tg=rf.Tg_21cmfast_interp):
     """ This writes a grid of Fisher integrands for zeta, for a homogeneous B field.
     The grid has the following dimensions: z, k, thetak, and phik, where the last two are the position angles of
     the density wave-vector k, in the coordinate system with LOS n along the z-axis. nz, nk, nthetak, and nphik define the number of points
@@ -301,10 +318,10 @@ def write_Fisher_grid_zeta(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_Hirata05, va
         x1s = val_x1s( z )
         lambda_z = lambda21 * (1. + z)
         Tsys = val_Tsys( z )
-        Tg = Tcmb * (1. + z)
+        Tg = val_Tg( z ) #Tcmb * (1. + z)
         Tk = val_Tk( z )
         Jlya = val_Jlya( z )        
-        Ts = val_Ts( z, Tk=Tk, Jlya=Jlya, x1s=x1s )        
+        Ts = val_Ts( z )#, Tk=Tk, Jlya=Jlya, x1s=x1s )        
         Salpha = cf.val_Salpha(Ts, Tk, z, x1s, 0) #is this true that delta = 0 here???
         
         xalpha = rf.val_xalpha( Salpha=Salpha, Jlya=Jlya, Tg=Tg )
