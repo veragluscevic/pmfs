@@ -29,8 +29,8 @@ def grid_DeltaL_Omega(tobs=1, zmin=10, zmax=35, mode='B0', Jmode='default'):
                                                                          tobs))
 
     grid = np.zeros((len(omegas), len(deltaLs)))
-    for i,om in enumerate(omegas):
-        for j,delta in enumerate(deltaLs):
+    for j,delta in enumerate(deltaLs):
+        for i,om in enumerate(omegas):
             name = '{}_{}_tobs_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(mode,
                                                                         Jmode,
                                                                         tobs,
