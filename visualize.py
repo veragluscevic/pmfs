@@ -3,7 +3,7 @@ import numpy as np
 
 import cosmo_functions as cf
 reload(cf)
-import reionization_functions as rf
+import reion_functions as rf
 reload(rf)
 import pmfs_transfer as pt
 reload(pt)
