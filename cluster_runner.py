@@ -22,7 +22,7 @@ args = parser.parse_args()
 
 RUNNER_PATH = '/home/verag/Projects/Repositories/'
 if args.Jmode == 'default':
-    fastfile = '21cmfast_teja_nov2014.txt'
+    fastfile = INPUTS_PATH+ '21cmfast_teja_nov2014.txt'
 
 NGROUPS = args.ngroups
 DeltaLs = np.linspace(args.DeltaLmin,args.DeltaLmax,args.NDeltaL)
@@ -40,7 +40,8 @@ for DeltaL in DeltaLs:
                                                                             DeltaL,Omegasurvey)
         resfile = tag + '.txt'
 
-        cmd = RUNNER_PATH + 'runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tobs {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tobs,DeltaL,Omegasurvey,resfile)
+        cmd = '../runner.py --mode {} --tag {} --fas
+        tfile {} --zmin {} --zmax {} --tobs {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tobs,DeltaL,Omegasurvey,resfile)
         cmds.append(cmd)
         count += 1
 

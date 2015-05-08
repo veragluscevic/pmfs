@@ -34,7 +34,7 @@ Pnp_tuple = ((2,1.), (3,0), (4,0.2609), (5,0.3078), (6,0.3259), (7,0.3353), (8,0
        (24,0.3580), (25,0.3582), (26,0.3584), (27,0.3586), (28,0.3587), (29,0.3589), (30,0.3590))
 
 
-file_21cmfast = np.loadtxt('21cmfast_teja_nov2014.txt')
+file_21cmfast = np.loadtxt(INPUTS_PATH+'21cmfast_teja_nov2014.txt')
 Tks_21cmfast = file_21cmfast[:,2][::-1]
 Tgs_21cmfast = file_21cmfast[:,5][::-1]
 Tss_21cmfast = file_21cmfast[:,4][::-1]
