@@ -10,14 +10,16 @@ reload(rf)
 from constants import *
 from globals import *
 
-def P21_N(z, dA=3.1695653382881036e+28, H_z=1.1905643664441961e-16, Tsys=1000, tobs=365*86400., Ae=3500**2, Lmax=1200000, Lmin=1000, Omega_survey=0.3, nk=0.37, lambda_z=443.1):
+def P21_N(z, dA=3.1695653382881036e+28, H_z=1.1905643664441961e-16, Tsys=1000, t1=365*86400., Ae=3500**2, Lmax=1200000, Lmin=1000, nk=0.37, lambda_z=443.1):
     """ This takes k [1/cm comoving], thetak [rad], and instrumental parameters:
-          observation time tobs[sec], angular size of the survey [sr], system temperature Tsys[K],
+          observation time t1[sec], system temperature Tsys[K],
           effective area of an antenna Ae[cm^2], minimum and maximum baselines, both in [cm],
           sin of angle between k and line of sight, and the number density of baselines per k mode nk[unitless].
+          
           It returns noise power in [K^2 (comoving cm)^3]. """
-    
-    res = dA**2 * c * (1+z)**2 * lambda_z**2 * Tsys**2 * Omega_survey / ( Ae * nu21 * tobs *nk * H_z ) 
+
+    res = dA**2 * c * (1+z)**2 * lambda_z**4 * Tsys**2 / ( Ae**2 * nu21 * t1 *nk * H_z ) 
+    #res = dA**2 * c * (1+z)**2 * lambda_z**2 * Tsys**2 * Omega_survey / ( Ae * nu21 * tobs *nk * H_z ) 
     return res
 
 def Tsys_simple(z):
@@ -40,64 +42,65 @@ def Tsys_zero(z):
     return (z-z)
 
 #calculate survey-volume element at z as Vpath_factor*dz = dVpatch:
-def Vpatch_factor(z, dA=3.1695653382881036e+28, H_z=1.1905643664441961e-16, Omega_survey=0.3):
+def Vpatch_factor(z, dA=3.1695653382881036e+28, H_z=1.1905643664441961e-16, Omega_patch=0.3):
     """This is the volume element in the Fisher integral, *for a uniform magnetic field* B=B0*(1+z)^2. Vpath_factor*dz = dVpatch.
-    It takes z, dA[cm comoving], H_z[1/sec], and Omega_survey[sr], and returns result in [(comoving Mpc)^3]."""
-    res = c / H_z * dA**2 * Omega_survey / Mpc_in_cm**3 #/ (1+z)**2 #should there be *(1+z) ?
+    It takes z, dA[cm comoving], H_z[1/sec], and Omega_patch[sr], and returns result in [(comoving Mpc)^3]."""
+    res = c / H_z * dA**2 * Omega_patch / Mpc_in_cm**3 #/ (1+z)**2 #should there be *(1+z) ?
     return res
 
 
-def one_over_u_nk(k, Ntot=523776, lambda_z=443.1, dA=3.1695653382881032e+28, sin_thetak_n=0.7, Lmax=1200000, Lmin=1000):
+def one_over_u_nk(k, Ntot=523776, lambda_z=443.1, dA=3.1695653382881032e+28, sin_thetak_n=0.7, Lmax=1200000, Lmin=1000,
+                  DeltaL=None,Omega_beam=1):
     """This gives the UV coverage density in baselines per k mode, which in UV space goes as ~1/u; the result is unitless.
     It takes k[1/cm comoving], total number of antenna pairs (baselines) Ntot, 21cm wavelength at z,
     ang. diam. distance in [comoving cm], sin of vector k wrt line of sight, maximum and minimum baselines [both in cm]. """
 
-    res = 2. * Ntot * lambda_z / ( k * dA * sin_thetak_n * ( Lmax - Lmin ) )
+    res = 2. * Ntot * lambda_z / ( k * dA * sin_thetak_n * ( Lmax - Lmin ) ) / Omega_beam
     
     return res
 
-def one_over_u2_nk(k, Ntot=523776, lambda_z=443.1, dA=3.1695653382881032e+28, sin_thetak_n=0.7, Lmax=1200000, Lmin=1000):
+def one_over_u2_nk(k, Ntot=523776, lambda_z=443.1, dA=3.1695653382881032e+28, sin_thetak_n=0.7, Lmax=1200000, Lmin=1000,
+                   DeltaL=None,Omega_beam=1):
     """This gives the UV coverage density in baselines per k mode, which in UV space goes as ~1/u^2; the result is unitless.
     It takes k[1/cm comoving], total number of antenna pairs (baselines) Ntot, 21cm wavelength at z,
     ang. diam. distance in [comoving cm], sin of vector k wrt line of sight, maximum and minimum baselines [both in cm]. """
 
-    res = 4. * np.pi * Ntot / ( k * dA * sin_thetak_n )**2 / np.log( Lmax / Lmin )
+    res = 4. * np.pi * Ntot / ( k * dA * sin_thetak_n )**2 / np.log( Lmax / Lmin ) / Omega_beam
     
     return res
 
-def const_nk(k, Ntot=523776, lambda_z=443.1, dA=3.1695653382881032e+28, sin_thetak_n=0.7, Lmax=1200000, Lmin=1000):
-    """This gives the UV coverage density in baselines per k mode, which in UV space is constant; the result is unitless.
-    It takes k[1/cm comoving], total number of antenna pairs (baselines) Ntot, 21cm wavelength at z,
-    ang. diam. distance in [comoving cm], sin of vector k wrt line of sight, maximum and minimum baselines [both in cm]. """
 
-    res = 2. / np.pi * Ntot * lambda_z / ( Lmax - Lmin )
+def FFTT_nk(k, Ntot=None, lambda_z=443.1, dA=3.1695653382881032e+28,
+            sin_thetak_n=0.7, Lmax=None, Lmin=None,
+            DeltaL=100000,Omega_beam=1.):
+    """
+            This gives the UV coverage density in baselines per k mode, for uniform tiling by dipoles of a square
+            on the ground with surface area (\DeltaL)^2; the result is unitless, and averaged over the phik_n angle, going between 0 and 2\pi.
+            It takes k[1/cm comoving], 21cm wavelength at z, assumes effective area that is = lambda^2 [cm^2], 
+            ang. diam. distance in [comoving cm], sin of vector k wrt line of sight, and its azimuthal angle wrt n, phik_n.
+    """
+
+    var1 = DeltaL / lambda_z
+    var2 = k* dA * sin_thetak_n
+    res = var1**2 - 4.*var1*var2/np.pi + var2**2/np.pi
+    #res = ( DeltaL / lambda_z - k* dA * sin_thetak_n * np.cos(phik_n) / (2.*np.pi)**2 ) * ( DeltaL / lambda_z - k*dA * sin_thetak_n * np.sin(phik_n) / (2.*np.pi)**2 )
     
     return res
+
 
 def Fisher_integrand(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., Ts=11., xalpha=34.247221, xc=0.004176,
-                     Tsys=1000, tobs=10*86400., Ae=(3500)**2, Lmax=100000, Lmin=100, N_ant=1024, x1s=1., Omega_survey=0.3,
-                     dA=3.16e+28, H_z=1.19e-16, lambda_z=443.1, nk=0.3, Tg=57.23508, xBcoeff=3.65092e18, verbose=False):
+                     Tsys=1000, t1=10*86400., Ae=(3500)**2, Lmax=100000, Lmin=100, N_ant=1024, x1s=1.,Omega_patch=0.1,
+                     dA=3.16e+28, H_z=1.19e-16, lambda_z=443.1, nk=0.3, Tg=57.23508, xBcoeff=3.65092e18, verbose=False,DeltaL=None):
     """This takes k[1/Mpc comoving]. Result is returned in CGS units, [???]."""
 
     k = k_in_Mpc/Mpc_in_cm
-
-    #thetak_n = np.arccos(np.sin(thetak)*np.cos(phik)*np.sin(thetan)*np.cos(phin) +
-    #                      np.sin(thetak)*np.sin(phik)*np.sin(thetan)*np.sin(phin) +
-    #                      np.cos(thetak)*np.cos(thetan))
-
-    #sin_thetak_n = np.sin(thetak_n)
-    #if sin_thetak_n == 0.:
-    #    return 0.
    
-    Vpatch = Vpatch_factor( z, dA=dA, H_z=H_z, Omega_survey=Omega_survey )
+    Vpatch = Vpatch_factor( z, dA=dA, H_z=H_z, Omega_patch=Omega_patch )
     
-    Pnoise = P21_N( dA=dA, H_z=H_z, z=z, Tsys=Tsys, tobs=tobs, Ae=Ae, 
-                   Lmax=Lmax, Lmin=Lmin, Omega_survey=Omega_survey, lambda_z=lambda_z, nk=nk )
+    Pnoise = P21_N( dA=dA, H_z=H_z, z=z, Tsys=Tsys, t1=t1, Ae=Ae, 
+                   Lmax=Lmax, Lmin=Lmin, lambda_z=lambda_z, nk=nk )
     if np.isnan( Pnoise ):
         raise ValueError( 'Pnoise is nan.' )
-
-    ###only for testing!!!!!
-    #Pnoise = 0.
 
     
     Pdelta = cf.val_Pdelta( z, k_in_Mpc ) 
@@ -130,14 +133,17 @@ def Fisher_integrand(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2., phi
 def write_Fisher_grid(root, val_nk=one_over_u_nk,
                       val_Ts=rf.Ts_21cmfast_interp, val_Tk=rf.Tk_21cmfast_interp, val_Jlya=rf.Jlya_21cmfast_interp, val_x1s=rf.ones_x1s,
                       z_lims=(15,30), Nzs=20, Nks=100, Nthetak=21, Nphik=22, phin=0., thetan=np.pi/2.,
-                      val_Tsys=Tsys_simple, tobs=365.*86400, Ae=3500**2, Lmax=1200000, Lmin=1000, N_ant=1024, Omega_survey=0.3,
-                      kminmin=0.001, kmaxmax=100, val_Tg=rf.Tg_21cmfast_interp):
+                      val_Tsys=Tsys_simple, tobs=365.*86400, Ae=None, N_ant=None, Lmax=None, Lmin=None, Omega_patch=0.1,
+                      kminmin=0.001, kmaxmax=100, val_Tg=rf.Tg_21cmfast_interp, DeltaL=100000):
     """ This writes a grid of Fisher integrands, for a homogeneous B field.
     The grid has the following dimensions: z, k, thetak, and phik, where the last two are the position angles of
     the density wave-vector k, in the coordinate system with LOS n along the z-axis. nz, nk, nthetak, and nphik define the number of points
     in these four directions, respectively. Note: This takes phin, and thetan which are the position angles of LOS in the coordinate frame where
     B is along the z axis. It also takes Tsys[K], observation time in [sec], effective area of a single dish [cm^2], maximum and minimum baseline [both in cm],
     total number of antennas, the angular size of the survey in [sr], minimum and maximum k of density perturbations that we want to consider [both in 1/Mpc comoving].
+
+    Note that the total number of antennas and Ae will be set to correspond to FFTT-like tiling with dipoles, which means N_ant is a function
+    of z, and Ae = \lambda^2.
     It also takes the function names for uv-coverage, for Jlya, for Ts, and for Tk."""
     
     zs = np.logspace(np.log10(z_lims[0]), np.log10(z_lims[1]), Nzs)
@@ -146,21 +152,49 @@ def write_Fisher_grid(root, val_nk=one_over_u_nk,
     phiks = np.linspace(0., 2*np.pi, Nphik)
 
 
-    #total number of baselines:
-    Ntot = N_ant*(N_ant + 1.)/2.
+    #total number of baselines, set as an effective number, as a function of lambda, if not specified:
+    lambda_zs = lambda21 * (1. + zs)
+    if (N_ant is None) or (Ae is None) or (Lmin is None) or (Lmax is None):
+        N_ants = (DeltaL/lambda_zs)**2
+        Omega_beams = np.ones(len(zs))
+        Lmins = DeltaL / N_ants**0.5
+        Lmaxs = DeltaL * np.ones(len(zs))
+        Aes = lambda_zs**2
+    else:
+        N_ants = N_ant*np.ones(len(zs))
+        Omega_beams = lambda_zs**2 / Ae
+        Lmins = Lmin*np.ones(len(zs))
+        Lmaxs = Lmax*np.ones(len(zs))
+        Aes = Ae*np.ones(len(zs))
+    Ntots = N_ants*(N_ants + 1.)/2.
+    
+        
+            
     
     fisher_grid = np.zeros((Nzs,Nphik,Nthetak,Nks))
     for i1,z in enumerate(zs):
         print 'z=%.2f' % z
+        N_ant = N_ants[i1]
+        Ntot = Ntots[i1]
+        lambda_z = lambda_zs[i1]
+        Omega_beam = Omega_beams[i1]
+        Lmin = Lmins[i1]
+        Lmax = Lmaxs[i1]
+        Ae = Aes[i1]
+        t1 = tobs
+        if Omega_patch>Omega_beam:
+            t1 /= (Omega_patch / Omega_beam) 
+        
         dA = cf.val_dA( z )
         H_z = cf.H( z )
         x1s = val_x1s( z )
-        lambda_z = lambda21 * (1. + z)
+        
         Tsys = val_Tsys( z )
         Tg = val_Tg( z ) #Tcmb * (1. + z)
         Tk = val_Tk( z )
         Jlya = val_Jlya( z )        
-        Ts = val_Ts( z ) #val_Ts( z, Tk=Tk, Jlya=Jlya, x1s=x1s )        
+        Ts = val_Ts( z ) #old setup: val_Ts( z, Tk=Tk, Jlya=Jlya, x1s=x1s )
+            
         Salpha = cf.val_Salpha(Ts, Tk, z, x1s, 0) #is this true that delta = 0 here???
         
         xalpha = rf.val_xalpha( Salpha=Salpha, Jlya=Jlya, Tg=Tg )
@@ -176,10 +210,11 @@ def write_Fisher_grid(root, val_nk=one_over_u_nk,
                           np.sin(thetak)*np.sin(phik)*np.sin(thetan)*np.sin(phin) +
                           np.cos(thetak)*np.cos(thetan))                  
                     sint = np.sin(thetak_n)
-                    #print sint
+                    #phik_n = phik - phin #this is NOT correct!!
 
                     k_in_cm = k / Mpc_in_cm
-                    nk = val_nk(k_in_cm, Ntot=Ntot, lambda_z=lambda_z, dA=dA, sin_thetak_n=sint, Lmax=Lmax, Lmin=Lmin)
+                    nk = val_nk(k_in_cm, Ntot=Ntot, lambda_z=lambda_z, dA=dA, sin_thetak_n=sint,
+                                Lmax=Lmax, Lmin=Lmin, DeltaL=DeltaL, Omega_beam=Omega_beam)
                     
 
                     #if the direction we are integrating over is along the LOS, kmin and kmax are the limits imposed by the configuration of the survey:
@@ -201,19 +236,11 @@ def write_Fisher_grid(root, val_nk=one_over_u_nk,
                     if k<=kmax and k>=kmin and sint>0.:                        
                         res = Fisher_integrand(z, k, thetak=thetak, phik=phik, thetan=thetan, phin=phin,
                                                Ts=Ts, xalpha=xalpha, xc=xc, Tg=Tg, xBcoeff=xBcoeff,
-                                               Tsys=Tsys, tobs=tobs, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, x1s=x1s, Omega_survey=Omega_survey,
+                                               Tsys=Tsys, t1=t1, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, x1s=x1s, Omega_patch=Omega_patch,
                                                dA=dA, H_z=H_z, lambda_z=lambda_z, nk=nk)
-                        #print 'z=%f, k=%f in (%f, %f), res=%e' % (z,k,kmin,kmax,res)
-
-                        #if res>0.:
-                        #    print 'z=%f, k=%f, res=%e\n' % (z,k,res)
-                        #print kmin, kmax
-                        #if res==0:
-                        #    print res
+                       
                     else:
-                        #if k>kmax or k<kmin:
-                        #    print 'z=%f, k=%f is outside the range (%f, %f)' % (z,k,kmin,kmax)
-                        res = 0.
+                       res = 0.
                         
                     if np.isnan(res):
                         raise ValueError('res is nan at: z=%f, k=%f, thetak_n=%f, phik=%f, thetak=%f, kmin=%f, kmax=%f' 
@@ -248,7 +275,7 @@ def trapznd(arr,*axes):
 
 
 def Fisher_integrand_zeta(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., Ts=11., xalpha=34.247221, xc=0.004176,
-                     Tsys=1000, tobs=10*86400., Ae=(3500)**2, Lmax=100000, Lmin=100, N_ant=1024, x1s=1., Omega_survey=0.3,
+                     Tsys=1000, t1=10*86400., Ae=(3500)**2, Lmax=100000, Lmin=100, N_ant=1024, x1s=1., Omega_patch=0.1,
                      dA=3.16e+28, H_z=1.19e-16, lambda_z=443.1, nk=0.3, Tg=57.23508, verbose=False):
     """This calculates the integrand for estimating sigma of the zeta parameter.
         It takes k[1/Mpc comoving]. Result is returned in CGS units, [???].
@@ -256,10 +283,10 @@ def Fisher_integrand_zeta(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2.
 
     k = k_in_Mpc/Mpc_in_cm
    
-    Vpatch = Vpatch_factor( z, dA=dA, H_z=H_z, Omega_survey=Omega_survey )
+    Vpatch = Vpatch_factor( z, dA=dA, H_z=H_z, Omega_patch=Omega_patch )
     
-    Pnoise = P21_N( dA=dA, H_z=H_z, z=z, Tsys=Tsys, tobs=tobs, Ae=Ae, 
-                   Lmax=Lmax, Lmin=Lmin, Omega_survey=Omega_survey, lambda_z=lambda_z, nk=nk )
+    Pnoise = P21_N( dA=dA, H_z=H_z, z=z, Tsys=Tsys, t1=t1, Ae=Ae, 
+                   Lmax=Lmax, Lmin=Lmin, lambda_z=lambda_z, nk=nk )
     if np.isnan( Pnoise ):
         raise ValueError( 'Pnoise is nan.' )
     
@@ -291,8 +318,8 @@ def Fisher_integrand_zeta(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2.
 def write_Fisher_grid_zeta(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_21cmfast_interp, val_Tk=rf.Tk_21cmfast_interp,
                            val_Jlya=rf.Jlya_21cmfast_interp, val_x1s=rf.ones_x1s,
                            z_lims=(15,30), Nzs=20, Nks=100, Nthetak=21, Nphik=22, phin=0., thetan=np.pi/2.,
-                           val_Tsys=Tsys_simple, tobs=365.*86400, Ae=3500**2, Lmax=1200000, Lmin=1000, N_ant=1024, Omega_survey=0.3,
-                           kminmin=0.001, kmaxmax=100, val_Tg=rf.Tg_21cmfast_interp):
+                           val_Tsys=Tsys_simple, tobs=365.*86400, Ae=None, Lmax=None, Lmin=None, N_ant=None, Omega_patch=0.1,
+                           kminmin=0.001, kmaxmax=100, val_Tg=rf.Tg_21cmfast_interp, DeltaL=100000):
     """ This writes a grid of Fisher integrands for zeta, for a homogeneous B field.
     The grid has the following dimensions: z, k, thetak, and phik, where the last two are the position angles of
     the density wave-vector k, in the coordinate system with LOS n along the z-axis. nz, nk, nthetak, and nphik define the number of points
@@ -307,21 +334,47 @@ def write_Fisher_grid_zeta(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_21cmfast_int
     phiks = np.linspace(0., 2*np.pi, Nphik)
 
 
-    #total number of baselines:
-    Ntot = N_ant*(N_ant + 1.)/2.
+    #total number of baselines, set as an effective number, as a function of lambda, if not specified:
+    lambda_zs = lambda21 * (1. + zs)
+    if (N_ant is None) or (Ae is None) or (Lmin is None) or (Lmax is None):
+        N_ants = (DeltaL/lambda_zs)**2
+        Omega_beams = np.ones(len(zs))
+        Lmins = DeltaL / N_ants**0.5
+        Lmaxs = DeltaL * np.ones(len(zs))
+        Aes = lambda_zs**2
+    else:
+        N_ants = N_ant*np.ones(len(zs))
+        Omega_beams = lambda_zs**2 / Ae
+        Lmins = Lmin*np.ones(len(zs))
+        Lmaxs = Lmax*np.ones(len(zs))
+        Aes = Ae*np.ones(len(zs))
+    Ntots = N_ants*(N_ants + 1.)/2.
+
     
     fisher_grid = np.zeros((Nzs,Nphik,Nthetak,Nks))
     for i1,z in enumerate(zs):
         print z
+        N_ant = N_ants[i1]
+        Ntot = Ntots[i1]
+        lambda_z = lambda_zs[i1]
+        Omega_beam = Omega_beams[i1]
+        Lmin = Lmins[i1]
+        Lmax = Lmaxs[i1]
+        Ae = Aes[i1]
+        t1 = tobs
+        if Omega_patch>Omega_beam:
+            t1 /= (Omega_patch / Omega_beam) 
+        
         dA = cf.val_dA( z )
         H_z = cf.H( z )
         x1s = val_x1s( z )
-        lambda_z = lambda21 * (1. + z)
+        
         Tsys = val_Tsys( z )
         Tg = val_Tg( z ) #Tcmb * (1. + z)
         Tk = val_Tk( z )
         Jlya = val_Jlya( z )        
-        Ts = val_Ts( z )#, Tk=Tk, Jlya=Jlya, x1s=x1s )        
+        Ts = val_Ts( z )
+               
         Salpha = cf.val_Salpha(Ts, Tk, z, x1s, 0) #is this true that delta = 0 here???
         
         xalpha = rf.val_xalpha( Salpha=Salpha, Jlya=Jlya, Tg=Tg )
@@ -337,10 +390,9 @@ def write_Fisher_grid_zeta(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_21cmfast_int
                           np.sin(thetak)*np.sin(phik)*np.sin(thetan)*np.sin(phin) +
                           np.cos(thetak)*np.cos(thetan))                  
                     sint = np.sin(thetak_n)
-                    #print sint
 
                     k_in_cm = k / Mpc_in_cm
-                    nk = val_nk(k_in_cm, Ntot=Ntot, lambda_z=lambda_z, dA=dA, sin_thetak_n=sint, Lmax=Lmax, Lmin=Lmin)
+                    nk = val_nk(k_in_cm, Ntot=Ntot, lambda_z=lambda_z, dA=dA, sin_thetak_n=sint, Lmax=Lmax, Lmin=Lmin, DeltaL=DeltaL, Omega_beam=Omega_beam)
                     
 
                     #if the direction we are integrating over is along the LOS, kmin and kmax are the limits imposed by the configuration of the survey:
@@ -362,7 +414,7 @@ def write_Fisher_grid_zeta(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_21cmfast_int
                     if k<=kmax and k>=kmin and sint>0.:                        
                         res = Fisher_integrand_zeta(z, k, thetak=thetak, phik=phik, thetan=thetan, phin=phin,
                                                Ts=Ts, xalpha=xalpha, xc=xc, Tg=Tg,
-                                               Tsys=Tsys, tobs=tobs, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, x1s=x1s, Omega_survey=Omega_survey,
+                                               Tsys=Tsys, t1=t1, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, x1s=x1s,  Omega_patch=Omega_patch,
                                                dA=dA, H_z=H_z, lambda_z=lambda_z, nk=nk)
 
                     else:

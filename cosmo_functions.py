@@ -26,7 +26,7 @@ def nH(z, delta):
     res = Obaryonh2 * ( 1. - yHe ) * ( 1.+ z )**3 / mH * rho_critical * ( 1. + delta )
     return res   
 
-
+ 
 
 def val_dA( z ):
     """This returns angular-diameter distance in [cm comoving]. It only takes z.""" 

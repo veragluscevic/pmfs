@@ -1,0 +1,401 @@
+\documentclass[12pt]{paper}
+\usepackage{epsfig}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{enumerate}
+
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\bga}{\begin{gathered}}
+\newcommand{\ega}{\end{gathered}}
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in 
+
+\title{Sensitivity of radio arrays to measuring 21-cm intensity power-spectrum}
+%\author{}
+
+\begin{document}
+\maketitle
+
+\section{Basic definitions}
+
+The redshifted 21-cm signal is commonly represented using four equivalent quantities encoding the specific intensity (with respect to the CMB background): intensity as a function of the observed location in physical space $I(\vec{r})$, its Fourier transform $\widetilde{I}(\vec{k})$, and the scaled versions of these two functions, in sky and frequency coordinates: $\mathcal{I}(\theta_x, \theta_y, f)$, and $\widetilde{\mathcal{I}}(u,v,\eta)$.
+
+Vector $\vec{k}$ (in comoving Mpc$^{-1}$) is a Fourier dual of $\vec{r}$ (in comoving Mpc), and likewise, $(\theta_x[rad], \theta_y[rad], f[Hz])$ are duals of $(u[rad^{-1}], v[rad^{-1}], \eta[sec])$. These two sets of coordinates are related through linear transformations in the following way
+\begin{equation}
+\begin{gathered}
+\theta_x = \frac{r_x}{D_M(z)}, \hspace{0.5in} u = \frac{k_xD_M(z)}{2\pi},\\
+\theta_y = \frac{r_y}{D_M(z)}, \hspace{0.5in} v = \frac{k_yD_M(z)}{2\pi},\\
+f = \frac{H(z)f_{21,0}}{c(1+z)^2} r_z, \hspace{0.5in} \eta = \frac{c(1+z)^2}{2\pi H(z)f_{21,0}}k_z,
+\end{gathered}
+\label{eq:fourier_duals}
+\end{equation}
+where $f_{21,0}$ is the 21-cm frequency in the rest frame, $H(z)$ iz the Hubble parameter, $D_M(z)$ is the comoving distance in transverse direction, and z is the reference redshift in the middle of the observed data cube (where $r_z$ and $f$ intervals are evaluated). Note that the conditions of type $2\pi\theta_xu = r_xk_x$ are saticefied\footnote{The factor of $2\pi$ just comes from the Fourier-transform conventions in Eqs.~\ref{eq:mathcal_I_tildeI} and \ref{eq:mathcal_tildeI_I}.}.
+
+Now we can establish conventions for the Fourier transforms that relate the four intensity representation as follows
+\beq
+I(\vec{r}) = \int\widetilde{I}(\vec{k})e^{i\vec{k} \cdot \vec{r}}d^3\vec{k},
+\label{eq:I_tildeI}
+\eeq
+\beq
+\widetilde{I}(\vec{k}) = \frac{1}{(2\pi)^3}\int{I}(\vec{k})e^{-i\vec{k} \cdot \vec{r}}d^3\vec{r},
+\label{eq:tildeI_I}
+\eeq
+\beq
+\mathcal{I}(\theta_x,\theta_y,f) = \int\int\int\widetilde{\mathcal{I}}(u,v,\eta)e^{2\pi i(u\theta_x + v\theta_y+\eta f)}dudvd\eta,
+\label{eq:mathcal_I_tildeI}
+\eeq
+\beq
+\widetilde{\mathcal{I}}(u,v,\eta) = \int\int\int{\mathcal{I}}(\theta_x,\theta_y,f)e^{-2\pi i(u\theta_x + v\theta_y+\eta f)}d\theta_xd\theta_ydf,
+\label{eq:mathcal_tildeI_I}
+\eeq
+such that the following scaling relation is saticefied
+\begin{equation}
+\widetilde{I}(\vec{k}) = \frac{H(z)f_{21,0}}{c(1+z)^2D_M(z)^2}\widetilde{\mathcal{I}}(u,v,\eta),
+\label{eq_tilde_I_vs_Ik_scaling}
+\end{equation}
+where the proportionallity factor between these two functions is a Jacobian $\frac{d\theta_xd\theta_ydf}{dr_xdr_ydr_z}$ (this scaling was obtained by substituting Eq.~\ref{eq:fourier_duals} into Eq.~\ref{eq:mathcal_tildeI_I}, and comparing the result to Eq.~\ref{eq:tildeI_I}). Note also that there is no scaling between $I$ and $\mathcal{I}$---they are the same function, up to change of variables.
+
+Finally, since radio interferometers measure visibilities, we define the visibility for a pair of antennae as a Fourier-transform in frequency-coordinate only of the $uv$-plane specific intensity,
+\beq
+\mathcal{\widetilde{I}}(u,v,\eta) = \int V(u,v,f)e^{-2\pi f\eta}df,
+\label{eq:visibility}
+\eeq
+where $f$ is a discrete variable such that $f_\text{max}-f_\text{min}=\Delta f$ is the bandwidth of the observed data cube centered on $z$ (see also Appendix \ref{app_Vrms}).
+%%%%%%%%%%%%%%%%%%%
+\section{Power spectra definitions}
+
+We want to derive an expression for the power spectrum of noise intensity (including instrument noise, and noise from the sky) in $\vec{k}$ space. This power spectrum is given by
+\beq
+\langle \widetilde{I}(\vec{k})\widetilde{I}^*(\vec{k}')\rangle = (2\pi)^3P_{\widetilde{I}}\delta(\vec{k}-\vec{k}').
+\label{eq_tildeI_power}
+\eeq
+
+On the other hand, the measurable quantity---the visibility---is a complex Gaussian variable with a zero mean, whose noise-induced component has a variance of\footnote{See Appendix for a derivation of $V_\text{rms}$.}
+\beq
+\langle V(\vec{u},f)V(\vec{u}',f')^*\rangle = \left(\frac{2k_BT_\text{sys}}{A_e\sqrt{\Delta f t_1}}\right)^2 \delta(\vec{u}-\vec{u}')\delta_{ff'},
+\label{eq_Vrms}
+\eeq
+where $t_1$ is the total time a single baseline spent observing an element at the position $\vec u \equiv(u,v)$ in the $uv$ plane. 
+
+%%%%%%%%%%%%%%%%%%%
+\section{From visibility to $P^N(\vec k)$}
+
+The next step is to combine Eqs.~\ref{eq:visibility}, and \ref{eq_Vrms}, and take ensamble average to get
+\beq
+\bga
+\langle\widetilde{\mathcal{I}}(u,v,\eta) \widetilde{\mathcal{I}}^*(u',v',\eta')\rangle =  \int\int\langle V(u,v,f)V^*(u',v',f')\rangle e^{2\pi i(f'\eta'-f\eta)}dfdf'\\
+= \frac{1}{t_1}\left(\frac{2k_BT_\text{sys}}{A_e}\right)^2 \delta(\vec{u}-\vec{u}')\delta(\eta-\eta'),
+\ega
+\label{eq:mathcal_power_Vrms}
+\eeq 
+where 
+\beq
+\int e^{2\pi i f(\eta-\eta')}df =\delta(\eta-\eta'),
+\eeq
+is the periodic delta-function on the $t_1$ interval, and $D_\text{band}$ is the total bandwidth of this data cube centered on $z$.  
+
+As the final step, we need to take into account the scaling relation of Eq.~\ref{eq_tilde_I_vs_Ik_scaling} and substitute it on the LHS of the above equation, and then introduce the power spectrum of Eq.~\ref{eq_tildeI_power}. In addition, keeping in mind the property of the delta-function that $\delta(ax)=\frac{1}{a}\delta(x)$, we can substitute the relations between variables in Eq.~\ref{eq:fourier_duals} to cancel the delta functions in Eq.~\ref{eq:mathcal_power_Vrms}. We thus arrive at the following expression for the noise power spectrum, per $\vec k$ mode, per baseline,
+\beq
+P_1^N(\vec k) = \frac{1}{t_1}\frac{c(1+z)^2D_M^2(z)}{H(z)f_{21,0}}\left(\frac{2k_BT_\text{sys}}{A_e}\right)^2 .
+\label{eq:Pnoise_1mode}
+\eeq
+
+Note at the end how to compute $t_1$ from the total duration of the survey  $t_\text{obs}$. For a small beam size (much smaller than $2\pi$), where telescopes scan the sky one beam width at a time, like for the case of radio dishes, $t_1$ is the total time spent observing a given $uv$ element of size corresponding to the beam $\Omega_\text{beam}=\lambda^2/A_e$, and is obtained by multiplying  $t_\text{obs}$ by the ratio of the solid angle of the survey $\Omega_\text{survey}$ and the solid angle of the beam. However, in the case of simple dipole antennas, the beam is of the size of the survey, and coveres half the sky, and in this case $t_1$ just equals $t_\text{obs}$.
+
+The last step is to get from Eq.~\ref{eq:Pnoise_1mode} to the expression for the noise power spectrum that corresponds to the observation with all the available baselines. To do that, we need to incorporate the knowledge about the array configuration and the coverage of the $uv$ plane. In other words, we need to divide the expression in Eq.~\ref{eq:Pnoise_1mode} by the number of baselines that see a given mode $\vec k$ at any given time $n_\text{base}(\vec k)$ (for a discussion of the $uv$ coverage, see the following section). The final result for the noise power spectrum per mode $\vec k$ in the intensity units is then
+\beq
+P^N(\vec k) = \frac{\Omega_\text{survey}}{t_\text{obs}\lambda^2}\frac{c(1+z)^2D_M^2(z)}{H(z)f_{21,0}}\frac{\left(2k_BT_\text{sys}\right)^2}{A_en_\text{base}(\vec k)},
+\label{eq:Pnoise_Jy}
+\eeq
+and in temperature units
+\beq
+P^N(\vec k) = \frac{\lambda^2\Omega_\text{survey}}{t_\text{obs}}\frac{c(1+z)^2D_M^2(z)}{H(z)f_{21,0}}\frac{T_\text{sys}^2}{A_en_\text{base}(\vec k)}.
+\label{eq:Pnoise_K}
+\eeq
+Ta-dah!
+%%%%%%%%%%%%%%%%%%%
+\section{The UV Coverage}
+\label{sec:uv_coverage}
+
+Total number of baselines that can observe mode $\vec k$, $n_\text{base}(\vec k)$, is related to the (unitless) number density of baselines per element $dudv$, $n(u,v)$, as
+\beq
+n_\text{base}(\vec k) = \frac{n(u,v)}{\Omega_\text{beam}},
+\label{eq:nuv_nk}
+\eeq
+where $\frac{1}{\Omega_\text{beam}}$ represents an element in the $uv$ plane, and the number density integrates to the total number of baselines $N_\text{base}$ as 
+\beq
+N_\text{base}=\frac{1}{2}N_\text{ant}(N_\text{ant}+1) = \int_\text{half} n(u,v)dudv,
+\label{eq:nk}
+\eeq
+where $N_\text{ant}$ is the number of antennas in the array, and the integration is done on the half of the $uv$ plane\footnote{This is because the visibility has the following property $V(u,v,f)=V^*(-u,-v,f)$, and only half the plane contains independent samples.}.
+
+Let us now derive $n(\vec k)$ for a specific array configuration that is of particualr interest to cosmology\footnote{Note also that we assume that the array consists of many antennas, so that time-dependence of $n(u,v)$ is negligible; if this is not the case, one should compute its time average to account for Earth's rotation.} ---a tightly packed array of simple dipole antennas, tiling a squared-surface of the area $(\Delta L)^2$ with a filling fraction close to one (see Figure \ref{fig:nk_fft}).\footnote{This assumes a design such as the FFT telescope described in Tegmark and Zaldarriaga (2009).} In this case, the beam is close to the size of the entire survey and coveres 1 sr, the affective area of a single dipole is $A_e = \lambda^2$, and the effective number of antennas is then $N_\text{ant} = \frac{(\Delta L)^2}{\lambda^2}$.
+
+A uniform tiling of a $(\Delta L)^2$ surface with dipoles then results in the following number density of baselines per $uv$ element
+\beq
+n(u,v) = (\frac{\Delta L}{\lambda} - u)(\frac{\Delta L}{\lambda} - v).
+\label{eq:nuv_fftt}
+\eeq
+After substituting the relation between $\vec k=(k,\theta_k,\phi_k)$ and $(u,v)$, 
+\beq
+\bga
+u_\perp \equiv \frac{D_A(z)}{2\pi}k\sin\theta_k,\\
+u = u_\perp \cos\phi_k,\\
+v = u_\perp \sin\phi_k,
+\ega
+\label{eq:k_uv}
+\eeq
+the corresponsing number of baselines observing a given $\vec k$ is then
+\beq
+n_\text{base}(\vec k) = (\frac{\Delta L}{\lambda} - \frac{D_A(z)}{2\pi}k\sin\theta_k\cos\phi_k)(\frac{\Delta L}{\lambda} - \frac{D_A(z)}{2\pi}k\sin\theta_k\sin\phi_k).
+\label{eq:nk_fftt}
+\eeq
+%%%%%%%%%%%%%%%%%%%
+\section{MVQ estimator for uniform $ B$}
+\label{sec:B_estimator}
+
+We will now derive an unbiased minimum-variance quadratic estimator $\widehat B$ for a uniform magnetic field (MF) $\vec B$, following a similar CMB formalism. We start by noting that the redshifted 21-cm brightness temperature contains contribution from the noise, and the signal, where the signal is generated both by the 21-cm signal with no magnetic field (null-case signal), and by $\vec B$, such that
+\beq
+\bga
+T(\vec k) = T_N(\vec k) + T_S(\vec k),\\
+T_S(\vec k) = T_{S,0}(\vec k) + B\frac{\partial T_S(\vec k)}{\partial B}\bigg|_{B=0},
+\ega
+\label{eq:Ttot}
+\eeq
+where the magnitude of the field $B$ is a small expansion parameter. The derivative in the above equation is evaluated at $B=0$, and similarly for the signal $T_{S,0}$ in the null case.  We can now compute the following expectation value
+\beq
+\langle T(\vec k)T^*(\vec k')\rangle = P_\text{null}(\vec k)(2\pi)^3\delta(\vec k-\vec k') + \langle T_{S,0}(\vec k)B\frac{\partial T_S^*(\vec k')}{\partial B}\bigg|_{B=0}\rangle + \langle T_{S,0}^*(\vec k')B\frac{\partial T_S(\vec k)}{\partial B}\bigg|_{B=0}\rangle
+\label{eq:TT_step1}
+\eeq
+where we introduced notation for the power spectrum in the null case,
+\beq
+P_\text{null}(\vec k) \equiv P^N(\vec k) + P_0^S(\vec k),
+\label{eq:Pnull}
+\eeq
+such that $P^S_0$ represents the 21-cm power spectrum in the absence of MFs. We have also assumed that the signal and the noise are uncorrelated, and kept only terms linear in $B$. To expand the RHS of Eq.~\ref{eq:TT_step1} further, we first note that the only Gaussian random field the signal temperature is proportional to is the density fluctuation $\delta$, with the proportionality being the transfer funtion $G$,
+\beq
+\bga
+T_S(\vec k) = G(\hat k)\delta(k),\\
+T_{S,0}(\vec k) = G(\hat k,B=0)\delta(k),
+\ega
+\label{eq:def_G}
+\eeq
+where $\hat k$ is a unit vector in the direction of $\vec k$. In this case, we note that
+\beq
+\frac{\partial T_S(\vec k)}{\partial B} =  \delta(k)\frac{\partial G(\vec k)}{\partial B},
+\label{eq:dTdB_dGdB}
+\eeq
+where the derivative will be evaluated at $B=0$. Eq.~\ref{eq:TT_step1} now becomes
+\beq
+\langle T(\vec k)T^*(\vec k')\rangle = \left(P_\text{null}(\vec k) + 2BP_{\delta}(\vec k)Re\left[G^*(\vec k,B=0)\frac{\partial G(\vec k)}{\partial B}\bigg|_{B=0}\right]\right) (2\pi)^3\delta(\vec k-\vec k').
+\label{eq:TT_step2}
+\eeq
+Note here that the delta function evaluates to
+\beq
+\delta(\vec k-\vec k') = \frac{V}{(2\pi)^3},\hspace{0.2in} \text{for }\vec k = \vec k',
+\label{eq:delta_kk}
+\eeq
+where $V$ is the space volume of the survey, in our case. 
+
+The next step is to note that we observe only one universe, so the measured proxy for the ensamble average of Eq.~\ref{eq:TT_step2} will be just the product $T(\vec k)T^*(\vec k)$.  Using this fact and Eq.~\ref{eq:delta_kk}, and inverting Eq.~\ref{eq:TT_step2} gives an estimate for $B$ from a single $\vec k$-mode measurement,
+\beq
+\widehat B_{\vec k} = \frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{2P_{\delta}(\vec k)Re\left[G^*(\vec k,B=0)\frac{\partial G(\vec k)}{\partial B}\bigg|_{B=0}\right]}.
+\label{eq:hatBk}
+\eeq 
+This estimator is unbiased, $\langle \widehat B_{\vec k}\rangle=0$, and the above expression can be used to calculate its covariance, from
+\beq
+C_{\vec k,\vec k'} \equiv \langle \widehat B_{\vec k}\widehat B^*_{\vec k'}\rangle = 
+\frac{\left\langle\left(\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)\right)\left(\frac{1}{V}T^*(\vec k')T(\vec k') - P_\text{null}(\vec k')\right)\right\rangle}{4P_{\delta}(\vec k)P_{\delta}(\vec k')Re\left[G^*(\vec k)\frac{\partial G(\vec k)}{\partial B}\right]Re\left[G(\vec k')\frac{\partial G^*(\vec k')}{\partial B}\right]},
+\label{eq:mean_BB}
+\eeq
+where all derivatives and $G$ are evaluated at $B=0$, following, as usual, the null assumption. For simplicity, from now on, we drop the explicit notation for $B=0$ but retain the null assumption in the entire derivation.  The expectation value in the above equation involves temperature four-point correlation. If we enumerate factors of ``$T$'' in this correlation as $\langle 1\text{ }2\text{ }3\text{ }4\rangle$, the expansion of this correlation of four Gaussian random variables can be represented as a sum of the following contractions: $\langle T(\vec k)T^*(\vec k)T^*(\vec k')T(\vec k') \rangle=\langle1\text{ }2\rangle\langle3\text{ }4\rangle+
+\langle1\text{ }4\rangle\langle2\text{ }3\rangle+\langle1\text{ }3\rangle\langle2\text{ }4\rangle$. Keeping this order of summands, the correlation becomes
+\beq
+\langle T(\vec k)T^*(\vec k)T^*(\vec k')T(\vec k') \rangle = V^2P_\text{null}(\vec k)^2\left( 1+\delta_{\vec k,\vec k'}+\delta_{\vec k,-\vec k'}\right)
+\label{eq:TTTT_expansion}
+\eeq
+where we used Eq.~\ref{eq:delta_kk}, and the relation between delta function and Kronecker delta,
+\beq
+\delta_{\vec k,\vec k'} = \frac{(2\pi)^3}{V}\delta(\vec k-\vec k').
+\label{eq:deltas}
+\eeq
+The rest of the terms in Eq.~\ref{eq:mean_BB} are of the form
+\beq
+\bga
+\frac{1}{V}\langle T(\vec k)T^*(\vec k)\rangle P_\text{null}(\vec k') =  P_\text{null}(\vec k)P_\text{null}(\vec k').
+\ega
+\label{eq:BB_crossterms}
+\eeq
+Finally, substituting Eqs.~\ref{eq:TTTT_expansion}, \ref{eq:BB_crossterms}, and \ref{eq:deltas}, into Eq.~\ref{eq:mean_BB}, we get the following expression for the covariance
+\beq
+\langle \widehat B_{\vec k}\widehat B^*_{\vec k'}\rangle = \frac{P_\text{null}^2(\vec k)\left(\delta_{\vec k,\vec k'}  + \delta_{\vec k,-\vec k'} \right)}{\left(2P_{\delta}(\vec k)Re\left[G^*(\vec k)\frac{\partial G(\vec k)}{\partial B}\right]\right)^2},
+\label{eq:B_covariance}
+\eeq
+where the variance $\sigma^2_{\vec k}\equiv\langle \widehat B_{\vec k}\widehat B^*_{\vec k}\rangle $ represents diagonal elements of the covariance matrix.
+
+This covariance matrix is singular, and the only non-vanishing entries are those relating the same mode with itself (or to the same mode in the opposite direction), which is a consequence of the reality of the temperature field, and the isotropy of space in the null-assumption case. The usual expression for a minimum-variance estimator,
+\beq
+\widehat B = \frac{\sum_{\vec k, \vec k'}C^{-1}_{\vec k, \vec k'}\widehat B_{\vec k}}{\sum_{\vec k, \vec k'}C^{-1}_{\vec k, \vec k'}},
+\label{eq:B_mve}
+\eeq
+in this case reduces to 
+\beq
+\bga
+\widehat B = \frac{1}{2}\frac{\sum_{\vec k}\frac{\widehat B_{\vec k}}{\sigma^2_{{\vec k}}}}{\sum_{\vec k}\frac{1}{\sigma^2_{\vec k}}},
+\ega
+\label{eq:B_mve}
+\eeq
+where the factor of $\frac{1}{2}$ comes from the two Kronecker deltas in Eq.~\ref{eq:B_covariance}. The final expression for the estimator is then
+\beq
+\bga
+\widehat B = \frac{\sum_{\vec k}\frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{P_\text{null}^2(\vec k)}P_{\delta}(\vec k)Re\left[G^*(\vec k)\frac{\partial G(\vec k)}{\partial B}\right]}{{\sum_{\vec k}\left(\frac{2P_{\delta}(\vec k)Re\left[G^*(\vec k)\frac{\partial G(\vec k)}{\partial B}\right]}{P_\text{null}(\vec k)}\right)^2}},
+\ega
+\label{eq:B_estimator}
+\eeq
+Note at the end that the expression in the denominator is exactly the expression for the integrand for the inverse variance of the Fisher forecast, as expected. 
+ %%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fisher Analysis}
+\label{sec:fisher}
+
+We will first discuss the unsatured case, where the strength of $\vec B$ produces less than 1 rad of precession at all z of interest, and then move on to discussing detectability in the saturated case, where $B$ is strong in this sense.
+
+If an experiment measures redshifted 21-cm brightness-temperature power spectrum $P(k,\theta_k,\phi_k)$, which is a function of a parameter $B$ (in this case, the strength of a uniform MF that evolves as $B=B_0(1+z)^2$), then this experiment's sensitivity to recovering $B$ is given by the Fisher matrix, which combines measurements at every $(k,\theta_k,\phi_k)$ mode,
+\begin{equation}
+\begin{gathered}
+\sigma_B^{-2}(z) = \int dV_\mathrm{patch}(z)
+\frac{k^2dk d\phi_k\sin \theta_kd\theta_k}{(2\pi)^3}\left(  \frac{\frac{\partial P_S}{\partial B}}{P_N + P_S }\right)^2 \\
+=\int dV_\mathrm{patch}(z)
+\frac{k^2dk d\phi_k\sin \theta_kd\theta_k}{2(2\pi)^3}\left( \frac{2P_\delta(k,z)G(B=0,\theta_k,\phi_k)\frac{\partial G}{\partial B}(\theta_k, \phi_k,z)\bigg|_{B=0}}{P_N(k,\theta_k) + P_\delta(k,z)G^2(B=0,\theta_k,\phi_k)} \right)^2,
+\end{gathered}
+\label{eq:fisher}
+\end{equation}
+where $V_\mathrm{patch}$ is the comoving volume of the survey, such that
+\begin{equation}
+dV_\mathrm{patch} = \frac{c}{H(z)}D_A^2\Omega_\mathrm{survey}.
+\end{equation}
+Note that we operate under the null assumtion of small $B$, so every summand in the above equation is evaluated for a fiducial case of $B=0$. In this case, the above expression can be used to compute amgnitude of $B$ detectable at 1-$\sigma$ level for a given noise level (and cosmology). The power spectrum of the 21-cm signal is in the denominator of the summands in order to account for sample variance. In our case, it is computed for a given cosmology, as
+\begin{equation}
+P_S = G^2(\theta_k, \phi_k) P_\delta (k),
+\label{eq:PS}
+\end{equation}
+where $P_\delta$ is the power spectrum of density fluctuations at a given redshift, for a given cosmology, and $G$ is the transfer function (a function of $B$ computed from microphysical calculations of Paper I).\footnote{Note here that we do not take the average of the noise over $\phi_k$, because we are interested in reconstructing the sensitivity of a given $(B,\theta_B,\phi_B)$. }
+The integration limits in Eq.~\ref{eq:fisher} are: $\phi_k\in[0,2\pi]$; $\theta_k\in [0,\pi]$; and $k\in[2\pi u_\mathrm{min}/(d_A\sin\theta_k),2\pi u_\mathrm{max}/(d_A\sin\theta_k)]$, where $u_\mathrm{min, max}=\frac{L_\text{min, max}}{\lambda}$ correspond to the maximum and minimum baseline, respectively.
+
+For the saturated case, we are unable to measure the exact magnitude of $B$, but a slightly different inquiry becomes interesting. Namely, it is useful to know how sensitive are future experiments to distinguishing staturated case from zero MF. To make a forecast for this question, let us write the signal power spectrum as a sum of the contributions from very weak field (a.k.a. $B=0$), and very strong field (denoted as infinity), 
+\beq
+P = (1-\xi)P\bigg|_{B\to 0} + \xi P\bigg|_{B\to \infty},
+\label{eq:saturated_P}
+\eeq
+where we have not explicitly written the indicies and dependencies, to maximize clarity of the equation. We can then perform the standard Fisher analysis, completely analogous to the unsaturated case, in order to understand constraints on parameter $\xi$. In this case, $\sigma_\xi$ would give a 1-$\sigma$ sensitivity to detecting the maximum change in $G$, due to the rise to the saturation ceiling (see Figure \ref{}). 
+
+%%%%%%%%%%%%%%%%%%%
+\appendix
+\section{Visibility-variance derivation}
+\label{app_Vrms}
+
+\begin{figure*}
+\centering
+\includegraphics[width=.5\textwidth,keepaspectratio=true]{2antennae.pdf}
+\caption{Two-antennae interferometer.\label{fig:2antennae}}
+\end{figure*}
+
+Here we derive the variance of the visibility for an interferometric array of two antennas separated by a baseline $\vec{b}$, each with an effective collecting area $A_e$, observing a single element in $uv$ plane for time duration $t_1$, in the total bandwidth $\Delta f = f_\text{max}-f_\text{min}$ of $N_f$ discrete frequencies. This setup is shown in Figure \ref{fig:2antennae}.
+
+The quantity such interferometer measures is the correlation between electric fields $E_i$ and $E_j$ induced in the two antennae, as a function of the frequency. Since the observation time $t_1$ is finite, frequencies measured during $t_1$ are discrete, 
+\beq
+f_n = n/t_1, 
+\label{eq:fn}
+\eeq
+where $n\in Z$, such that
+\beq
+E(t) = \sum_{n}\widetilde{E}(f_n)e^{2\pi if_nt}.
+\eeq
+The correlation coefficient of the electric fields is defined as
+\beq
+\rho_{ij}(f) \equiv \frac{\langle \widetilde{E}^*_i(f)\widetilde E_j(f)\rangle}{\sqrt{\langle |\widetilde{E}_i(f)|^2\rangle\langle|\widetilde E_j(f)|^2\rangle}},
+\label{eq:rho_ij}
+\eeq
+for each measured frequency $f$. We now assume that $var(Re[ \widetilde E_i])=var(Im[\widetilde E_i])=\sigma^2$, such that the real (or imaginary) part of $\rho$ has the following variance
+\beq
+\bga
+var(Re[\rho_{ij}(f)]) = \frac{1}{(2\sigma^2)^2}var(\langle Re[\widetilde{E}_i]Re[\widetilde{E}_j] + Im[\widetilde{E}_i]Im[\widetilde{E}_j]]\rangle) \\
+= \frac{2\sigma^2\sigma^2}{(2\sigma^2)^2} = \frac{1}{2N_f} = \frac{1}{2t_1\Delta f},
+\ega
+\label{eq:var_Rerho}
+\eeq
+where the number of observed frequencies in time $t_1$ is derived from Eq.~\ref{eq:fn} to be,
+\beq
+N_f =  t_1\Delta f.
+\label{eq:Nf}
+\eeq
+
+Before continuing, let us take a brief digression to show that the above formula implicitly assumes that the electric fields in the two antennas $\widetilde E_i$ and $\widetilde E_j$ have a very weak correlation, $\rho\ll 1$. Namely, suppose $x$ and $y$ are random Gaussian variables, where $var(x)\equiv\langle(x-\langle x\rangle)^2\rangle = \langle x^2\rangle - \langle x \rangle^2$, and similarly for $y$, and their correlation coefficient is $\rho\equiv \frac{\langle xy\rangle}{\sqrt{\langle x^2\rangle \langle y^2\rangle}}$. In this case, the following is true
+\beq
+\bga
+var(xy) = \langle x^2y^2\rangle -  \langle xy \rangle^2 = 
+\langle x^2\rangle \langle y^2\rangle + \langle xy\rangle^2\\
+=\langle x^2\rangle \langle y^2\rangle+\rho \langle x\rangle^2\langle y\rangle^2=var(x)var(y)(1+\rho^2),
+\ega
+\eeq
+so that when $\rho$ is small, then $var(xy)=var(x)var(y)$, which was assumed in the first equality of Eq.~\ref{eq:var_Rerho}.
+
+Resuming the derivation, if different frequencies are uncorrelated, the result of Eq.~\ref{eq:var_Rerho} implies
+\beq
+\langle|\rho_{ij}(f)|^2\rangle = \frac{1}{t_1\Delta f}.
+\label{eq:var_rho}
+\eeq
+
+The final step in this derivation requires the relation between intensity in the sky $\mathcal{I}(\vec\theta, f)$ (within the beam of size $\Omega_b$ in steradians) and the measured electric fields,
+\beq
+\langle \widetilde{E}_i^*(f)\widetilde{E}_j(f)\rangle = C \int_{\Omega_b} d^2\vec\theta\mathcal{I}(\vec\theta, f)e^{2\pi i\frac{ f}{c}\vec{b}_{ij}\cdot\vec{\theta}  }R(\vec\theta),
+\label{eq:E_vs_mathcalI}
+\eeq
+where $\vec\theta=(\theta_x,\theta_y)$ is a unit vector that defines a direction in the sky, $C$ is a constant, and $R$ is the antenna response function (the shape of the beam in the sky); $\frac{2\pi f}{c}\vec{b}_{ij}\cdot\vec{\theta}$ is the phase delay between two antennae. From the above formula and Eq.~\ref{eq:rho_ij}, it follows\footnote{Note that a position in the $uv$ plane measures the phase lag between the two dishes in wavelenghts, such that $u\theta_x + v\theta_y\equiv\frac{\vec b\cdot \vec\theta}{\lambda}$.}
+\beq
+\rho_{ij}(f) = \frac{C\int_{\Omega_b}d^2\vec\theta\mathcal{I}(\vec\theta, f)e^{2\pi i(u\theta_x+v\theta_y)}}{C\int_{\Omega_b}d^2\vec\theta\mathcal{I}(\vec\theta, f)},
+\label{eq:rho_mathcalI}
+\eeq
+where the denominator in the above formula approximately integrates to (for a small beam)
+\beq
+\int_{\Omega_b}d^2\vec\theta\mathcal{I}(\vec\theta, f) \approx
+\Omega_b \mathcal{I}(\vec\theta, f).
+\label{eq:rho_denominator}
+\eeq
+We can now use the approximate expression for the resolution of a single dish,
+\beq
+\Omega_b = \frac{\lambda^2}{A_e},
+\label{eq:Omegab}
+\eeq
+the Reyliegh-Jeans law (or the definition of the brightness temperature),
+\beq
+\mathcal{I}(\vec\theta, f) = \frac{2k_BT_\text{sys}}{\lambda^2},
+\label{eq:I_Tsys}
+\eeq
+and note that the numerator in Eq.~\ref{eq:rho_mathcalI} matches the definition of visibility (Eq.~\ref{eq:visibility}), to get 
+\beq
+\rho_{ij}(f) = \frac{A_e}{2k_BT\text{sys}}V(u,v,f),
+\label{eq:rho_V}
+\eeq
+Substituting Eq.~\ref{eq:var_rho} into the above expression, we get the final result of this derivation,
+\beq
+\langle|V(u,v,f)|^2\rangle = \left(\frac{2k_BT_\text{sys}}{A_e\sqrt{t_1\Delta f}}\right)^2\delta(\vec{u}-\vec{u}')\delta_{ff'},
+\label{eq:Vrms_final}
+\eeq
+where $V$ is a complex Gaussian variable, centered at zero, and uncorrelated for different values of its arguments.
+
+It should be noted at the end that we were calculating the contribution to the visibility from the noise only (the system in the absence of a signal), so we used system temperature for brightness temperature (this could contain the signal from foregrounds and from the instrument). In case we want to repeat the computation in the presence of a signal, $T_\text{sys}$ should instead be the sum of the signal and the noise temperatures.
+
+What about polarization?
+
+
+
+\end{document}
+

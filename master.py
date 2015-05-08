@@ -21,26 +21,26 @@ reload(cs)
 from constants import *
 from globals import *
 
-mode = 'zeta'
-#mode = 'B0'
+#mode = 'zeta'
+mode = 'B0'
 
-force_grid = True
-make_plots = True
+force_grid = False
+make_plots = False
 
-
-file_label = 'test17'
+file_label = 'may7'
 grid_path = RESULTS_PATH + file_label + '_' + mode + '/'
 
 #noise-calculation parameters:
 tobs = 365.*86400 #observation time in sec.
-Lant = 1000. #length of a square-shaped antenna in cm.
-Ae = Lant**2 #3500**2 #effective area of a single dish in cm.
-Lmax = 500000 #1200000 #maximum baseline in cm.
-Lmin = 1000 #1000 #minimum baseline in cm. 
-N_ant = (Lmax/Lant)**2 #1024 #number of antennas.
+DeltaL = 200000. #length of a square-shaped antenna in cm.
+Ae = None #1000**2 #3500**2 #effective area of a single dish in cm.
+Lmax = None #1200000 #maximum baseline in cm.
+Lmin = None #1000 #minimum baseline in cm. 
+N_ant = None #1024 #number of antennas.
 kminmin = 0.001 #minimum k to be analyzed in [1/Mpc comoving]
 kmaxmax = 100 #maximum k to be analyzed in [1/Mpc comoving]
-Omega_survey = 1. #0.3 #area coverage of the survey in sr.
+Omega_patch = 2e-4 #0.1 #area coverage of the survey in sr.
+Omega_survey = 1.
 
 
 
@@ -63,6 +63,7 @@ val_Tg = rf.Tg_21cmfast_interp
 #set up kinetic-temperature function:
 val_Tk = rf.Tk_21cmfast_interp
 """
+#this is old piece of code, for analytic JLya which does not work yet:
 zs = np.arange(z_lims[0], z_lims[1], 1)
 Tk_array = np.zeros(len(zs))
 Jlya_array = val_Jlya(zs)
@@ -76,7 +77,7 @@ val_Tk = Tk_simple_interp
 val_Ts = rf.Ts_21cmfast_interp
 
 #set up the choice of uv coverage:
-val_nk = pf.const_nk #pf.one_over_u2_nk
+val_nk = pf.FFTT_nk #pf.one_over_u2_nk
 
 #set evolution of ionized fraction:
 val_x1s = rf.ones_x1s
@@ -101,12 +102,12 @@ if force_grid or (not(os.path.exists(grid_path))):
     if mode == 'B0':
         pf.write_Fisher_grid(grid_path, val_nk=val_nk, val_Ts=val_Ts, val_Tk=val_Tk, val_x1s=val_x1s,
                             z_lims=z_lims, Nzs=Nzs, Nks=Nks, Nthetak=21, Nphik=22, phin=0., thetan=np.pi/2.,
-                            val_Tsys=val_Tsys, tobs=tobs, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, Omega_survey=Omega_survey,
-                            kminmin=kminmin, kmaxmax=kmaxmax)
+                            val_Tsys=val_Tsys, tobs=tobs, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, Omega_patch=Omega_patch,
+                            kminmin=kminmin, kmaxmax=kmaxmax,DeltaL=DeltaL)
     if mode == 'zeta':
         pf.write_Fisher_grid_zeta(grid_path, val_nk=val_nk, val_Ts=val_Ts, val_Tk=val_Tk, val_x1s=val_x1s,
                             z_lims=z_lims, Nzs=Nzs, Nks=Nks, Nthetak=21, Nphik=22, phin=0., thetan=np.pi/2.,
-                            val_Tsys=val_Tsys, tobs=tobs, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, Omega_survey=Omega_survey,
+                            val_Tsys=val_Tsys, tobs=tobs, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, Omega_patch=Omega_patch,
                             kminmin=kminmin, kmaxmax=kmaxmax)
 
 ##now read the fisher grid, and integrate it in all dimensions:
@@ -117,8 +118,13 @@ thetaks = np.load(grid_path + 'thetak_grid.npy')
 ks = np.load(grid_path + 'k_grid.npy')
 result = pf.trapznd(fisher_grid,zs,phiks,thetaks,ks)
 
+alpha_survey = (Omega_survey)**0.5 
+result_all_survey = result / Omega_patch * np.pi * (alpha_survey + np.cos(alpha_survey)*np.sin(alpha_survey))
+
 ##print the final result, in Gauss:
 print 1./result**0.5
+print 1./result_all_survey**0.5
+print 1./(1. / Omega_patch * np.pi * (alpha_survey + np.cos(alpha_survey)*np.sin(alpha_survey)))**0.5
 
 if make_plots:
     zs = np.arange(z_lims[0], z_lims[1], 1)
@@ -142,7 +148,7 @@ if make_plots:
     for i,z in enumerate(zs):
         Tk_array[i] = val_Tk(z)
         Ts_array[i] = val_Ts(z) #val_Ts( z, Tk=Tk_array[i], Jlya=Jlya_array[i], x1s=x1s_array[i] )
-        Jlya_array[i] = rf.calc_simple_Jlya(z)
+        Jlya_array[i] = val_Jlya(z)#rf.calc_simple_Jlya(z)
         Salpha_array[i] = cf.val_Salpha(Ts_array[i], Tk_array[i], z, x1s_array[i], 0)
         
         xas_array[i] = rf.val_xalpha(Salpha=Salpha_array[i], Jlya=Jlya_array[i], Tg=Tg_array[i])
@@ -170,7 +176,8 @@ if make_plots:
 
 
     pl.figure()
-    pl.semilogy(zs, Jlya_array,lw=3,color='k')
+    #pl.semilogy(zs, Jlya_array,lw=3,color='k')
+    pl.plot(zs, Jlya_array,lw=3,color='k')
     pl.xlabel('z')
     pl.ylabel(r'$J_{Ly\alpha} [cm^{-2}sec^{-1}Hz^{-1}sr^{-1}]$')
     pl.title('Evolution of Lyman-$\\alpha$ flux')
