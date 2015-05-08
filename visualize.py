@@ -35,6 +35,9 @@ def grid_DeltaL_Omega(tobs=1, zmin=10, zmax=35, mode='B0', Jmode='default'):
     return deltaLs, omegas, grid
 
 if __name__=='__main__':
+    import matplotlib
+    matplotlib.use('Agg')
+
     import matplotlib.pyplot as plt
 
     deltas, omegas, grid = grid_DeltaL_Omega()
