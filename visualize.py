@@ -14,9 +14,31 @@ from globals import *
 from geometric_functions import *
 
 
-def saturation():
-    """
-    """
-    pf.calc_G(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
-            Ts=11.1, Tg=57.23508, z=20, verbose=False,
-            xalpha=34.247221, xc=0.004176, xB=0.365092, x1s=1.)
+def grid_DeltaL_Omega(tobs=1, zmin=10, zmax=35, mode='B0', Jmode='default'):
+    deltaLs = np.load(RESULTS_PATH + '/DeltaLs_{}_{}_tobs_{:.1f}.npy'.format(mode,
+                                                                         Jmode,
+                                                                         tobs))
+    omegas = np.load(RESULTS_PATH + '/Omegasurveys_{}_{}_tobs_{}.npy'.format(mode,
+                                                                         Jmode,
+                                                                         tobs))
+
+    grid = np.zeros((len(omegas), len(deltaLs)))
+    for i,om in enumerate(omegas):
+        for j,delta in enumerate(deltaLs):
+            name = RESULTS_PATH + '/{}_{}_tobs_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(mode,
+                                                                                             Jmode,
+                                                                                             tobs,
+                                                                                        delta,om)
+            filename = '{}/{}.txt'.format(name,name)
+            data = np.loadtxt(filename, skiprows=1, usecols=(0,))
+            grid[i,j] = data[0]
+    return deltaLs, omegas, grid
+
+if __name__=='__main__':
+    import matplotlib.pyplot as plt
+
+    deltas, omegas, grid = grid_DeltaL_Omega()
+
+    plt.contour(deltas, omegas, grid)
+    plt.savefig('B0_grid.png')
+
