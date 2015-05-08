@@ -15,10 +15,10 @@ from geometric_functions import *
 
 
 def grid_DeltaL_Omega(tobs=1, zmin=10, zmax=35, mode='B0', Jmode='default'):
-    deltaLs = np.load(RESULTS_PATH + '/DeltaLs_{}_{}_tobs_{:.2f}.npy'.format(mode,
+    deltaLs = np.load(RESULTS_PATH + '/DeltaLs_{}_{}_tobs_{:.1f}.npy'.format(mode,
                                                                          Jmode,
                                                                          tobs))
-    omegas = np.load(RESULTS_PATH + '/Omegasurveys_{}_{}_tobs_{:.2f}.npy'.format(mode,
+    omegas = np.load(RESULTS_PATH + '/Omegasurveys_{}_{}_tobs_{:.1f}.npy'.format(mode,
                                                                          Jmode,
                                                                          tobs))
 
