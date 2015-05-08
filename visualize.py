@@ -44,6 +44,8 @@ def plot_grid(imfile='B0_imshow.png',**kwargs):
     d,o,g = grid_DeltaL_Omega(**kwargs)
     extent = [d.min(), d.max(), o.min(), o.max()]
     plt.imshow(g, origin='upper', extent=extent)
+    plt.xlabel('deltaL')
+    plt.ylabel('omega')
     plt.savefig(imfile)
     
 if __name__=='__main__':
