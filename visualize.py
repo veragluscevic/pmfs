@@ -37,6 +37,7 @@ def grid_DeltaL_Omega(tobs=1, zmin=10, zmax=35, mode='B0', Jmode='default'):
                                                                         delta,om)
             filename = '{}/{}/{}.txt'.format(RESULTS_PATH,name,name)
             data = np.loadtxt(filename, skiprows=1, usecols=(0,))
+            print om,delta,data
             grid[i,j] = data#[0]
     return deltaLs, omegas, grid
 
