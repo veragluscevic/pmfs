@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 
 import numpy as np
 
@@ -34,14 +36,12 @@ def grid_DeltaL_Omega(tobs=1, zmin=10, zmax=35, mode='B0', Jmode='default'):
             grid[i,j] = data#[0]
     return deltaLs, omegas, grid
 
+def plot_grid(imfile='B0_imshow.png',**kwargs):
+    d,o,g = grid_DeltaL_Omega(**kwargs)
+    extent = [d.min(), d.max(), o.min(), o.max()]
+    plt.imshow(g, origin='upper', extent=extent)
+    plt.savefig(imfile)
+    
 if __name__=='__main__':
-    import matplotlib
-    matplotlib.use('Agg')
-
-    import matplotlib.pyplot as plt
-
-    deltas, omegas, grid = grid_DeltaL_Omega()
-
-    plt.contour(deltas, omegas, grid)
-    plt.savefig('B0_grid.png')
+    plot_grid()
 
