@@ -46,7 +46,7 @@ def plot_grid(imfile='B0_imshow.png', Bsat=1e-21,**kwargs):
     g = 1. - (Bsat - g)/Bsat 
     extent = [d.min(), d.max(), o.min(), o.max()]
     #plt.imshow(np.log10(g), origin='lower', extent=extent)
-    plt.imshow(g, origin='lower', extent=extent, cmap='hot')
+    plt.imshow(g, origin='lower', extent=extent, cmap='hot_r')
     plt.xlabel('deltaL')
     plt.ylabel('omega')
     plt.yscale('log')
