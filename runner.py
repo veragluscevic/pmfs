@@ -22,6 +22,7 @@ from constants import *
 from globals import *
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--respath', default='/data/verag/pmfs/') 
 parser.add_argument('--mode', default='B0') # 'B0' or 'zeta'
 parser.add_argument('--forcegrid', action='store_true')
 parser.add_argument('--tag', default=None)

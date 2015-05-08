@@ -20,15 +20,15 @@ parser.add_argument('--NOmegasurvey', type=int, default=10) # Omega_survey sampl
 parser.add_argument('--ngroups', type=int, default=512)
 args = parser.parse_args()
 
-RUNNER_PATH = '/'
+RUNNER_PATH = '/home/verag/Projects/Repositories/'
 if args.Jmode == 'default':
     fastfile = '21cmfast_teja_nov2014.txt'
 
 NGROUPS = args.ngroups
 DeltaLs = np.linspace(args.DeltaLmin,args.DeltaLmax,args.NDeltaL)
 Omegasurveys = np.logspace(np.log10(args.Omegasurveymin),np.log10(args.Omegasurveymax),args.NOmegasurvey)
-np.save(RESULTS_PATH + 'DeltaLs_{}_{}_{:.1f}.npy'.format(args.mode,args.Jmode,args.tobs), DeltaLs)
-np.save(RESULTS_PATH + 'Omegasurveys_{}_{}_{:.1f}.npy'.format(args.mode,args.Jmode,args.tobs), Omegasurveys)
+np.save(RESULTS_PATH + 'DeltaLs_{}_{}_tobs_{:.1f}.npy'.format(args.mode,args.Jmode,args.tobs), DeltaLs)
+np.save(RESULTS_PATH + 'Omegasurveys_{}_{}_tobs_{:.1f}.npy'.format(args.mode,args.Jmode,args.tobs), Omegasurveys)
 
 
 cmds = []
@@ -40,7 +40,7 @@ for DeltaL in DeltaLs:
                                                                             DeltaL,Omegasurvey)
         resfile = tag + '.txt'
 
-        cmd = RUNNER_PATH + 'runner.py --forcegrid False --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tobs {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tobs,DeltaL,Omegasurvey,resfile)
+        cmd = RUNNER_PATH + 'runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tobs {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tobs,DeltaL,Omegasurvey,resfile)
         cmds.append(cmd)
         count += 1
 
