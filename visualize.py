@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+import matplotlib
+if __name__=='__main__':
+    matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 import numpy as np
 
@@ -43,7 +47,5 @@ def plot_grid(imfile='B0_imshow.png',**kwargs):
     plt.savefig(imfile)
     
 if __name__=='__main__':
-    import matplotlib
-    matplotlib.use('Agg')
     plot_grid()
 
