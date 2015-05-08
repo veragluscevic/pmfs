@@ -40,8 +40,7 @@ for DeltaL in DeltaLs:
                                                                             DeltaL,Omegasurvey)
         resfile = tag + '.txt'
 
-        cmd = '../runner.py --mode {} --tag {} --fas
-        tfile {} --zmin {} --zmax {} --tobs {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tobs,DeltaL,Omegasurvey,resfile)
+        cmd = '../runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tobs {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tobs,DeltaL,Omegasurvey,resfile)
         cmds.append(cmd)
         count += 1
 

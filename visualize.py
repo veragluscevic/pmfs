@@ -38,11 +38,12 @@ def grid_DeltaL_Omega(tobs=1, zmin=10, zmax=35, mode='B0', Jmode='default'):
             filename = '{}/{}/{}.txt'.format(RESULTS_PATH,name,name)
             data = np.loadtxt(filename, skiprows=1, usecols=(0,))
             print om,delta,data
-            grid[i,j] = data#[0]
+            grid[i,j] = data
     return deltaLs, omegas, grid
 
-def plot_grid(imfile='B0_imshow.png',**kwargs):
+def plot_grid(imfile='B0_imshow.png', Bsat=1e-21,**kwargs):
     d,o,g = grid_DeltaL_Omega(**kwargs)
+    g = (Bsat - g)/Bsat 
     extent = [d.min(), d.max(), o.min(), o.max()]
     plt.imshow(np.log10(g), origin='lower', extent=extent)
     plt.xlabel('deltaL')
