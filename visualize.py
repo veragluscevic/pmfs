@@ -47,7 +47,6 @@ def plot_grid(imfile='B0_imshow.png',**kwargs):
     plt.imshow(np.log10(g), origin='lower', extent=extent)
     plt.xlabel('deltaL')
     plt.ylabel('omega')
-    plt.yscale('log')
     plt.colorbar()
     plt.savefig(imfile)
     
