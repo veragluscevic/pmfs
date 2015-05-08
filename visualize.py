@@ -25,11 +25,11 @@ def grid_DeltaL_Omega(tobs=1, zmin=10, zmax=35, mode='B0', Jmode='default'):
     grid = np.zeros((len(omegas), len(deltaLs)))
     for i,om in enumerate(omegas):
         for j,delta in enumerate(deltaLs):
-            name = RESULTS_PATH + '/{}_{}_tobs_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(mode,
-                                                                                             Jmode,
-                                                                                             tobs,
-                                                                                        delta,om)
-            filename = '{}/{}.txt'.format(name,name)
+            name = '{}_{}_tobs_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(mode,
+                                                                        Jmode,
+                                                                        tobs,
+                                                                        delta,om)
+            filename = '{}/{}/{}.txt'.format(RESULTS_PATH,name,name)
             data = np.loadtxt(filename, skiprows=1, usecols=(0,))
             grid[i,j] = data[0]
     return deltaLs, omegas, grid
