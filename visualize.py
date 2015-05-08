@@ -45,7 +45,8 @@ def plot_grid(imfile='B0_imshow.png', Bsat=1e-21,**kwargs):
     d,o,g = grid_DeltaL_Omega(**kwargs)
     g = (Bsat - g)/Bsat 
     extent = [d.min(), d.max(), o.min(), o.max()]
-    plt.imshow(np.log10(g), origin='lower', extent=extent)
+    #plt.imshow(np.log10(g), origin='lower', extent=extent)
+    plt.imshow(g, origin='lower', extent=extent)
     plt.xlabel('deltaL')
     plt.ylabel('omega')
     plt.yscale('log')
