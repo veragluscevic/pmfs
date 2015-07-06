@@ -25,6 +25,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--respath', default='/data/verag/pmfs/') 
 parser.add_argument('--mode', default='B0') # 'B0' or 'zeta'
 parser.add_argument('--forcegrid', action='store_true')
+parser.add_argument('--plotgrid', action='store_true')
 parser.add_argument('--tag', default=None)
 parser.add_argument('--fastfile', default='21cmfast_teja_nov2014.txt')
 parser.add_argument('--zmin', type=int, default=10)
@@ -49,10 +50,11 @@ grid_path += '/'
 
 #noise-calculation parameters:
 Omega_survey = args.Omegasurvey
-tobs = args.tobs * 365. * 86400 #observation time in sec.
+tobs = args.tobs * 365. * 86400 #observation time in sec, for entire survey.
 DeltaL = args.DeltaL * 100000. #length of a square-shaped antenna in cm.
 
 Omega_patch = args.Omegapatch * (np.pi/180.)**2 # area coverage of the small patch in survey in sr.
+#tobs_patch = tobs * Omega_patch / Omega_survey
 Ae = None #1000**2 #3500**2 #effective area of a single dish in cm.
 Lmax = None #1200000 #maximum baseline in cm.
 Lmin = None #1000 #minimum baseline in cm. 
@@ -112,11 +114,14 @@ result = pf.trapznd(fisher_grid,zs,phiks,thetaks,ks)
 alpha_survey = (Omega_survey)**0.5 
 result_all_survey = result / Omega_patch * np.pi * (alpha_survey + np.cos(alpha_survey)*np.sin(alpha_survey))
 
+
 ##the final result, in Gauss:
 res = 1./result_all_survey**0.5
+print res 
 
 #print to output file:
 fout = open(grid_path + args.resfile, 'w')
 fout.write('B0[Gauss]  Omega_survey[sr]  DeltaL^2[km^2]  tobs[yr]\n')
 fout.write('{}  {}  {} {}\n'.format(res, args.Omegasurvey, args.DeltaL**2, args.tobs ))
 fout.close()
+

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import matplotlib as plt
 import pylab as pl
 import numpy as np
@@ -24,6 +25,7 @@ from globals import *
 #mode = 'zeta'
 mode = 'B0'
 
+showres=True
 force_grid = False
 make_plots = False
 
@@ -116,15 +118,16 @@ zs = np.load(grid_path + 'z_grid.npy')
 phiks = np.load(grid_path + 'phik_grid.npy')
 thetaks = np.load(grid_path + 'thetak_grid.npy')
 ks = np.load(grid_path + 'k_grid.npy')
-result = pf.trapznd(fisher_grid,zs,phiks,thetaks,ks)
 
-alpha_survey = (Omega_survey)**0.5 
-result_all_survey = result / Omega_patch * np.pi * (alpha_survey + np.cos(alpha_survey)*np.sin(alpha_survey))
+if showres:
+    result = pf.trapznd(fisher_grid,zs,phiks,thetaks,ks)
+    alpha_survey = (Omega_survey)**0.5 
+    result_all_survey = result / Omega_patch * np.pi * (alpha_survey + np.cos(alpha_survey)*np.sin(alpha_survey))
 
-##print the final result, in Gauss:
-print 1./result**0.5
-print 1./result_all_survey**0.5
-print 1./(1. / Omega_patch * np.pi * (alpha_survey + np.cos(alpha_survey)*np.sin(alpha_survey)))**0.5
+    ##print the final result, in Gauss:
+    #print 1./result**0.5
+    print 1./result_all_survey**0.5
+    
 
 if make_plots:
     zs = np.arange(z_lims[0], z_lims[1], 1)

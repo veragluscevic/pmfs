@@ -130,7 +130,7 @@ def Fisher_integrand(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2., phi
 
 
 
-def write_Fisher_grid(root, val_nk=one_over_u_nk,
+def write_Fisher_grid(root, val_nk=one_over_u_nk,verbose_steps=False,
                       val_Ts=rf.Ts_21cmfast_interp, val_Tk=rf.Tk_21cmfast_interp, val_Jlya=rf.Jlya_21cmfast_interp, val_x1s=rf.ones_x1s,
                       z_lims=(15,30), Nzs=20, Nks=100, Nthetak=21, Nphik=22, phin=0., thetan=np.pi/2.,
                       val_Tsys=Tsys_simple, tobs=365.*86400, Ae=None, N_ant=None, Lmax=None, Lmin=None, Omega_patch=0.1,
@@ -145,8 +145,9 @@ def write_Fisher_grid(root, val_nk=one_over_u_nk,
     Note that the total number of antennas and Ae will be set to correspond to FFTT-like tiling with dipoles, which means N_ant is a function
     of z, and Ae = \lambda^2.
     It also takes the function names for uv-coverage, for Jlya, for Ts, and for Tk."""
-    
-    zs = np.logspace(np.log10(z_lims[0]), np.log10(z_lims[1]), Nzs)
+
+    zs = np.linspace(z_lims[0], z_lims[1], Nzs)
+    #zs = np.logspace(np.log10(z_lims[0]), np.log10(z_lims[1]), Nzs)
     ks = np.logspace(np.log10(kminmin), np.log10(kmaxmax), Nks)
     thetaks = np.linspace(0., np.pi, Nthetak)
     phiks = np.linspace(0., 2*np.pi, Nphik)
@@ -173,6 +174,7 @@ def write_Fisher_grid(root, val_nk=one_over_u_nk,
     
     fisher_grid = np.zeros((Nzs,Nphik,Nthetak,Nks))
     for i1,z in enumerate(zs):
+        #if verbose_steps:
         print 'z=%.2f' % z
         N_ant = N_ants[i1]
         Ntot = Ntots[i1]
@@ -233,11 +235,15 @@ def write_Fisher_grid(root, val_nk=one_over_u_nk,
                     #note: these kmin and kmax are in 1/Mpc comoving
 
                     #if the considered k is in the range of observable k's, compute integrand, otherwise set it to zero:
-                    if k<=kmax and k>=kmin and sint>0.:                        
+                    if k<=kmax and k>=kmin and sint>0.:     
+                        
                         res = Fisher_integrand(z, k, thetak=thetak, phik=phik, thetan=thetan, phin=phin,
                                                Ts=Ts, xalpha=xalpha, xc=xc, Tg=Tg, xBcoeff=xBcoeff,
                                                Tsys=Tsys, t1=t1, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, x1s=x1s, Omega_patch=Omega_patch,
                                                dA=dA, H_z=H_z, lambda_z=lambda_z, nk=nk)
+                        if res < 0.:
+                            print '--negative integrand value: {}, z={:.0f}, k={:.4f}, theta={:.2}, phi={:.2}\n'.format(res,z,k,thetak,phik)
+
                        
                     else:
                        res = 0.
@@ -327,7 +333,7 @@ def write_Fisher_grid_zeta(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_21cmfast_int
     B is along the z axis. It also takes Tsys[K], observation time in [sec], effective area of a single dish [cm^2], maximum and minimum baseline [both in cm],
     total number of antennas, the angular size of the survey in [sr], minimum and maximum k of density perturbations that we want to consider [both in 1/Mpc comoving].
     It also takes the function names for uv-coverage, for Jlya, for Ts, and for Tk."""
-    
+
     zs = np.logspace(np.log10(z_lims[0]), np.log10(z_lims[1]), Nzs)
     ks = np.logspace(np.log10(kminmin), np.log10(kmaxmax), Nks)
     thetaks = np.linspace(0., np.pi, Nthetak)
@@ -416,7 +422,6 @@ def write_Fisher_grid_zeta(root, val_nk=one_over_u_nk, val_Ts=rf.Ts_21cmfast_int
                                                Ts=Ts, xalpha=xalpha, xc=xc, Tg=Tg,
                                                Tsys=Tsys, t1=t1, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, x1s=x1s,  Omega_patch=Omega_patch,
                                                dA=dA, H_z=H_z, lambda_z=lambda_z, nk=nk)
-
                     else:
                         res = 0.
                         
