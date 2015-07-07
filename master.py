@@ -29,7 +29,7 @@ showres=True
 force_grid = False
 make_plots = False
 
-file_label = 'may7'
+file_label = 'test0'#'may7'
 grid_path = RESULTS_PATH + file_label + '_' + mode + '/'
 
 #noise-calculation parameters:
@@ -47,8 +47,8 @@ Omega_survey = 1.
 
 
 #set up z-range of interest:
-z_lims = (10,35)# (15,29.9) 
-Nzs = int(z_lims[1]-z_lims[0])
+z_lims = (30,30)#(10,35)
+Nzs = 1 # int(z_lims[1]-z_lims[0])
 Nks = 100
 
 
@@ -95,6 +95,8 @@ val_x1s = rf.ones_x1s
 
 ##write Fisher grid that can then be read from files, and integrated:
 ##note: this example corresponds to SKAII:
+
+#print grid_path 
 
 if force_grid or (not(os.path.exists(grid_path))):
     if(os.path.exists(grid_path)):
@@ -193,14 +195,14 @@ if make_plots:
     pl.ylabel(r'$T_{sys}$ [K]')
     pl.title('Sky temperature at redshifted 21cm')
     pl.savefig(RESULTS_PATH + 'Tsys_' + file_label + '.pdf')
-    """
-    pl.figure()
-    pl.plot(zsa, cf.val_dA(zsa)/Mpc_in_cm)
-    pl.xlabel('z')
-    pl.ylabel('[Mpc comoving]')
-    pl.title('angular diameter distance')
-    pl.savefig(RESULTS_PATH + 'dA_'  + file_label + '.pdf')
-    """
+    
+    #pl.figure()
+    #pl.plot(zsa, cf.val_dA(zsa)/Mpc_in_cm)
+    #pl.xlabel('z')
+    #pl.ylabel('[Mpc comoving]')
+    #pl.title('angular diameter distance')
+    #pl.savefig(RESULTS_PATH + 'dA_'  + file_label + '.pdf')
+    
     pl.figure()
     sample_zs = np.array([15, 20, 25, 30])
     sample_ks = np.logspace(np.log10(0.001), np.log10(99), 100)

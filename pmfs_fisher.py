@@ -97,8 +97,8 @@ def Fisher_integrand(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2., phi
    
     Vpatch = Vpatch_factor( z, dA=dA, H_z=H_z, Omega_patch=Omega_patch )
     
-    Pnoise = P21_N( dA=dA, H_z=H_z, z=z, Tsys=Tsys, t1=t1, Ae=Ae, 
-                   Lmax=Lmax, Lmin=Lmin, lambda_z=lambda_z, nk=nk )
+    Pnoise = 0.#P21_N( dA=dA, H_z=H_z, z=z, Tsys=Tsys, t1=t1, Ae=Ae, 
+    #    Lmax=Lmax, Lmin=Lmin, lambda_z=lambda_z, nk=nk )
     if np.isnan( Pnoise ):
         raise ValueError( 'Pnoise is nan.' )
 
