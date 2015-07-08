@@ -102,12 +102,17 @@ def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
 
     summ = 0.
     for i,m in enumerate( np.array([-2,-1,0,1,2]) ):
-        summand =  1j * m * xBcoeff * Y2( m,thetak,phik ) * np.conjugate( Y2(m,thetan,phin) ) / ( 1. + xalpha + xc )**2
+        #summand =  1j * m * xBcoeff * Y2( m,thetak,phik ) * np.conjugate( Y2(m,thetan,phin) ) / ( 1. + xalpha + xc )**2
+        summand =  1j * m * Y2( m,thetak,phik ) * np.conjugate( Y2(m,thetan,phin) ) 
         #print summand
         summ += summand.real
-
+    if np.isclose(summ, 0.):
+        summ = 0.
+    summ *= xBcoeff / ( 1. + xalpha + xc )**2
+    
     #print summ
     res = (0.128*4.*np.pi/75.) * x1s**2 * ( 1 - Tg/Ts ) * (Tg/Ts) * (1 + z)**3/10. * summ
+    #for testing only: res = summ
     
     #print 0.128*4.*np.pi/75. * x1s**2 * ( 1 - Tg/Ts ) * Tg/Ts * (1 + z)**3/10.
     #print res/1000./(1+z)**2

@@ -1,6 +1,7 @@
 #This module contains geometric functions, like the spherical harmonics etc.
 
 import numpy as np
+from scipy.special import sph_harm
 from constants import *
 from globals import *
  
@@ -16,5 +17,7 @@ def Y2(m,theta,phi):
         return (-0.5)*(15./(2.*np.pi))**0.5 * np.sin(theta)*np.cos(theta) * np.exp(1j*phi)
     elif m==0:
         return 0.25*(5./np.pi)**0.5 * (3.*np.cos(theta)**2. - 1)
+    
+    #return sph_harm(m=m, n=2, theta=theta, phi=phi)
     
     
