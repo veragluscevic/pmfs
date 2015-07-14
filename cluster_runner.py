@@ -13,12 +13,12 @@ parser.add_argument('--Jmode',default='default') # 'default', 'noheat', or 'hihe
 parser.add_argument('--tobs', type=float, default=1.) # duration of the survey, in years.
 parser.add_argument('--DeltaLmin', type=float, default=1) # min side of a square-shaped FFTT in km.
 parser.add_argument('--DeltaLmax', type=float, default=10) # max side of a square-shaped FFTT in km.
-parser.add_argument('--Omegasurveymin', type=float, default=0.01) # min Omega_survey in sr.
-parser.add_argument('--Omegasurveymax', type=float, default=12.) # max Omega_survey in sr.
-parser.add_argument('--NDeltaL', type=int, default=10) # DeltaL sample points.
-parser.add_argument('--NOmegasurvey', type=int, default=10) # Omega_survey sample points.
+parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in sr.
+parser.add_argument('--NDeltaL', type=int, default=100) # DeltaL sample points.
 parser.add_argument('--ngroups', type=int, default=512)
 args = parser.parse_args()
+
+Omegasurvey = args.Omegasurvey
 
 RUNNER_PATH = '/home/verag/Projects/Repositories/'
 if args.Jmode == 'default':
@@ -26,23 +26,21 @@ if args.Jmode == 'default':
 
 NGROUPS = args.ngroups
 DeltaLs = np.linspace(args.DeltaLmin,args.DeltaLmax,args.NDeltaL)
-Omegasurveys = np.logspace(np.log10(args.Omegasurveymin),np.log10(args.Omegasurveymax),args.NOmegasurvey)
 np.save(RESULTS_PATH + 'DeltaLs_{}_{}_tobs_{:.1f}.npy'.format(args.mode,args.Jmode,args.tobs), DeltaLs)
-np.save(RESULTS_PATH + 'Omegasurveys_{}_{}_tobs_{:.1f}.npy'.format(args.mode,args.Jmode,args.tobs), Omegasurveys)
-
 
 cmds = []
 count = 0
 
 for DeltaL in DeltaLs:
-    for Omegasurvey in Omegasurveys:
-        tag = '{}_{}_tobs_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(args.mode,args.Jmode,args.tobs,
-                                                                            DeltaL,Omegasurvey)
-        resfile = tag + '.txt'
+    tag = '{}_{}_tobs_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(args.mode,
+                                                                args.Jmode,
+                                                                args.tobs,
+                                                                DeltaL,Omegasurvey)
+    resfile = tag + '.txt'
 
-        cmd = '../runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tobs {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tobs,DeltaL,Omegasurvey,resfile)
-        cmds.append(cmd)
-        count += 1
+    cmd = '../runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tobs {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tobs,DeltaL,Omegasurvey,resfile)
+    cmds.append(cmd)
+    count += 1
 
 print  '\n There will be {} calls to runner.py.\n'.format(count)
 if count < NGROUPS:
@@ -56,7 +54,7 @@ for i in range(NGROUPS):
 
 fout = open('runs_pmfs/go_{}_{}.sh'.format(args.mode,args.Jmode), 'w')
 fout.write('#! /bin/bash\n')
-fout.write('#$ -l h_rt=12:00:00\n')
+fout.write('#$ -l h_rt=2:00:00\n')
 fout.write('#$ -cwd\n')
 fout.write('#$ -t 1-{}\n'.format(NGROUPS))
 fout.write('#$ -V\n')

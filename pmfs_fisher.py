@@ -10,6 +10,9 @@ reload(rf)
 from constants import *
 from globals import *
 
+import fisher as fish
+reload(fish)
+
 def P21_N(z, dA=3.1695653382881036e+28, H_z=1.1905643664441961e-16, Tsys=1000, t1=365*86400., Ae=3500**2, Lmax=1200000, Lmin=1000, nk=0.37, lambda_z=443.1):
     """ This takes k [1/cm comoving], thetak [rad], and instrumental parameters:
           observation time t1[sec], system temperature Tsys[K],
@@ -43,7 +46,8 @@ def Tsys_zero(z):
 
 #calculate survey-volume element at z as Vpath_factor*dz = dVpatch:
 def Vpatch_factor(z, dA=3.1695653382881036e+28, H_z=1.1905643664441961e-16, Omega_patch=0.3):
-    """This is the volume element in the Fisher integral, *for a uniform magnetic field* B=B0*(1+z)^2. Vpath_factor*dz = dVpatch.
+    """This is the volume element in the Fisher integral, *for a uniform magnetic field* B=B0*(1+z)^2. 
+    Vpath_factor*dz = dVpatch.
     It takes z, dA[cm comoving], H_z[1/sec], and Omega_patch[sr], and returns result in [(comoving Mpc)^3]."""
     res = c / H_z * dA**2 * Omega_patch / Mpc_in_cm**3 #/ (1+z)**2 #should there be *(1+z) ?
     return res
@@ -241,7 +245,7 @@ def test2(z, Nks=10, Nthetaks=100, Nphiks=100,
                    Omega_patch= 2e-4,
                    verbose=False, DeltaL=200000.,
                    runk=False,runtheta=False,runphi=False):
-    lambda_z = 21. * (1. + z)
+    lambda_z = lambda21 * (1. + z)
     N_ant = (DeltaL/lambda_z)**2
     Omega_beam = 1.
     Lmin = lambda_z
@@ -267,6 +271,7 @@ def test2(z, Nks=10, Nthetaks=100, Nphiks=100,
     phiks = np.linspace(0., 2*np.pi, Nphiks+1)
 
     grid = np.zeros((Nks,Nthetaks,Nphiks))
+    gridnew = np.zeros((Nks,Nthetaks,Nphiks))
     for j,thetak in enumerate(thetaks[:-1]):
         print thetak
         for l,phik in enumerate(phiks[:-1]):
@@ -290,24 +295,37 @@ def test2(z, Nks=10, Nthetaks=100, Nphiks=100,
                                          dA=dA, H_z=H_z, lambda_z=lambda_z, 
                                          nk=nk, Tg=Tg, xBcoeff=xBcoeff, 
                                          verbose=verbose)
-    return grid
+                x = np.array([z,k,thetak,phik])
+                gridnew[i,j,l] = fish.integrand(x, 
+                                                Omega_patch=Omega_patch,
+                                                DeltaL_km=DeltaL/1.e5,
+                                                t_yr=tobs/365./24./3600.)
+    return grid,gridnew
 
 
 ##################
-def Fisher_integrand(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., Ts=11., xalpha=34.247221, xc=0.004176,
-                     Tsys=1000, t1=10*86400., Ae=(3500)**2, Lmax=100000, Lmin=100, N_ant=1024, x1s=1.,Omega_patch=0.1,
-                     dA=3.16e+28, H_z=1.19e-16, lambda_z=443.1, nk=0.3, Tg=57.23508, xBcoeff=3.65092e18, verbose=False,DeltaL=None):
+def Fisher_integrand(z, k_in_Mpc, thetak=np.pi/2., phik=0., 
+                     thetan=np.pi/2., phin=np.pi/4., 
+                     Ts=11., xalpha=34.247221, xc=0.004176,
+                     Tsys=1000, t1=10*86400., Ae=(3500)**2, 
+                     Lmax=100000, Lmin=100, N_ant=1024, x1s=1.,Omega_patch=0.1,
+                     dA=3.16e+28, H_z=1.19e-16, lambda_z=443.1, 
+                     nk=0.3, Tg=57.23508, xBcoeff=3.65092e18, 
+                     verbose=False,DeltaL=None):
     """This takes k[1/Mpc comoving]. Result is returned in CGS units, [???]."""
 
     #print thetak,phik,thetan,phin,Ts,xalpha,xc,Tsys,t1,Ae,Lmax,Lmin,N_ant,x1s,Omega_patch,dA,H_z,lambda_z,nk,Tg,XBcoeff,DeltaL
 
-    #return 0
     k = k_in_Mpc/Mpc_in_cm
    
     Vpatch = Vpatch_factor( z, dA=dA, H_z=H_z, Omega_patch=Omega_patch )
     
     Pnoise = P21_N( dA=dA, H_z=H_z, z=z, Tsys=Tsys, t1=t1, Ae=Ae, 
                     Lmax=Lmax, Lmin=Lmin, lambda_z=lambda_z, nk=nk )
+
+    #print dA,H_z,z,Ae,Lmax,Lmin,lambda_z,nk
+    #print Tsys,t1
+    #print Vpatch,Pnoise,nk
     if np.isnan( Pnoise ):
         raise ValueError( 'Pnoise is nan.' )
     #print Tsys
@@ -342,11 +360,20 @@ def Fisher_integrand(z, k_in_Mpc, thetak=np.pi/2., phik=0., thetan=np.pi/2., phi
 
 
 
-def write_Fisher_grid(root, val_nk=one_over_u_nk,verbose_steps=False,verbose=False,
-                      val_Ts=rf.Ts_21cmfast_interp, val_Tk=rf.Tk_21cmfast_interp, val_Jlya=rf.Jlya_21cmfast_interp, val_x1s=rf.ones_x1s,
-                      z_lims=(15,30), Nzs=20, Nks=100, Nthetak=21, Nphik=22, phin=0., thetan=np.pi/2.,
-                      val_Tsys=Tsys_simple, tobs=365.*86400, Ae=None, N_ant=None, Lmax=None, Lmin=None, Omega_patch=0.1,
-                      kminmin=0.001, kmaxmax=100, val_Tg=rf.Tg_21cmfast_interp, DeltaL=100000):
+def write_Fisher_grid(root, val_nk=one_over_u_nk,
+                      verbose_steps=False,verbose=False,
+                      val_Ts=rf.Ts_21cmfast_interp, 
+                      val_Tk=rf.Tk_21cmfast_interp, 
+                      val_Jlya=rf.Jlya_21cmfast_interp, 
+                      val_x1s=rf.ones_x1s,
+                      z_lims=(15,30), Nzs=20, Nks=100, 
+                      Nthetak=21, Nphik=22, phin=0., 
+                      thetan=np.pi/2.,
+                      val_Tsys=Tsys_simple, tobs=365.*86400, 
+                      Ae=None, N_ant=None, 
+                      Lmax=None, Lmin=None, Omega_patch=0.1,
+                      kminmin=0.001, kmaxmax=100, 
+                      val_Tg=rf.Tg_21cmfast_interp, DeltaL=100000):
     """ This writes a grid of Fisher integrands, for a homogeneous B field.
     The grid has the following dimensions: z, k, thetak, and phik, where the last two are the position angles of
     the density wave-vector k, in the coordinate system with LOS n along the z-axis. nz, nk, nthetak, and nphik define the number of points
@@ -358,9 +385,11 @@ def write_Fisher_grid(root, val_nk=one_over_u_nk,verbose_steps=False,verbose=Fal
     of z, and Ae = \lambda^2.
     It also takes the function names for uv-coverage, for Jlya, for Ts, and for Tk."""
     
-    zs = np.linspace(z_lims[0], z_lims[1], Nzs)
     #zs = np.logspace(np.log10(z_lims[0]), np.log10(z_lims[1]), Nzs)
-    ks = np.logspace(np.log10(kminmin), np.log10(kmaxmax), Nks)
+    #ks = np.logspace(np.log10(kminmin), np.log10(kmaxmax), Nks)
+    
+    zs = np.linspace(z_lims[0], z_lims[1], Nzs)
+    ks = np.linspace(kminmin,kmaxmax, Nks)
     thetaks = np.linspace(0., np.pi, Nthetak)
     phiks = np.linspace(0., 2*np.pi, Nphik)
 

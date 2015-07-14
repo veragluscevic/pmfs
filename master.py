@@ -28,9 +28,9 @@ mode = 'B0'
 verbose=False
 showres=True
 force_grid = True
-make_plots = False
+make_plots = True
 
-file_label = 'test0'#'may7'
+file_label = 'test1'#'may7'
 grid_path = RESULTS_PATH + file_label + '_' + mode + '/'
 
 #noise-calculation parameters:
@@ -40,17 +40,17 @@ Ae = None #1000**2 #3500**2 #effective area of a single dish in cm.
 Lmax = None #1200000 #maximum baseline in cm.
 Lmin = None #1000 #minimum baseline in cm. 
 N_ant = None #1024 #number of antennas.
-kminmin = 0.0001 #minimum k to be analyzed in [1/Mpc comoving]
-kmaxmax = 100 #maximum k to be analyzed in [1/Mpc comoving]
+kminmin = 0.01 #minimum k to be analyzed in [1/Mpc comoving]
+kmaxmax = 2 #maximum k to be analyzed in [1/Mpc comoving]
 Omega_patch = 2e-4 #0.1 #area coverage of the survey in sr.
 Omega_survey = 1.
 
 
 
 #set up z-range of interest:
-z_lims = (10,35) #(10,35)
-Nzs = int(z_lims[1]-z_lims[0])
-Nks = 100
+z_lims = (15,35)
+Nzs = 50#int(z_lims[1]-z_lims[0])
+Nks = 100#4000
 
 Nthetak=51
 Nphik=52
@@ -106,15 +106,28 @@ if force_grid or (not(os.path.exists(grid_path))):
     os.makedirs(grid_path)
     #make_plots = True
     if mode == 'B0':
-        pf.write_Fisher_grid(grid_path, val_nk=val_nk, val_Ts=val_Ts, val_Tk=val_Tk, val_x1s=val_x1s,
-                            z_lims=z_lims, Nzs=Nzs, Nks=Nks, Nthetak=Nthetak, Nphik=Nphik, phin=0., thetan=np.pi/2.,
-                            val_Tsys=val_Tsys, tobs=tobs, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, Omega_patch=Omega_patch,
-                            kminmin=kminmin, kmaxmax=kmaxmax,DeltaL=DeltaL,verbose=verbose)
+        pf.write_Fisher_grid(grid_path, val_nk=val_nk, 
+                             val_Ts=val_Ts, val_Tk=val_Tk, 
+                             val_x1s=val_x1s,
+                            z_lims=z_lims, 
+                            Nzs=Nzs, Nks=Nks, Nthetak=Nthetak, Nphik=Nphik, 
+                            phin=0., thetan=np.pi/2.,
+                            val_Tsys=val_Tsys, tobs=tobs, 
+                            Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, 
+                            Omega_patch=Omega_patch,
+                            kminmin=kminmin, kmaxmax=kmaxmax,
+                            DeltaL=DeltaL,verbose=verbose)
     if mode == 'zeta':
-        pf.write_Fisher_grid_zeta(grid_path, val_nk=val_nk, val_Ts=val_Ts, val_Tk=val_Tk, val_x1s=val_x1s,
-                            z_lims=z_lims, Nzs=Nzs, Nks=Nks, Nthetak=21, Nphik=22, phin=0., thetan=np.pi/2.,
-                            val_Tsys=val_Tsys, tobs=tobs, Ae=Ae, Lmax=Lmax, Lmin=Lmin, N_ant=N_ant, Omega_patch=Omega_patch,
-                            kminmin=kminmin, kmaxmax=kmaxmax)
+        pf.write_Fisher_grid_zeta(grid_path, val_nk=val_nk, 
+                                  val_Ts=val_Ts, val_Tk=val_Tk, 
+                                  val_x1s=val_x1s,
+                                  z_lims=z_lims, 
+                                  Nzs=Nzs, Nks=Nks, Nthetak=21, Nphik=22, 
+                                  phin=0., thetan=np.pi/2.,
+                                  val_Tsys=val_Tsys, tobs=tobs, 
+                                  Ae=Ae, Lmax=Lmax, Lmin=Lmin, 
+                                  N_ant=N_ant, Omega_patch=Omega_patch,
+                                  kminmin=kminmin, kmaxmax=kmaxmax)
 
 ##now read the fisher grid, and integrate it in all dimensions:
 fisher_grid = np.load(grid_path + 'fisher_grid.npy')

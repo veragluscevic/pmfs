@@ -80,7 +80,8 @@ def calc_G(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     for i,m in enumerate( np.array([-2,-1,0,1,2]) ):
         summand = Y2( m,thetak,phik ) * np.conjugate( Y2( m,thetan,phin ) ) / ( 1. + xalpha + xc - 1j*m*xB )
         summ += summand.real
-        
+    if np.isclose(summ, 0.):
+        summ = 0.
     first_term = 1 + k_dot_n**2
     second_term = 2. + 2.*k_dot_n**2 - 4.*np.pi/75.*summ
 
@@ -100,23 +101,19 @@ def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     from analytic derivative of eq 138 of Teja's draft v3. Result is in [K/Gauss].
     B is along z.  It takes x's (all unitless), temperatures in [K], and angles in [rad]."""
 
-    summ = 0.
-    for i,m in enumerate( np.array([-2,-1,0,1,2]) ):
-        #summand =  1j * m * xBcoeff * Y2( m,thetak,phik ) * np.conjugate( Y2(m,thetan,phin) ) / ( 1. + xalpha + xc )**2
-        summand =  1j * m * Y2( m,thetak,phik ) * np.conjugate( Y2(m,thetan,phin) ) 
-        #print summand
-        summ += summand.real
+    if np.isclose(thetan, np.pi/2.) and np.isclose(phin, 0.):
+        summ = 0.25*(15./(2.*np.pi)) * np.sin(thetak)**2 * np.sin(2.*phik)
+    else:
+        summ = 0.
+        for i,m in enumerate( np.array([-2,-1,0,1,2]) ):
+            summand =  1j * m * Y2( m,thetak,phik ) * np.conjugate( Y2(m,thetan,phin) ) 
+            summ += summand.real
+
     if np.isclose(summ, 0.):
         summ = 0.
     summ *= xBcoeff / ( 1. + xalpha + xc )**2
     
-    #print summ
     res = (0.128*4.*np.pi/75.) * x1s**2 * ( 1 - Tg/Ts ) * (Tg/Ts) * (1 + z)**3/10. * summ
-    #for testing only: res = summ
-    
-    #print 0.128*4.*np.pi/75. * x1s**2 * ( 1 - Tg/Ts ) * Tg/Ts * (1 + z)**3/10.
-    #print res/1000./(1+z)**2
-    #return calc_G(thetak=thetak, phik=phik, thetan=thetan, phin=phin,Ts=Ts, Tg=Tg, z=z, verbose=False,xalpha=xalpha, xc=xc, xBcoeff=3.65092e18, x1s=1.)
     return res/1000. #this is to make it to K from mK.
 
 

@@ -19,6 +19,8 @@ from constants import *
 from globals import *
 from geometric_functions import *
 
+from scipy.interpolate import UnivariateSpline as interpolate
+
 
 def grid_DeltaL_Omega(tobs=1, zmin=10, zmax=35, mode='B0', Jmode='default',test_plots_om=False,test_plots_del=False):
     deltaLs = np.load(RESULTS_PATH + '/DeltaLs_{}_{}_tobs_{:.1f}.npy'.format(mode,
@@ -161,3 +163,51 @@ def plot_fishergrid(imfile='fisher_grid.png',slices=[0,0,0,0],plotlog=False,
     figname = fig_path + 'grid_phi_z.png'
     if savefig:
         plt.savefig(figname)
+
+
+
+def grid_DeltaL(tobs=1, zmin=10, zmax=35, mode='B0', 
+                Jmode='default',Omega=1.,
+                Nomegas=100,omegamax=1.,omegamin=np.pi/180.,
+                s=1, k=2):
+    deltaLs = np.load(RESULTS_PATH + '/DeltaLs_{}_{}_tobs_{:.1f}.npy'.format(mode,
+                                                                         Jmode,
+                                                                         tobs))
+
+
+    grid_delta = np.zeros(len(deltaLs))
+    grid_2d = np.zeros((Nomegas,len(deltaLs)))
+    omegas = np.linspace(omegamin,omegamax,Nomegas)
+    alphas = omegas**0.5
+    omegas1 = np.ones(Nomegas) * Omega
+    alphas1 = omegas1**0.5
+    omega_factors = (alphas + np.cos(alphas)*np.sin(alphas))**0.5/(alphas1 + np.cos(alphas1)*np.sin(alphas1))**0.5
+    ds = np.zeros(len(deltaLs))
+    for j,delta in enumerate(deltaLs):
+        name = '{}_{}_tobs_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(mode,
+                                                                        Jmode,
+                                                                        tobs,
+                                                                        delta,Omega)
+        
+        filename = '{}/{}/{}.txt'.format(RESULTS_PATH,name,name)
+        if os.path.exists(filename):
+            data = np.loadtxt(filename, skiprows=1, usecols=(0,))
+            grid_delta[j] = data
+            ds[j] = delta
+
+    #f_grid_delta = interpolate(ds, grid_delta)
+    for j,delta in enumerate(deltaLs):
+        grid_2d[:,j] = grid_delta[j] * omega_factors
+            
+
+    
+    plt.figure()
+    plt.semilogy(ds,grid_delta)
+    #plt.semilogy(ds,grid_delta,'.')
+    #plt.semilogy(ds,f_grid_delta(ds))
+    plt.xlabel('DeltaL')
+    plt.ylabel('B[G]')
+    plt.savefig('B_vs_deltas_test.pdf')
+
+    plt.figure()
+    plt.imshow(np.log10(grid_2d))
