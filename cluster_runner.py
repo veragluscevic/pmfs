@@ -7,14 +7,14 @@ from globals import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--mode',default='B0')
-parser.add_argument('--zmin', type=int, default=10)
+parser.add_argument('--zmin', type=int, default=15)
 parser.add_argument('--zmax', type=int, default=35)
 parser.add_argument('--Jmode',default='default') # 'default', 'noheat', or 'hiheat'
 parser.add_argument('--tobs', type=float, default=1.) # duration of the survey, in years.
 parser.add_argument('--DeltaLmin', type=float, default=1) # min side of a square-shaped FFTT in km.
 parser.add_argument('--DeltaLmax', type=float, default=10) # max side of a square-shaped FFTT in km.
 parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in sr.
-parser.add_argument('--NDeltaL', type=int, default=100) # DeltaL sample points.
+parser.add_argument('--NDeltaL', type=int, default=300) # DeltaL sample points.
 parser.add_argument('--ngroups', type=int, default=512)
 args = parser.parse_args()
 
@@ -35,7 +35,8 @@ for DeltaL in DeltaLs:
     tag = '{}_{}_tobs_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(args.mode,
                                                                 args.Jmode,
                                                                 args.tobs,
-                                                                DeltaL,Omegasurvey)
+                                                                DeltaL,
+                                                                Omegasurvey)
     resfile = tag + '.txt'
 
     cmd = '../runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tobs {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tobs,DeltaL,Omegasurvey,resfile)

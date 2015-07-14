@@ -5,6 +5,19 @@ if __name__=='__main__':
     matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+import matplotlib as mpl
+import matplotlib.patheffects as PathEffects
+import matplotlib.gridspec as gridspec
+import glob
+from matplotlib import rc
+rc('font',**{'family':'serif','serif':['Times','Palatino']})
+rc('text', usetex=True)
+mpl.rcParams['xtick.major.size']=8
+mpl.rcParams['ytick.major.size']=8
+mpl.rcParams['xtick.labelsize']=18
+mpl.rcParams['ytick.labelsize']=18
+
 import numpy as np
 
 import cosmo_functions as cf
@@ -20,6 +33,7 @@ from globals import *
 from geometric_functions import *
 
 from scipy.interpolate import UnivariateSpline as interpolate
+from scipy.ndimage import gaussian_filter1d
 
 
 def grid_DeltaL_Omega(tobs=1, zmin=10, zmax=35, mode='B0', Jmode='default',test_plots_om=False,test_plots_del=False):
@@ -78,98 +92,17 @@ def plot_grid(imfile='B0_imshow.png', Bsat=1e-21,
 if __name__=='__main__':
     plot_grid()
 
-def plot_fishergrid(imfile='fisher_grid.png',slices=[0,0,0,0],plotlog=False,
-                    fig_path='/home/verag/Dropbox/MagFields21cm/prelim_res/',savefig=False,
-                    grid_path = RESULTS_PATH + 'B0_default_tobs_1.00_DeltaL_4.00_Omega_1.13/'):
-    grid = np.load(grid_path + 'fisher_grid.npy')
-    zs = np.load(grid_path + 'z_grid.npy')
-    phiks = np.load(grid_path + 'phik_grid.npy')
-    thetaks = np.load(grid_path + 'thetak_grid.npy')
-    ks = np.load(grid_path + 'k_grid.npy')
-
-    if plotlog:
-        gridp = np.log10(np.abs(grid))
-    else:
-        gridp = grid
-    #print np.shape(fisher_grid)
-    plt.figure()
-    extent = [ks.min(), ks.max(), thetaks.min(), thetaks.max()]
-    plt.imshow(gridp[slices[0],slices[1],:,:], origin='lower', aspect='auto', extent=extent)
-    plt.ylabel('theta')
-    plt.xlabel('k')
-    plt.xscale('log')
-    plt.colorbar()
-    plt.title('z={:.2f}, phi={:.2f}'.format(zs[slices[0]],phiks[slices[1]]))
-    figname = fig_path + 'grid_k_theta.png'
-    if savefig:
-        plt.savefig(figname)
-     
-    plt.figure()
-    extent = [ks.min(), ks.max(), phiks.min(), phiks.max()]
-    plt.imshow(gridp[slices[0],:,slices[2],:], origin='lower', aspect='auto', extent=extent)
-    plt.ylabel('phi')
-    plt.xlabel('k')
-    plt.xscale('log')
-    plt.colorbar()
-    plt.title('z={:.2f}, theta={:.2f}'.format(zs[slices[0]],thetaks[slices[2]]))
-    figname = fig_path + 'grid_k_phi.png'
-    if savefig:
-        plt.savefig(figname)
-    
-    plt.figure()
-    extent = [thetaks.min(), thetaks.max(), phiks.min(), phiks.max()]
-    plt.imshow(gridp[slices[0],:,:,slices[3]], origin='lower', aspect='auto', extent=extent)
-    plt.ylabel('phi')
-    plt.xlabel('theta')
-    plt.colorbar()
-    plt.title('z={:.2f}, k={:.4f}'.format(zs[slices[0]],ks[slices[3]]))
-    figname = fig_path + 'grid_theta_phi.png'
-    if savefig:
-        plt.savefig(figname)
-    
-    plt.figure()
-    extent = [ks.min(), ks.max(), zs.min(), zs.max()]
-    plt.imshow(gridp[:,slices[1],slices[2],:], origin='lower', aspect='auto', extent=extent)
-    plt.ylabel('z')
-    plt.xlabel('k')
-    plt.xscale('log')
-    #plt.yscale('log')
-    plt.colorbar()
-    plt.title('phi={:.2f}, theta={:.2f}'.format(phiks[slices[1]],thetaks[slices[2]]))
-    figname = fig_path + 'grid_k_z.png'
-    if savefig:
-        plt.savefig(figname)
-    
-    plt.figure()
-    extent = [thetaks.min(), thetaks.max(), zs.min(), zs.max()]
-    plt.imshow(gridp[:,slices[1],:,slices[3]], origin='lower', aspect='auto', extent=extent)
-    plt.ylabel('z')
-    plt.xlabel('theta')
-    #plt.yscale('log')
-    plt.colorbar()
-    plt.title('phi={:.2f}, k={:.4f}'.format(phiks[slices[1]],ks[slices[3]]))
-    figname = fig_path + 'grid_theta_z.png'
-    if savefig:
-        plt.savefig(figname)
-    
-    plt.figure()
-    extent = [phiks.min(), phiks.max(), zs.min(), zs.max()]
-    plt.imshow(gridp[:,:,slices[2],slices[3]], origin='lower', aspect='auto', extent=extent)
-    plt.ylabel('z')
-    plt.xlabel('phi')
-    #plt.yscale('log')
-    plt.colorbar()
-    plt.title('z={:.2f}, phi={:.4f}'.format(zs[slices[2]],phiks[slices[3]]))
-    figname = fig_path + 'grid_phi_z.png'
-    if savefig:
-        plt.savefig(figname)
-
-
-
-def grid_DeltaL(tobs=1, zmin=10, zmax=35, mode='B0', 
+def grid_DeltaL(tobs=1., 
+                zmin=15, zmax=35, 
+                mode='B0', 
                 Jmode='default',Omega=1.,
                 Nomegas=100,omegamax=1.,omegamin=np.pi/180.,
-                s=1, k=2):
+                fontsize=20,
+                plot2d=False,
+                ymax=None,
+                xlabel='\Delta L [km]',
+                sigma=None,
+                check=False):
     deltaLs = np.load(RESULTS_PATH + '/DeltaLs_{}_{}_tobs_{:.1f}.npy'.format(mode,
                                                                          Jmode,
                                                                          tobs))
@@ -185,9 +118,9 @@ def grid_DeltaL(tobs=1, zmin=10, zmax=35, mode='B0',
     ds = np.zeros(len(deltaLs))
     for j,delta in enumerate(deltaLs):
         name = '{}_{}_tobs_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(mode,
-                                                                        Jmode,
-                                                                        tobs,
-                                                                        delta,Omega)
+                                                                    Jmode,
+                                                                    tobs,
+                                                                    delta,Omega)
         
         filename = '{}/{}/{}.txt'.format(RESULTS_PATH,name,name)
         if os.path.exists(filename):
@@ -195,19 +128,43 @@ def grid_DeltaL(tobs=1, zmin=10, zmax=35, mode='B0',
             grid_delta[j] = data
             ds[j] = delta
 
-    #f_grid_delta = interpolate(ds, grid_delta)
-    for j,delta in enumerate(deltaLs):
-        grid_2d[:,j] = grid_delta[j] * omega_factors
+    if plot2d:
+        for j,delta in enumerate(deltaLs):
+            grid_2d[:,j] = grid_delta[j] * omega_factors
             
 
     
     plt.figure()
-    plt.semilogy(ds,grid_delta)
-    #plt.semilogy(ds,grid_delta,'.')
-    #plt.semilogy(ds,f_grid_delta(ds))
-    plt.xlabel('DeltaL')
-    plt.ylabel('B[G]')
-    plt.savefig('B_vs_deltas_test.pdf')
+    ax = plt.gca()
+    fig = plt.gcf()
 
-    plt.figure()
-    plt.imshow(np.log10(grid_2d))
+    if mode=='B0':
+        if sigma is None:
+            sigma = 1
+        x = gaussian_filter1d(ds, sigma)
+        y = gaussian_filter1d(grid_delta, sigma)
+        plt.semilogy(x,y, color='mediumslateblue',lw=3)
+        if check:
+            plt.semilogy(ds,grid_delta,'.', color='mediumslateblue')
+        ylabel = ax.set_ylabel('B [Gauss]',fontsize=fontsize)
+    if mode=='zeta':
+        if sigma is None:
+            sigma = 3
+        x = gaussian_filter1d(ds, sigma)
+        y = gaussian_filter1d(grid_delta, sigma)
+        plt.semilogy(x,y, color='red',lw=3)
+        if check:
+            plt.plot(ds,grid_delta, '.',color='red')
+        ylabel = ax.set_ylabel(r'\xi',fontsize=fontsize)
+        plt.ylim(ymax=ymax)
+    xlabel = ax.set_xlabel(xlabel,fontsize=fontsize)
+    
+    plt.savefig('{}_vs_deltas.pdf'.format(mode), 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
+
+    if plot2d:
+        plt.figure()
+        plt.imshow(np.log10(grid_2d))
+        plt.colorbar()
+
