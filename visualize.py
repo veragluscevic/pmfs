@@ -143,18 +143,18 @@ def grid_DeltaL(tobs=1.,
             sigma = 1
         x = gaussian_filter1d(ds, sigma)
         y = gaussian_filter1d(grid_delta, sigma)
-        plt.semilogy(x,y, color='mediumslateblue',lw=3)
+        plt.semilogy(x,y, color='BlueViolet',lw=3)
         if check:
-            plt.semilogy(ds,grid_delta,'.', color='mediumslateblue')
+            plt.semilogy(ds,grid_delta,'.', color='BlueViolet') # mediumslateblue
         ylabel = ax.set_ylabel('B [Gauss]',fontsize=fontsize)
     if mode=='zeta':
         if sigma is None:
             sigma = 3
         x = gaussian_filter1d(ds, sigma)
         y = gaussian_filter1d(grid_delta, sigma)
-        plt.semilogy(x,y, color='red',lw=3)
+        plt.semilogy(x,y, color='Maroon',lw=3)
         if check:
-            plt.plot(ds,grid_delta, '.',color='red')
+            plt.plot(ds,grid_delta, '.',color='Maroon')
         ylabel = ax.set_ylabel(r'\xi',fontsize=fontsize)
         plt.ylim(ymax=ymax)
     xlabel = ax.set_xlabel(xlabel,fontsize=fontsize)
