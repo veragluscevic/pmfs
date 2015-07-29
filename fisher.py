@@ -215,7 +215,7 @@ def integrand(x,#z=30,k_Mpc=0.1,thetak=0.1, phik=0.2,
     res = k_Mpc**2*np.sin(thetak)* Vpatch * Numerator/Denominator/(2.*np.pi)**3 
 
     if debug:
-        return res,Pnoise,nk
+        return res,Pnoise,nk,Numerator,G,dGdB
     return res
  
 
