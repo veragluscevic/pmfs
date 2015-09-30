@@ -319,14 +319,14 @@ where the subscript $0$ indicates no magnetic field (null assumption). We then t
 \beq
 \bga
 T(\vec k) = T_0(\vec k) + \int d\vec x e^{-i\vec k \cdot \vec x} B_i(\vec x) \frac{\partial T_0}{\partial B_i}(\vec x)
-= T_0(\vec k) + \int d\vec k_1B_i(\vec k_1) \frac{\partial T_0}{\partial B_i}(\vec k-\vec k_1),
+= T_0(\vec k) + \frac{1}{(2\pi)^3}\int d\vec k_1B_i(\vec k_1) \frac{\partial T_0}{\partial B_i}(\vec k-\vec k_1),
 \ega
 \eeq
 where $k_1$ is the integration variable, and the last step used the convolution theorem. It further follows
 \beq
 \bga
 \left < T(\vec k)T^*(\vec k')\right > = \left < T_0(\vec k)T_0^*(\vec k')\right >\\
-+ \left <T_0^*(\vec k')\int d\vec k_1 B_i(\vec k_1) \frac{\partial T_0}{\partial B_i}(\vec k-\vec k_1)\right > + \left <T_0(\vec k)\int d\vec k_1 B_i^*(\vec k_1) \left(\frac{\partial T_0}{\partial B_i}(\vec k'-\vec k_1)\right)^*\right >, 
++ \left <T_0^*(\vec k')\frac{1}{(2\pi)^3}\int d\vec k_1 B_i(\vec k_1) \frac{\partial T_0}{\partial B_i}(\vec k-\vec k_1)\right > + \left <T_0(\vec k)\frac{1}{(2\pi)^3}\int d\vec k_1 B_i^*(\vec k_1) \left(\frac{\partial T_0}{\partial B_i}(\vec k'-\vec k_1)\right)^*\right >, 
 \ega
 \eeq
 to first order in $B_i$. Now, let us remember that
@@ -347,13 +347,13 @@ in a statistically isotropic and homogenous universe. The notation $\delta_D(\ve
 \beq
 \bga
 \left< T(\vec k)T^*(\vec k')\right> = (2\pi)^3\delta_D(\vec k - \vec k')  G_0^2(\vec k)P_\delta(\vec k) \\
-+ (2\pi)^3 B_i(\vec k - \vec k')\left[ P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right],
++B_i(\vec k - \vec k')\left[ P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right],
 \ega
 \eeq
 where we used the reality of the $B_i$ field, $B_i^*(-\vec k) = -B_i(\vec k)$.
 Now, if we wish to estimate $B_i(\vec K\equiv\vec k-\vec k')$ only from $\vec k,\vec k'$ pair of modes, we get
 \beq
-\widehat B_i^{\vec k\vec k'}(\vec K) = \frac{\frac{1}{(2\pi)^3}T(\vec k)T^*(\vec k')}{P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)},
+\widehat B_i^{\vec k\vec k'}(\vec K) = \frac{T(\vec k)T^*(\vec k')}{P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)},
 \label{eq:Bkkp_estimator}
 \eeq
 where the hat sign indicates an estimator. Note that we now only focus on terms $\vec K\ne0$ ($\vec k \ne\vec k'$).
@@ -361,7 +361,7 @@ The variance of this estimator (evaluated under the null assumption) is
 \beq
 \bga
 \left< \widehat B_i^{\vec k\vec k'}(\vec K)\left(\widehat B_i^{\vec k\vec k'}(\vec K')\right)^*\right> = \\
-\frac{\frac{1}{(2\pi)^6} \left<  T(\vec k)T^*(\vec k')T^*(\vec k)T(\vec k') \right>}{\left(P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right)\left(P_\delta(\vec k')G_0(\vec k')\frac{\partial G_0^*}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0^*(\vec k)\frac{\partial G_0}{\partial B_i}(\vec k)\right)}.
+\frac{\left<  T(\vec k)T^*(\vec k')T^*(\vec k)T(\vec k') \right>}{\left(P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right)\left(P_\delta(\vec k')G_0(\vec k')\frac{\partial G_0^*}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0^*(\vec k)\frac{\partial G_0}{\partial B_i}(\vec k)\right)}.
 \ega
 \label{eq:Bkkp_var}
 \eeq
@@ -370,18 +370,50 @@ Finally, using Eqs.~(\ref{eq:Bkkp_estimator}) and (\ref{eq:Bkkp_var}), we can de
 \beq
 \bga
 (2\pi)^3\delta_D(\vec K - \vec K') P^N_{B_i}(\vec K) \equiv \left< \widehat B_i(\vec K)\widehat B_i(\vec K')^*\right>\\
-= \left( \sum_{\vec k} \frac{1}{2}\frac{\left|P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right|^2}{\frac{V^2}{(2\pi)^6}\left(G^2_0(\vec k)P_\delta(\vec k) + P^N(\vec k)\right)\left(G^2_0(\vec k')P_\delta(\vec k') + P^N(\vec k')\right) } \right)^{-1},
+= \left( \sum_{\vec k} \frac{1}{2}\frac{\left|P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right|^2}{V^2\left(G^2_0(\vec k)P_\delta(\vec k) + P^N(\vec k)\right)\left(G^2_0(\vec k')P_\delta(\vec k') + P^N(\vec k')\right) } \right)^{-1},
 \ega
 \label{eq:NK1}
 \eeq
 with the restriction $\vec K=\vec k-\vec k'$, and where the factor of $1/2$ serves to avoid double-counting mode pairs. As before, $P^N$ is given by Eq.~(\ref{eq:Pnoise_K}). If we limit ourselves to the diagonal terms only where $\vec K=\vec K'$, then the LHS becomes $V P^N_{B_i}(\vec K)$. Furthermore, to transition from a sum over $\vec k$ modes to an integral, we can use $\sum_{\vec k} \to V\int d\vec k /(2\pi)^3$. The resulting expression for the noise power spectrum is then
 \beq
 \bga
-P^N_{B_i}(\vec K) = \left(\frac{1}{2(2\pi)^6}\int d{\vec k} \frac{\left|P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right|^2}{\left(G^2_0(\vec k)P_\delta(\vec k) + P^N(\vec k)\right)\left(G^2_0(\vec k')P_\delta(\vec k') + P^N(\vec k')\right) } \right)^{-1},
+P^N_{B_i}(\vec K) = \left(\frac{1}{2}\int d{\vec k} \frac{\left|P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right|^2}{\left(G^2_0(\vec k)P_\delta(\vec k) + P^N(\vec k)\right)\left(G^2_0(\vec k')P_\delta(\vec k') + P^N(\vec k')\right) } \right)^{-1},
 \ega
 \label{eq:NK}
 \eeq
 Note that only the components of $\vec B$ in the plane of the sky have an effect of the observed brightness temperature, and so the above expression holds for those components. The noise in these two components is not correlated, and the noise in the direction along the line of sight can be considered infinite.
+%%%%%%%%%%%%%%%%%%%
+\section{SNR calculation}
+\label{sec:snr}
+
+We will here only focus on the calculation of SNR for detecting a particular model of MF power spectrum, for the case where most of the signal comes from the largest modes (smallest $\vec K$'s). In this (squeezed) limit, $\vec K \ll \vec k$ and thus $\vec k \approx \vec k'$, such that the noise power spectrum of Eq.~(\ref{eq:NK}) becomes white noise (independent on $\vec K$).  If we further denote pixels with Greek indicies, and, as before, retain Roman indicies for components of $\vec B$, then the pixel-noise variance for measuring a single mode $\vec K$ of $B_i$ component is $\sigma_{B_i}^2 \equiv P^N_{B_i}(\vec K)/V_\text{voxel}$, where $V_\text{voxel}$ is volume of a survey voxel (3d pixel). The model for the power spectrum is defined through
+\beq
+(2\pi)^3\delta_D(\vec K - \vec K') P_{B_iB_j}(\vec K) = \left<B_i^*(\vec K) B_j(\vec K')\right>.
+\label{eq:Pbb}
+\eeq
+
+To compute SNR for measuring the amplitude of an arbitrary power-spectrum model in a given redshift slice $z$, we have to perform a sum over all voxels in the survey volume at that $z$. The general expression for SNR is
+\beq
+\text{SNR}^2 = \frac{1}{2} Tr \left( N^{-1}SN^{-1}S\right),
+\label{eq:snr_general}
+\eeq
+where S is the signal matrix, N is the noise matrix. In our case, these matrices are $3N_\text{voxels}\times 3N_\text{voxels}$ (assuming there are $N_\text{voxels}$ voxels in the entire survey, and that there are 3 components of $vec B$). In the null case, voxels are independent, and so the noise matrix is diagonal, and the signal is the 3d power spectrum of the vector field $\vec B$, 
+\beq
+\text{SNR}^2 = \frac{1}{2} \sum_{i\alpha, j\beta} \frac{S_{i\alpha , j\beta}^2}{P^N_{B_i}(\vec K, z)P^N_{B_j}(\vec K, z)} V_\text{voxel}^2=
+\frac{1}{2} \sum_{ij} \int d\vec r_\alpha \int d\vec r_\beta \frac{\left< B_i(\vec r_\alpha) B_j(\vec r_\beta)\right>^2}{P^N_{B_i}(\vec K, z)P^N_{B_j}(\vec K, z)},
+\label{eq:snr_z_step1}
+\eeq
+where $\vec r_{\alpha/\beta}$ represents spatial position of a given voxel, and the expectation value on the RHS of the above equation relates to the model power spectrum. If homogeneity and isotropy are satisfied, the integrand should only depend on the separation vector $\vec s \equiv \vec r_beta -\vec r_\alpha$, which leads to\footnote{Note that in the last step we used $\int d\vec s |f(\vec s)|^2 = \int \frac{d\vec K}{(2\pi)^3}|\widetilde f(\vec K)|^2$, which hold for an arbitrary function $f$ and its Fourier transform $\widetilde f$.}
+\beq
+\bga
+\text{SNR}^2 = 
+\frac{1}{2} \sum_{ij}  \frac{V_\text{z-slice}}{{P^N_{B_i}(\vec K, z)P^N_{B_j}(\vec K, z)}}\int d\vec s \left< B_i(\vec r_\beta - \vec s) B_j(\vec r_\beta)\right>^2\\
+=
+\frac{1}{2} \sum_{ij}  \frac{V_\text{z-slice}}{{P^N_{B_i}(\vec K, z)P^N_{B_j}(\vec K, z)}} P_{B_iB_j}(\vec K,z),
+\ega
+\label{eq:snr_z}
+\eeq
+where $V_\text{z-slice}$ is the volume of a given redshift slice. Finally, in analogy with Eq.~(\ref{eq:fisher_patch}), one last sum over $z$, and taking into account the $z$-evolution of the magnetic fields, we obtain ....
 %%%%%%%%%%%%%%%%%%%
 \section{Results}
 \label{sec:results}
