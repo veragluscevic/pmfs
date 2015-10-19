@@ -410,14 +410,14 @@ To compute SNR for measuring the amplitude of an arbitrary power-spectrum model 
 \text{SNR}^2 = \frac{1}{2} Tr \left( N^{-1}SN^{-1}S\right),
 \label{eq:snr_general}
 \eeq
-where S is the signal matrix, N is the noise matrix. In our case, these matrices are $3N_\text{voxels}\times 3N_\text{voxels}$ (assuming there are $N_\text{voxels}$ voxels in the entire survey, and that there are 3 components of $vec B$). In the null case, voxels are independent, and so the noise matrix is diagonal, and the signal is the 3d power spectrum of the vector field $\vec B$. For a single redshift slice, this evaluates to 
+where S is the signal matrix, N is the noise matrix. In our case, these matrices are $3N_\text{voxels}\times 3N_\text{voxels}$ (assuming there are $N_\text{voxels}$ voxels in the entire survey, and that there are 3 components of $\vec B$). In the null case, voxels are independent, and so the noise matrix is diagonal, and the signal is the 3d power spectrum of the vector field $\vec B$. For a single redshift slice, this evaluates to 
 \beq
 \text{SNR}^2 (z)= \frac{1}{2} \sum_{i\alpha, j\beta} \frac{S_{i\alpha , j\beta}^2}{P^N_{B_i}(\vec K, z)P^N_{B_j}(\vec K, z)} V_\text{voxel}^2=
 \frac{1}{2} \sum_{ij} \int d\vec r_\alpha \int d\vec r_\beta \frac{\left< B_i(\vec r_\alpha) B_j(\vec r_\beta)\right>^2}{P^N_{B_i}(\vec K, z)P^N_{B_j}(\vec K, z)},
 \label{eq:snr_z_step1}
 \eeq
 where $\vec r_{\alpha/\beta}$ represents spatial position of a given voxel, and the expectation value on the RHS of the above equation relates to the model power spectrum. If homogeneity and isotropy are satisfied, the integrand should only depend on the separation vector $\vec s \equiv \vec r_\beta -\vec r_\alpha$, which leads to\footnote{Note that in the last step we used $\int d\vec s |f(\vec s)|^2 = \int \frac{d\vec K}{(2\pi)^3}|\widetilde f(\vec K)|^2$, which hold for an arbitrary function $f$ and its Fourier transform $\widetilde f$.}
-\beq
+\beq  
 \bga
 \text{SNR}^2 (z) = 
 \frac{1}{2} \sum_{ij}  \frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}\int d\vec s \left< B_i(\vec r_\beta - \vec s) B_j(\vec r_\beta)\right>^2
@@ -426,19 +426,38 @@ where $\vec r_{\alpha/\beta}$ represents spatial position of a given voxel, and 
 \ega
 \label{eq:snr_z}
 \eeq
-where $dV_\text{patch}$ is the volume of a redshift-slice patch at $z$, given by Eq.~(\ref{eq:dVpatch}). Note that we use the power spectrum of comoving value of $B$, such that the redshift evolution factors out in the usual way. Finally, substituting Eq.~(\ref{eq:SI}), and, in analogy with Eq.~(\ref{eq:fisher_patch}), integrating over all $z$'s available in the survey, we obtain total SNR,
+where $dV_\text{patch}$ is the volume of a redshift-slice patch at $z$, given by Eq.~(\ref{eq:dVpatch}). Note that we use the power spectrum of comoving value of $B$, such that the redshift evolution factors out in the usual way. Substituting Eq.~(\ref{eq:SI}), and integrating over all $z$'s available in the survey, 
 \beq
-\text{SNR}^2 =  \left( \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4\right) \left(\pi^2A_0^2\int_{K_\text{min}}^{K_\text{max}} \frac{d K}{K}\right).
-\label{eq:snr}
+\text{SNR}^2 =  \frac{A_0^2}{2}  \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 \int_0^{\pi} \sin\theta d\theta \int_0^{2\pi} d\phi\int_{K_\text{min}(z,\theta,\phi)}^{K_\text{max}(z,\theta,\phi)} \frac{d K}{K^4}\sum_{ij\in \{xx, xy, yx, yy\}}(\delta_{ij} - \widehat K_i\widehat K_j)^2,
+\label{eq:snr_intK}
 \eeq
-
-
+where 
+\beq
+\widehat K_x = \sin\theta\sin\phi, \text{     }
+\widehat K_y = \sin\theta\cos\phi,
+\label{eq:hat_K_xy}
+\eeq
+and then note that the sum in the above expression reduces to
+\beq
+\sum_{ij\in \{xx, xy, yx, yy\}}(\delta_{ij} - \widehat K_i\widehat K_j)^2 = 2 - \sin^2\theta(1+\sin^2\phi\cos^2\phi).
+\label{eq:sumij}
+\eeq
+Substituting this into Eq.~(\ref{eq:snr_intK}), we get 
+\beq
+\text{SNR}^2 =  \frac{A_0^2}{2} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 \int_0^{\pi} d\theta\int_0^{2\pi} d\phi(2-\sin^2\theta(1+\sin^2\phi\cos^2\phi)) \int_{K_\text{min}(z,\theta,\phi)}^{K_\text{max}(z,\theta,\phi)} \frac{d K}{K^4}.
+\label{eq:snr_ints}
+\eeq
+Finally, performing the integration over $K,\theta,\phi$ analitically, for the FFTT case gives
+\beq
+\text{SNR}^2 =  A_0^2\pi^2\frac{7}{4} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right).
+\label{eq:snr_ints}
+\eeq
 
 %%%%%%%%%%%%%%%%%%%
 \section{Results}
 \label{sec:results}
 
-Fisher forecasts for 1$\sigma$ sensitivity to detecting a uniform MF and distinguishing it from the null case are: $\sigma_{B_0,\text{ survey}}\approx 2\times 10^{-21}$ Gauss and $\sigma_{\xi,\text{ survey}}\approx 0.65$, for an FFTT-like setup with a total collacting area of $(\Delta L)^2$=4 km$^2$, $\Omega_\text{survey}=1$sr, $t_\text{obs}$=1 year, assuming the array observed redshifts in the range $z\in [10,35]$. Figure \ref{fig:B0zeta_vs_deltas} shows how this sensitivity changes as a function of the maximum baseline.
+Fisher forecasts for 1$\sigma$ sensitivity to detecting a uniform MF and distinguishing it from the null case are: $\sigma_{B_0,\text{ survey}}\approx 2\times 10^{-21}$ Gauss and $\sigma_{\xi,\text{ survey}}\approx 0.65$, for an FFTT-like setup with a total collecting area of $(\Delta L)^2$=4 km$^2$, $\Omega_\text{survey}=1$sr, $t_\text{obs}$=1 year, assuming the array observed redshifts in the range $z\in [10,35]$. Figure \ref{fig:B0zeta_vs_deltas} shows how this sensitivity changes as a function of the maximum baseline.
 \begin{figure*}
 \centering
 \includegraphics[width=.35\textwidth,keepaspectratio=true]{B0_vs_deltas.pdf}
