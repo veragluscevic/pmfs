@@ -86,8 +86,9 @@ def FFTT_nk(k, Ntot=0, lambda_z=443.1, dA=3.1695653382881032e+28,
 
 ##################
 @jit#(nopython=True)
-def integrand(x,#z=30,k_Mpc=0.1,thetak=0.1, phik=0.2,
-              mode='B0',
+def integrand(x, mode='B0',
+              t_yr=1., Omega_patch=1.,
+              DeltaL_km=2.,
               val_nk=FFTT_nk,
               val_Ts=rf.Ts_21cmfast_interp, 
               val_Tk=rf.Tk_21cmfast_interp, 
@@ -96,8 +97,6 @@ def integrand(x,#z=30,k_Mpc=0.1,thetak=0.1, phik=0.2,
               val_Tsys=Tsys_Mao2008,
               val_Tg=rf.Tg_21cmfast_interp,
               phin=0., thetan=np.pi/2.,
-              t_yr=1., Omega_patch=1.,
-              DeltaL_km=2.,
               print_klims=False,
               debug=False):
 
@@ -292,7 +291,7 @@ def integrand_PBi(x,
                   phin=0., thetan=np.pi/2.,
                   debug=False):
 
-  """Calculates value of the integrand for noise per component
+    """Calculates value of the integrand for noise per component
      of a stochastic mag. field vector B (eq 51 of detectability notes).
      This is called by :func:`calc_SNR` that integrates it over k, theta, phi.
 
@@ -667,7 +666,7 @@ def vegas_integrator(neval=1000,nitn=10,
                      Omega_survey=1.,
                      Omega_patch=1.,
                      mode='B0'):
-     """Alternative integrator for B0 and zeta sensitivity; 
+    """Alternative integrator for B0 and zeta sensitivity; 
     NOTE: does not return the same units output as rand_integrator.
     """
 

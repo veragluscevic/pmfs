@@ -1,4 +1,4 @@
-# This file contains all the physical and cosmological constants used in pmfs_fisher.py
+# This file contains all the physical and cosmological constants used in fisher.py
 # All constants are in CGS units.
 
 import numpy as np

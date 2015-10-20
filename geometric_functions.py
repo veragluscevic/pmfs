@@ -1,7 +1,7 @@
 #This module contains geometric functions, like the spherical harmonics etc.
 
 import numpy as np
-from scipy.special import sph_harm
+#from scipy.special import sph_harm
 from constants import *
 from globals import *
 from numba import jit
