@@ -26,7 +26,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--respath', default='/data/verag/pmfs/') 
 parser.add_argument('--tag', default=None)
 parser.add_argument('--resfile', default='test.txt') # e.g.: B0_tobs_1_DeltaL_2.00_Omega_1.txt
-parser.add_argument('--fastfile', default='21cmfast_teja_nov2014.txt')
+parser.add_argument('--fastfile', default=INPUTS_PATH+'21cmfast_teja_nov2014.txt')
 parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations
 
 parser.add_argument('--mode', default='B0') # 'B0' or 'zeta'
