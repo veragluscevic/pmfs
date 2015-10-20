@@ -46,14 +46,14 @@ args = parser.parse_args()
 
 # create results directory:
 grid_path = RESULTS_PATH 
-if args.tag is not None:
-    grid_path += args.tag
-else:
-    grid_path += args.mode
-grid_path += '/'
-if(os.path.exists(grid_path)):
-    shutil.rmtree(grid_path)
-os.makedirs(grid_path)
+#if args.tag is not None:
+#    grid_path += args.tag
+#else:
+#    grid_path += args.mode
+#grid_path += '/'
+#if(os.path.exists(grid_path)):
+#    shutil.rmtree(grid_path)
+#os.makedirs(grid_path)
 
 # compute Fisher integral:
 res = f.rand_integrator(neval=args.neval, 

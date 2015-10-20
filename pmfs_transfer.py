@@ -5,8 +5,24 @@ import cosmo_functions as cf
 reload(cf)
 from constants import *
 from globals import *
-from geometric_functions import *
+from geometric_functions import Y2
+from numba import jit
 
+@jit(nopython=True)
+def Y2(m,theta,phi):
+    """These are exactly Ylm's as defined on wikipaedia; seems to match Teja's."""
+    if m==-2:
+        return 0.25*(15./(2.*np.pi))**0.5 * np.sin(theta)**2. / np.exp(2.*1j*phi)
+    elif m==2:
+        return 0.25*(15./(2.*np.pi))**0.5 * np.sin(theta)**2. * np.exp(2.*1j*phi)
+    elif m==-1:
+        return 0.5*(15./(2.*np.pi))**0.5 * np.sin(theta)*np.cos(theta) / np.exp(1j*phi)
+    elif m==1:
+        return (-0.5)*(15./(2.*np.pi))**0.5 * np.sin(theta)*np.cos(theta) * np.exp(1j*phi)
+    elif m==0:
+        return 0.25*(5./np.pi)**0.5 * (3.*np.cos(theta)**2. - 1)
+
+@jit#(nopython=True)
 def calc_Tb(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4., 
             delta=0., Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, xB=0.365092, x1s=1.):
@@ -40,7 +56,7 @@ def calc_Tb(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4.,
 
 
 
-    
+@jit#(nopython=True)    
 def calc_deltaTb(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
             delta=0., Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, xB=0.365092, x1s=1.):
@@ -65,7 +81,7 @@ def calc_deltaTb(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
 
 
 
-
+@jit#(nopython=True)
 def calc_G(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
             Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, xB=0.365092, x1s=1.):
@@ -77,11 +93,13 @@ def calc_G(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     k_dot_n = np.cos(thetan)*np.cos(thetak) + np.sin(thetan)*np.sin(thetak)*np.cos(phin)*np.cos(phik) + np.sin(thetan)*np.sin(thetak)*np.sin(phin)*np.sin(phik)
       
     summ = 0.
-    for i,m in enumerate( np.array([-2,-1,0,1,2]) ):
+   
+    #for i,m in enumerate( np.array([-2,-1,0,1,2]) ):#---->causes jit issues
+    for m in [-2,-1,0,1,2]:
         summand = Y2( m,thetak,phik ) * np.conjugate( Y2( m,thetan,phin ) ) / ( 1. + xalpha + xc - 1j*m*xB )
         summ += summand.real
-    if np.isclose(summ, 0.):
-        summ = 0.
+    #if np.isclose(summ, 0.):#---->causes jit issues
+    #    summ = 0.#---->causes jit issues
     first_term = 1 + k_dot_n**2
     second_term = 2. + 2.*k_dot_n**2 - 4.*np.pi/75.*summ
 
@@ -91,7 +109,7 @@ def calc_G(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     return res/1000. #this is to make it to K from mK.
 
 
-
+@jit#(nopython=True)
 def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
             Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, xBcoeff=3.65092e18, x1s=1.):
@@ -101,7 +119,8 @@ def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     from analytic derivative of eq 138 of Teja's draft v3. Result is in [K/Gauss].
     B is along z.  It takes x's (all unitless), temperatures in [K], and angles in [rad]."""
 
-    if np.isclose(thetan, np.pi/2.) and np.isclose(phin, 0.):
+    #if np.isclose(thetan, np.pi/2.) and np.isclose(phin, 0.): #---->causes jit issues
+    if (thetan==np.pi/2.) and (phin==0.):
         summ = 0.25*(15./(2.*np.pi)) * np.sin(thetak)**2 * np.sin(2.*phik)
     else:
         summ = 0.
@@ -109,8 +128,8 @@ def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
             summand =  1j * m * Y2( m,thetak,phik ) * np.conjugate( Y2(m,thetan,phin) ) 
             summ += summand.real
 
-    if np.isclose(summ, 0.):
-        summ = 0.
+    #if np.isclose(summ, 0.):#---->causes jit issues
+    #    summ = 0.#---->causes jit issues
     summ *= xBcoeff / ( 1. + xalpha + xc )**2
     
     res = (0.128*4.*np.pi/75.) * x1s**2 * ( 1 - Tg/Ts ) * (Tg/Ts) * (1 + z)**3/10. * summ
@@ -118,7 +137,7 @@ def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
 
 
 
-
+@jit#(nopython=True)
 def calc_G_Bzero(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
             Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, x1s=1.):
@@ -141,7 +160,7 @@ def calc_G_Bzero(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     return res/1000. #this is to make it to K from mK.
 
 
-
+@jit#(nopython=True)
 def calc_G_Binfinity(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
             Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, x1s=1.):

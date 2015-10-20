@@ -4,7 +4,9 @@ import numpy as np
 from scipy.special import sph_harm
 from constants import *
 from globals import *
- 
+from numba import jit
+
+@jit(nopython=True)
 def Y2(m,theta,phi):
     """These are exactly Ylm's as defined on wikipaedia; seems to match Teja's."""
     if m==-2:
