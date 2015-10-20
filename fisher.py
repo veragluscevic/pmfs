@@ -417,6 +417,7 @@ def integrand_PBi(x,
 
 @jit#(nopython=True)
 def rand_integrator(neval=1000, DeltaL_km=2.,
+                    t_yr=1.,
                     kminmin=0.01,kmaxmax=1.,
                     zmax=35,zmin=15,
                     Omega_survey=1.,
@@ -440,6 +441,11 @@ def rand_integrator(neval=1000, DeltaL_km=2.,
     :param zmax:
       The maximum inegration redshift
     :type zmax: ``float``
+
+    :param t_yr:
+      The total observation time in years.
+      The time spent on a single field of view (=1sr for FFTT) is t_yr / Omega_survey. ???
+    :type t_yr: ``float``
 
     :param DeltaL_km:
       The size of the FFTT coverage on a side in kilometers.
@@ -506,7 +512,9 @@ def rand_integrator(neval=1000, DeltaL_km=2.,
 
 
 @jit#(nopython=True)
-def calc_PBi(z, neval=500, DeltaL_km=2.,
+def calc_PBi(z, neval=500,
+             DeltaL_km=2.,
+             t_yr=1.,
              Omega_survey=1.,
              kminmin=0.01,kmaxmax=1.,
              thetan=np.pi/2.,phin=0.):
@@ -519,6 +527,11 @@ def calc_PBi(z, neval=500, DeltaL_km=2.,
       The redshift
     :type z: ``float``
 
+    :param t_yr:
+      The total observation time in years.
+      The time spent on a single field of view (=1sr for FFTT) is t_yr / Omega_survey. ???
+    :type t_yr: ``float``
+    
     :param DeltaL_km:
       The size of the FFTT coverage on a side in kilometers.
     :type DeltaL_km: ``float``
@@ -565,6 +578,7 @@ def calc_PBi(z, neval=500, DeltaL_km=2.,
     samples = np.zeros(neval)
     for i,x in enumerate(xs):
         samples[i] = integrand_PBi(x, DeltaL_km=DeltaL_km,
+                                   t_yr=t_yr,
                                    Omega_survey=Omega_survey)
     
         #print(samples[i])
@@ -584,7 +598,7 @@ def calc_SNR(zmin=22,zmax=35,
     
     """This is a master function for calculating SNR for detecting amplitude A0[Gauss^2] = 1/SNR at 1 sigma.
 
-    This function only works for FFTT setup. It takes the stuff described below, returns SNR in 1/Gauss^2.
+    This function only works for FFTT setup. It takes the stuff described below, returns 1/sqrt(SNR) in Gauss.
 
     :param zmin:
       The minimum inegration redshift
@@ -649,7 +663,7 @@ def calc_SNR(zmin=22,zmax=35,
 
 
     res = 7.*np.pi**2/4. * samples.mean() * (zmax - zmin) 
-    return res**0.5
+    return 1./res**0.25
 
 
 

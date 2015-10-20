@@ -10,7 +10,7 @@ parser.add_argument('--mode',default='B0')
 parser.add_argument('--zmin', type=int, default=15)
 parser.add_argument('--zmax', type=int, default=35)
 parser.add_argument('--Jmode',default='default') # 'default', 'noheat', or 'hiheat'
-parser.add_argument('--tobs', type=float, default=1.) # duration of the survey, in years.
+parser.add_argument('--tyr', type=float, default=1.) # duration of the survey, in years.
 parser.add_argument('--DeltaLmin', type=float, default=1) # min side of a square-shaped FFTT in km.
 parser.add_argument('--DeltaLmax', type=float, default=10) # max side of a square-shaped FFTT in km.
 parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in sr.
@@ -26,20 +26,20 @@ if args.Jmode == 'default':
 
 NGROUPS = args.ngroups
 DeltaLs = np.linspace(args.DeltaLmin,args.DeltaLmax,args.NDeltaL)
-np.save(RESULTS_PATH + 'DeltaLs_{}_{}_tobs_{:.1f}.npy'.format(args.mode,args.Jmode,args.tobs), DeltaLs)
+np.save(RESULTS_PATH + 'DeltaLs_{}_{}_tyr_{:.1f}.npy'.format(args.mode,args.Jmode,args.tyr), DeltaLs)
 
 cmds = []
 count = 0
 
 for DeltaL in DeltaLs:
-    tag = '{}_{}_tobs_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(args.mode,
+    tag = '{}_{}_tyr_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}'.format(args.mode,
                                                                 args.Jmode,
-                                                                args.tobs,
+                                                                args.tyr,
                                                                 DeltaL,
                                                                 Omegasurvey)
     resfile = tag + '.txt'
 
-    cmd = '../runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tobs {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tobs,DeltaL,Omegasurvey,resfile)
+    cmd = '../runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tyr {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tyr,DeltaL,Omegasurvey,resfile)
     cmds.append(cmd)
     count += 1
 

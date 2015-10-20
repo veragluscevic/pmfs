@@ -25,9 +25,10 @@ import fisher as f
 parser = argparse.ArgumentParser()
 parser.add_argument('--respath', default='/data/verag/pmfs/') 
 parser.add_argument('--tag', default=None)
-parser.add_argument('--resfile', default='test.txt') # e.g.: B0_tobs_1_DeltaL_2.00_Omega_1.txt
+parser.add_argument('--resfile', default='test.txt') # e.g.: B0_tyr_1_DeltaL_2.00_Omega_1.txt
 parser.add_argument('--fastfile', default=INPUTS_PATH+'21cmfast_teja_nov2014.txt')
 parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations
+parser.add_argument('--nevalPBi', type=int, default=10000) # number of integrand evaluations
 
 parser.add_argument('--mode', default='B0') # 'B0' or 'zeta'
 
@@ -36,7 +37,7 @@ parser.add_argument('--zmax', type=int, default=35)
 parser.add_argument('--kminmin', type=float, default=0.01)
 parser.add_argument('--kmaxmax', type=float, default=1.)
 
-parser.add_argument('--tobs', type=float, default=1.) # duration of the survey, in years.
+parser.add_argument('--tyr', type=float, default=1.) # duration of the survey, in years.
 parser.add_argument('--DeltaL', type=float, default=2.) # side of a square-shaped FFTT in km.
 parser.add_argument('--Omegapatch', type=float, default=1.) # Omega_patch in degrees^2.
 parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in sr.
@@ -44,33 +45,37 @@ parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in s
 
 args = parser.parse_args()
 
-# create results directory:
 grid_path = RESULTS_PATH 
-#if args.tag is not None:
-#    grid_path += args.tag
-#else:
-#    grid_path += args.mode
-#grid_path += '/'
-#if(os.path.exists(grid_path)):
-#    shutil.rmtree(grid_path)
-#os.makedirs(grid_path)
 
 # compute Fisher integral:
-res = f.rand_integrator(neval=args.neval, 
-                          DeltaL_km=args.DeltaL,
-                          kminmin=args.kminmin,kmaxmax=args.kmaxmax,
-                          zmax=args.zmax,zmin=args.zmin,
-                          Omega_survey=args.Omegasurvey,
-                          Omega_patch=args.Omegapatch,
-                          thetan=np.pi/2.,phin=0.,
-                          mode=args.mode)
+if args.mode=='B0' or args.mode=='zeta':
+    res = f.rand_integrator(neval=args.neval, 
+                            t_yr=args.tyr,
+                            DeltaL_km=args.DeltaL,
+                            kminmin=args.kminmin,kmaxmax=args.kmaxmax,
+                            zmax=args.zmax,zmin=args.zmin,
+                            Omega_survey=args.Omegasurvey,
+                            Omega_patch=args.Omegapatch,
+                            thetan=np.pi/2.,phin=0.,
+                            mode=args.mode)
+if args.mode=='SI':
+    res = f.calc_SNR(neval=args.neval, 
+                     neval_PBi=args.nevalPBi,
+                     t_yr=args.tyr,
+                     DeltaL_km=args.DeltaL,
+                     kminmin=args.kminmin,kmaxmax=args.kmaxmax,
+                     zmax=args.zmax,zmin=args.zmin,
+                     Omega_survey=args.Omegasurvey,
+                     thetan=np.pi/2.,phin=0.)
 #print result to output file:
 fout = open(grid_path + args.resfile, 'w')
 if args.mode=='B0':
     header = 'B0[Gauss]'
 if args.mode=='zeta':
     header = 'zeta'
+if args.mode=='SI':
+    header = 'sigma(sqrt[SI amplitude])'
 fout.write('{}  Omega_survey[sr]  DeltaL^2[km^2]  tobs[yr]\n'.format(header))
-fout.write('{}  {}  {} {}\n'.format(res, args.Omegasurvey, args.DeltaL**2, args.tobs ))
+fout.write('{}  {}  {} {}\n'.format(res, args.Omegasurvey, args.DeltaL**2, args.tyr ))
 fout.close()
 
