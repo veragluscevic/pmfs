@@ -10,10 +10,13 @@ parser.add_argument('--mode',default='B0')
 parser.add_argument('--zmin', type=int, default=15)
 parser.add_argument('--zmax', type=int, default=35)
 parser.add_argument('--Jmode',default='default') # 'default', 'noheat', or 'hiheat'
-parser.add_argument('--tyr', type=float, default=1.) # duration of the survey, in years.
+parser.add_argument('--tyr', type=float, default=2.) # duration of the survey, in years.
 parser.add_argument('--DeltaLmin', type=float, default=1) # min side of a square-shaped FFTT in km.
 parser.add_argument('--DeltaLmax', type=float, default=10) # max side of a square-shaped FFTT in km.
 parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in sr.
+parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations
+parser.add_argument('--nevalPBi', type=int, default=5000) # number of integrand evaluations
+
 parser.add_argument('--NDeltaL', type=int, default=300) # DeltaL sample points.
 parser.add_argument('--ngroups', type=int, default=512)
 args = parser.parse_args()
@@ -39,7 +42,7 @@ for DeltaL in DeltaLs:
                                                                 Omegasurvey)
     resfile = tag + '.txt'
 
-    cmd = '../runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tyr {} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tyr,DeltaL,Omegasurvey,resfile)
+    cmd = '../runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tyr {} --DeltaL {} --Omegasurvey {} --resfile {} --neval {} --nevalPBi {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tyr,DeltaL,Omegasurvey,resfile,args.neval,args.nevalPBi)
     cmds.append(cmd)
     count += 1
 
@@ -55,7 +58,7 @@ for i in range(NGROUPS):
 
 fout = open('runs_pmfs/go_{}_{}.sh'.format(args.mode,args.Jmode), 'w')
 fout.write('#! /bin/bash\n')
-fout.write('#$ -l h_rt=2:00:00\n')
+fout.write('#$ -l h_rt=1:00:00\n')
 fout.write('#$ -cwd\n')
 fout.write('#$ -t 1-{}\n'.format(NGROUPS))
 fout.write('#$ -V\n')

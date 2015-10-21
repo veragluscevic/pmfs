@@ -24,6 +24,19 @@ import numpy as np
 
 from constants import *
 from globals import *
+import cosmo_functions as cf
+reload(cf)
+import pmfs_transfer as pt
+reload(pt)
+import reion_functions as rf
+reload(rf)
+import fisher as f
+reload(f)
+from scipy.optimize import fsolve, root
+
+val_Jlya = rf.Jlya_21cmfast_interp
+val_Tg = rf.Tg_21cmfast_interp
+val_Tk = rf.Tk_21cmfast_interp
 
 from scipy.interpolate import UnivariateSpline as interpolate
 from scipy.ndimage import gaussian_filter1d
@@ -93,3 +106,85 @@ def grid_DeltaL(mode='B0',t_yr=1.,
         plt.savefig(root + '{}_vs_deltas.pdf'.format(mode), 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
+
+
+
+##########################################
+##########################################
+##########################################
+def saturationB(Bguess0=1e-19,
+                nzs=100,
+                zmin=15, zmax=35,
+                thetak=0.1,phik=0.83,
+                val_nk=f.FFTT_nk,
+                val_Ts=rf.Ts_21cmfast_interp, 
+                val_Tk=rf.Tk_21cmfast_interp, 
+                val_Jlya=rf.Jlya_21cmfast_interp, 
+                val_Tg=rf.Tg_21cmfast_interp,
+                phin=0., thetan=np.pi/2.,
+                **rootkwargs):
+    """This computes the mag. field strength at saturation, at a given z.
+    """
+    zs = np.linspace(zmin, zmax,nzs)
+    Bevol = np.zeros(nzs)
+    Bsat = np.zeros(nzs)
+    Gref = np.zeros(nzs)
+    Gref_Binf = np.zeros(nzs)
+    for i,z in enumerate(zs):
+        
+        H_z = cf.H( z )
+        Ts = val_Ts( z )
+        Tg = val_Tg( z )
+        Tk = val_Tk( z )
+        Jlya = val_Jlya( z )        
+        Salpha = cf.val_Salpha(Ts, Tk, z, 1., 0) 
+        xalpha = rf.val_xalpha( Salpha=Salpha, Jlya=Jlya, Tg=Tg )
+        xc = rf.val_xc(z, Tk=Tk, Tg=Tg)
+        xBcoeff = ge * muB * Tstar / ( 2.*hbar * A * Tg ) 
+        x1s = 1.
+
+        xB=xBcoeff*Bguess0
+        Gref[i] = pt.calc_G(thetak=thetak, phik=phik, 
+                  thetan=thetan, phin=phin,
+                  Ts=Ts, Tg=Tg, z=z, 
+                  verbose=False, 
+                  xalpha=xalpha, xc=xc, xB=xB, x1s=1.)
+
+        Gref_Binf[i] = pt.calc_G_Binfinity(thetak=thetak, phik=phik, 
+                                      thetan=thetan, phin=phin,
+                                      Ts=Ts, Tg=Tg, z=z, 
+                                      verbose=False, 
+                                      xalpha=xalpha, xc=xc, 
+                                      x1s=1.)
+
+        res = root(evaluate_GminusGinf, Bguess0, args=(Gref_Binf[i],xBcoeff,thetak,phik,thetan,phin,Ts,Tg,z,xalpha,xc,x1s),method='lm',options=dict(ftol=1e-13, eps=1e-6))
+       
+        Bsat[i] = res.x[0]/(1+z)**2
+        
+        
+    plt.figure()
+    plt.semilogy(zs,Bsat,lw=4,color='blue')
+    
+    return zs,Bsat
+
+def evaluate_GminusGinf(B,
+                        G_Binfinity=1e-22,
+                        xBcoeff=1,
+                        thetak=0.1, phik=0.83, 
+                        thetan=0., phin=np.pi/2.,
+                        Ts=3., Tg=3., z=20, 
+                        xalpha=1, xc=1, x1s=1.):
+    """This is used by saturationB.
+    """
+
+    xB = B * xBcoeff
+    
+    G = pt.calc_G(thetak=thetak, phik=phik, 
+                  thetan=thetan, phin=phin,
+                  Ts=Ts, Tg=Tg, z=z, 
+                  verbose=False, 
+                  xalpha=xalpha, xc=xc, xB=xB, x1s=1.)
+    return G
+
+
+    

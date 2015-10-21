@@ -14,6 +14,7 @@ reload(rf)
 from constants import *
 from globals import *
 from numba import jit
+from scipy.optimize import fsolve, root
 
 val_Jlya = rf.Jlya_21cmfast_interp
 val_Tg = rf.Tg_21cmfast_interp
@@ -512,7 +513,7 @@ def rand_integrator(neval=1000, DeltaL_km=2.,
 
 
 @jit#(nopython=True)
-def calc_PBi(z, neval=500,
+def calc_PBi(z, neval=1000,
              DeltaL_km=2.,
              t_yr=1.,
              Omega_survey=1.,
@@ -592,7 +593,7 @@ def calc_SNR(zmin=22,zmax=35,
              t_yr=1.,
               DeltaL_km=2.,
               kminmin=0.01,kmaxmax=1.,
-              neval=100,neval_PBi=500,
+              neval=100,neval_PBi=100,
               Omega_survey=1.,
               thetan=np.pi/2.,phin=0.,
               debug=False):
@@ -667,8 +668,6 @@ def calc_SNR(zmin=22,zmax=35,
 
     res = 7.*np.pi**2/4. * samples.mean() * (zmax - zmin) 
     return 1./res**0.25
-
-
 
 
 

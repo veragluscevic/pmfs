@@ -35,7 +35,7 @@ parser.add_argument('--zmax', type=int, default=35)
 parser.add_argument('--kminmin', type=float, default=0.01)
 parser.add_argument('--kmaxmax', type=float, default=1.)
 
-parser.add_argument('--tyr', type=float, default=1.) # duration of the survey, in years.
+parser.add_argument('--tyr', type=float, default=2.) # duration of the survey, in years.
 parser.add_argument('--DeltaL', type=float, default=2.) # side of a square-shaped FFTT in km.
 parser.add_argument('--Omegapatch', type=float, default=1.) # Omega_patch in degrees^2.
 parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in sr.
