@@ -589,6 +589,7 @@ def calc_PBi(z, neval=500,
 
 @jit 
 def calc_SNR(zmin=22,zmax=35,
+             t_yr=1.,
               DeltaL_km=2.,
               kminmin=0.01,kmaxmax=1.,
               neval=100,neval_PBi=500,
@@ -649,7 +650,9 @@ def calc_SNR(zmin=22,zmax=35,
     zs = np.random.random(size=neval)*(zmax - zmin) + zmin
     samples = np.zeros(neval)
     for i,z in enumerate(zs):
-        PBi = calc_PBi(z, neval=neval_PBi, DeltaL_km=DeltaL_km,
+        PBi = calc_PBi(z, neval=neval_PBi, 
+                       t_yr=t_yr,
+                       DeltaL_km=DeltaL_km,
                        Omega_survey=Omega_survey,
                        kminmin=kminmin,kmaxmax=kmaxmax,
                        thetan=thetan,phin=phin)

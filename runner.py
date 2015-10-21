@@ -15,8 +15,6 @@ import geometric_functions as gf
 reload(gf)
 import pmfs_transfer as pt
 reload(pt)
-import pmfs_fisher as pf
-reload(pf)
 
 from constants import *
 from globals import *

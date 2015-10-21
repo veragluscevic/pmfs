@@ -4,7 +4,7 @@ import numpy as np
 from scipy.interpolate import UnivariateSpline as interpolate
 
 import cosmo_functions as cf
-import pmfs_fisher as pf
+#import pmfs_fisher as pf
 reload(cf)
 from constants import *
 from globals import *
@@ -260,17 +260,17 @@ def Jlya_Hirata2005_integrand(z, nu_n, sigma=1.6, A0=0.186, Apow=-0.14, a0=1.47,
     return res        
 
 
-
+"""
 def calc_Jlya_Hirata2005(z, sigma=1.6, A0=0.186, Apow=-0.14, a0=1.47, apow=-0.06,
                         alpha=0.48446733136638109, b0=2.57, c_coeff=1.19,
                         rho_matter_0=Omatter*rho_critical, f_star=2.5e-4, ind=-1.5,
                         Mmin=4e6, Mmax=1e13, T=1e5, Omega_matter=Omatter, Omega_baryon=Obaryonh2/h0**2,
                         points=100):
-    """
-    This calculates Jlya [cgs] as a function of z, following Hirata 2005.
-    Assumptions: ...
-    References: ...
-    """
+    
+    #This calculates Jlya [cgs] as a function of z, following Hirata 2005.
+    #Assumptions: ...
+    #References: ...
+    
     suma = 0.
     for n,Pnp in Pnp_tuple:
         zmax = zmax_in_Jlya(z, n)
@@ -289,6 +289,7 @@ def calc_Jlya_Hirata2005(z, sigma=1.6, A0=0.186, Apow=-0.14, a0=1.47, apow=-0.06
         suma += Pnp*integral
     res = (1. + z)**2 / (4.*np.pi) * suma
     return res
+"""
 
 def nu_n_Lya(n, z_prime, z):
     """
@@ -336,16 +337,16 @@ def Tk_Hirata2005_integrand(zp, z, sigma=1.6, A0=0.186, Apow=-0.14, a0=1.47, apo
                                                     f_Gamma=f_Gamma, fxeEx=fxeEx)
     return res
 
-
+"""
 def calc_Tk_Hirata2005(z, z0, Tk0=100, sigma=1.6, A0=0.186, Apow=-0.14, a0=1.47, apow=-0.06,
                     alpha=0.48446733136638109, b0=2.57, c_coeff=1.19,
                     rho_matter_0=Omatter*rho_critical, f_star=2.5e-4, ind=-1.5,
                     Mmin=4e6, Mmax=1e13, Omega_matter=Omatter, Omega_baryon=Obaryonh2/h0**2,
                     f_Gamma=0.14, fxeEx=27., mu=1.22, rho_baryon_0=Obaryonh2/h0**2*rho_critical,points=1000):
-    """
-    It takes fxeEx in [keV], and Tk0 [K].
+    
+    #It takes fxeEx in [keV], and Tk0 [K].
 
-    """
+    
 
     zps = np.linspace(z, z0, points)
     integrand_grid = 2.*mu*mp / (3.*kb*rho_baryon_0) * Tk_Hirata2005_integrand(zps, z, sigma=sigma,A0=A0,
@@ -358,3 +359,4 @@ def calc_Tk_Hirata2005(z, z0, Tk0=100, sigma=1.6, A0=0.186, Apow=-0.14, a0=1.47,
     integral = pf.trapznd(integrand_grid,zps)
     res = (1. + z)**2 / (1. + z0)**2 *Tk0 + integral
     return res
+"""

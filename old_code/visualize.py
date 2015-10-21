@@ -26,7 +26,6 @@ import reion_functions as rf
 reload(rf)
 import pmfs_transfer as pt
 reload(pt)
-import pmfs_fisher as pf
 
 from constants import *
 from globals import *
@@ -122,7 +121,7 @@ def grid_DeltaL(tobs=1.,
                                                                     tobs,
                                                                     delta,Omega)
         
-        filename = '{}/{}/{}.txt'.format(RESULTS_PATH,name,name)
+        #filename = '{}/{}/{}.txt'.format(RESULTS_PATH,name,name)
         if os.path.exists(filename):
             data = np.loadtxt(filename, skiprows=1, usecols=(0,))
             grid_delta[j] = data

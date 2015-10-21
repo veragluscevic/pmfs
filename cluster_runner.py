@@ -26,7 +26,7 @@ if args.Jmode == 'default':
 
 NGROUPS = args.ngroups
 DeltaLs = np.linspace(args.DeltaLmin,args.DeltaLmax,args.NDeltaL)
-np.save(RESULTS_PATH + 'DeltaLs_{}_{}_tyr_{:.1f}.npy'.format(args.mode,args.Jmode,args.tyr), DeltaLs)
+np.save(RESULTS_PATH + 'DeltaLs_{}_{}_tyr_{:.2f}_Omega_{:.2f}.npy'.format(args.mode,args.Jmode,args.tyr,args.Omegasurvey), DeltaLs)
 
 cmds = []
 count = 0
@@ -39,7 +39,7 @@ for DeltaL in DeltaLs:
                                                                 Omegasurvey)
     resfile = tag + '.txt'
 
-    cmd = '../runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tyr {:.1f} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tyr,DeltaL,Omegasurvey,resfile)
+    cmd = '../runner.py --mode {} --tag {} --fastfile {} --zmin {} --zmax {} --tyr {} --DeltaL {} --Omegasurvey {} --resfile {}'.format(args.mode,tag,fastfile,args.zmin,args.zmax,args.tyr,DeltaL,Omegasurvey,resfile)
     cmds.append(cmd)
     count += 1
 
