@@ -33,14 +33,45 @@ reload(rf)
 import fisher as f
 reload(f)
 from scipy.optimize import fsolve, root
-
-val_Jlya = rf.Jlya_21cmfast_interp
-val_Tg = rf.Tg_21cmfast_interp
-val_Tk = rf.Tk_21cmfast_interp
+import healpy as hp
+from numba import jit
 
 from scipy.interpolate import UnivariateSpline as interpolate
 from scipy.ndimage import gaussian_filter1d
 
+@jit
+def vis_xT(zmin=15,zmax=35, nzs=100, B0=1e-18):
+
+    zs = np.linspace(zmin,zmax,nzs)
+    Ts = []; Tg = []; Tk = []; Jlya = []
+    xc = []; xB = []; xalpha = []
+    for i,z in enumerate(zs):
+        B = B0/(1+z)**2
+        Ts.append(rf.Ts_21cmfast_interp( z ))
+        Tg.append(f.val_Tg( z ))
+        Tk.append(f.val_Tk( z ))
+        Jlya.append(rf.Jlya_21cmfast_interp( z ))
+        Salpha = cf.val_Salpha(Ts[i], Tk[i], z, 1., 0) 
+        xalpha.append(rf.val_xalpha( Salpha=Salpha, Jlya=Jlya[i], Tg=Tg[i] ))
+        xc.append(rf.val_xc(z, Tk=Tk[i], Tg=Tg[i]))
+        xBcoeff = ge * muB * Tstar / ( 2.*hbar * A * Tg[i] )
+        xB.append(B*xBcoeff)
+
+    #print xB, xalpha, xc
+    plt.figure()
+    plt.plot(zs,xc,lw=4,color='g',label='$x_c$')
+    #plt.plot(zs,xalpha,lw=4,color='b',label=r'$x_{\alpha}$')
+    plt.plot(zs,xB,lw=4,color='k',label='$x_B$')
+    plt.legend(fontsize=22)
+
+    plt.figure()
+    plt.plot(zs,Ts,'--',lw=4,color='r',label='$T_S$ [K]')
+    plt.plot(zs,Tg,':',lw=4,color='b',label='$T_{CMB}$ [K]')
+    plt.plot(zs,Tk,'-.',lw=4,color='g',label='$T_K$ [K]')
+    plt.legend(fontsize=22)
+
+    plt.figure()
+    plt.plot(zs,Jlya,lw=4,color='blue')
 
 def grid_DeltaL(mode='B0',t_yr=1., 
                 Jmode='default',Omega=1.,
