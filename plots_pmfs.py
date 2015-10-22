@@ -50,7 +50,9 @@ def grid_DeltaL(mode='B0',t_yr=1.,
                 root=RESULTS_PATH,
                 color='Maroon',
                 save=True,
-                smooth=True):
+                smooth=True,
+                s=3,
+                cieling_zs=[25,26,27,28,29,30]):
 
     """Master plotter"""
     
@@ -82,14 +84,11 @@ def grid_DeltaL(mode='B0',t_yr=1.,
     fig = plt.gcf()
 
     if mode=='B0':
-        s = 2
         ylabel = ax.set_ylabel('B [Gauss]',fontsize=fontsize)
     if mode=='zeta':
-        s = 3
         ylabel = ax.set_ylabel(r'$\xi$',fontsize=fontsize)
 
     if mode=='SI':
-        s = 1
         ylabel = ax.set_ylabel(r'(SI amplitude)$^{1/2}$ [Gauss]',fontsize=fontsize)
 
     if smooth:
@@ -101,6 +100,14 @@ def grid_DeltaL(mode='B0',t_yr=1.,
     plt.semilogy(x, y, lw=3, color=color)
     plt.ylim(ymin=ymin,ymax=ymax)
     xlabel = ax.set_xlabel(r'$\Delta$ L [km]',fontsize=fontsize)
+
+    zs, Bsat = saturationB()
+    for z in cieling_zs:
+        ind = np.argmin(np.abs(zs-z))
+        B = Bsat[ind]
+        plt.semilogy(x,np.ones(len(x))*B,lw=2,label=z)
+
+    plt.legend()
 
     if save:
         plt.savefig(root + '{}_vs_deltas.pdf'.format(mode), 
@@ -122,6 +129,7 @@ def saturationB(Bguess0=1e-19,
                 val_Jlya=rf.Jlya_21cmfast_interp, 
                 val_Tg=rf.Tg_21cmfast_interp,
                 phin=0., thetan=np.pi/2.,
+                make_plot=False,
                 **rootkwargs):
     """This computes the mag. field strength at saturation, at a given z.
     """
@@ -161,9 +169,11 @@ def saturationB(Bguess0=1e-19,
        
         Bsat[i] = res.x[0]/(1+z)**2
         
-        
-    plt.figure()
-    plt.semilogy(zs,Bsat,lw=4,color='blue')
+    if make_plot:
+        plt.figure()
+        plt.semilogy(zs,Bsat,lw=4,color='blue')
+        plt.xlabel('z',fontsize=22)
+        plt.ylabel('saturation B [Gauss]',fontsize=22)
     
     return zs,Bsat
 
