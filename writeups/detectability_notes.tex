@@ -45,7 +45,7 @@ I(\vec{r}) = \int\widetilde{I}(\vec{k})e^{i\vec{k} \cdot \vec{r}}d^3\vec{k},
 \label{eq:I_tildeI}
 \eeq
 \beq
-\widetilde{I}(\vec{k}) = \frac{1}{(2\pi)^3}\int{I}(\vec{k})e^{-i\vec{k} \cdot \vec{r}}d^3\vec{r},
+\widetilde{I}(\vec{k}) = \frac{1}{(2\pi)^3}\int{I}(\vec{r})e^{-i\vec{k} \cdot \vec{r}}d^3\vec{r},
 \label{eq:tildeI_I}
 \eeq
 \beq
@@ -58,14 +58,14 @@ I(\vec{r}) = \int\widetilde{I}(\vec{k})e^{i\vec{k} \cdot \vec{r}}d^3\vec{k},
 \eeq
 such that the following scaling relation is saticefied
 \begin{equation}
-\widetilde{I}(\vec{k}) = \frac{H(z)f_{21,0}}{c(1+z)^2D_M(z)^2}\widetilde{\mathcal{I}}(u,v,\eta),
+\widetilde{I}(\vec{k}) = \frac{c(1+z)^2D_M(z)^2}{(2\pi)^3H(z)f_{21,0}}\widetilde{\mathcal{I}}(u,v,\eta),
 \label{eq_tilde_I_vs_Ik_scaling}
 \end{equation}
 where the proportionallity factor between these two functions is a Jacobian $\frac{d\theta_xd\theta_ydf}{dr_xdr_ydr_z}$ (this scaling was obtained by substituting Eq.~\ref{eq:fourier_duals} into Eq.~\ref{eq:mathcal_tildeI_I}, and comparing the result to Eq.~\ref{eq:tildeI_I}). Note also that there is no scaling between $I$ and $\mathcal{I}$---they are the same function, up to change of variables.
 
 Finally, since radio interferometers measure visibilities, we define the visibility for a pair of antennae as a Fourier-transform in frequency-coordinate only of the $uv$-plane specific intensity,
 \beq
-\mathcal{\widetilde{I}}(u,v,\eta) = \int V(u,v,f)e^{-2\pi f\eta}df,
+\mathcal{\widetilde{I}}(u,v,\eta) = \int V(u,v,f)e^{-2\pi i f\eta}df,
 \label{eq:visibility}
 \eeq
 where $f$ is a discrete variable such that $f_\text{max}-f_\text{min}=\Delta f$ is the bandwidth of the observed data cube centered on $z$ (see also Appendix \ref{app_Vrms}).

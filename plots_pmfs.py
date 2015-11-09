@@ -40,8 +40,11 @@ from scipy.interpolate import UnivariateSpline as interpolate
 from scipy.ndimage import gaussian_filter1d
 
 @jit
-def vis_xT(zmin=15,zmax=35, nzs=100, B0=1e-18):
+def vis_xT(zmin=15,zmax=35, nzs=100,
+           fontsize=24,root=RESULTS_PATH):
 
+    B0=1e-16
+    #powB = np.log10(B0)
     zs = np.linspace(zmin,zmax,nzs)
     Ts = []; Tg = []; Tk = []; Jlya = []
     xc = []; xB = []; xalpha = []
@@ -57,25 +60,45 @@ def vis_xT(zmin=15,zmax=35, nzs=100, B0=1e-18):
         xBcoeff = ge * muB * Tstar / ( 2.*hbar * A * Tg[i] )
         xB.append(B*xBcoeff)
 
-    #print xB, xalpha, xc
     plt.figure()
-    plt.plot(zs,xc,lw=4,color='g',label='$x_c$')
-    #plt.plot(zs,xalpha,lw=4,color='b',label=r'$x_{\alpha}$')
-    plt.plot(zs,xB,lw=4,color='k',label='$x_B$')
-    plt.legend(fontsize=22)
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel('')
+    plt.semilogy(zs,xc,lw=4,color='g',label='$x_c$')
+    plt.semilogy(zs,xalpha,lw=4,color='b',label=r'$x_{\alpha}$')
+    plt.semilogy(zs,xB,lw=4,color='k',label=r'$x_B$ ($10^{-16}$ G)')
+    plt.legend(fontsize=fontsize,frameon=False,loc='upper right')
+    plt.xlim(xmin=zmin,xmax=zmax)
+    plt.savefig(RESULTS_PATH+'xs.pdf', 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
 
     plt.figure()
-    plt.plot(zs,Ts,'--',lw=4,color='r',label='$T_S$ [K]')
-    plt.plot(zs,Tg,':',lw=4,color='b',label='$T_{CMB}$ [K]')
-    plt.plot(zs,Tk,'-.',lw=4,color='g',label='$T_K$ [K]')
-    plt.legend(fontsize=22)
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel('T [K]',fontsize=fontsize)
+    plt.plot(zs,Ts,lw=4,color='k',label='$T_S$')
+    plt.plot(zs,Tg,'--',lw=4,color='b',label='$T_{CMB}$')
+    plt.plot(zs,Tk,'-',lw=4,color='g',label='$T_K$')
+    plt.legend(fontsize=fontsize,frameon=False,loc='upper left')
+    plt.xlim(xmin=zmin,xmax=zmax)
+    plt.savefig(RESULTS_PATH+'Ts.pdf', 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
 
     plt.figure()
-    plt.plot(zs,Jlya,lw=4,color='blue')
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel(r'$J_{Ly\alpha}$ [$cm^{-2} sec^{-1} Hz^{-1}sr^{-1}$]',fontsize=fontsize)
+    plt.semilogy(zs,Jlya,lw=4,color='DarkBlue')
+    plt.xlim(xmin=zmin,xmax=zmax)
+    plt.savefig(RESULTS_PATH+'Jlya.pdf', 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
 
 def grid_DeltaL(mode='B0',t_yr=1., 
                 Jmode='default',Omega=1.,
-                fontsize=22,
+                fontsize=24,
                 ymax=None,ymin=None,
                 xlabel='\Delta L [km]',
                 root=RESULTS_PATH,
@@ -132,11 +155,12 @@ def grid_DeltaL(mode='B0',t_yr=1.,
     plt.ylim(ymin=ymin,ymax=ymax)
     xlabel = ax.set_xlabel(r'$\Delta$ L [km]',fontsize=fontsize)
 
-    zs, Bsat = saturationB()
+    zs, Bsat = saturationB_simple()
     for z in cieling_zs:
         ind = np.argmin(np.abs(zs-z))
         B = Bsat[ind]
         plt.semilogy(x,np.ones(len(x))*B,lw=2,label=z)
+        
 
     plt.legend()
 
@@ -229,3 +253,113 @@ def evaluate_GminusGinf(B,
 
 
     
+def GvsB(zs=[20,22,25,28,31],
+         nBs=100, Bmin=1e-22,Bmax=1e-18,
+        thetak=0.1,phik=0.83,
+        val_nk=f.FFTT_nk,
+        val_Ts=rf.Ts_21cmfast_interp, 
+        val_Tk=rf.Tk_21cmfast_interp, 
+        val_Jlya=rf.Jlya_21cmfast_interp, 
+        val_Tg=rf.Tg_21cmfast_interp,
+        phin=0., thetan=np.pi/2.,
+        fontsize=24,
+        make_plot=False,
+        root=RESULTS_PATH):
+    """This plots deltaG(B), at a given z.
+    """
+    Bref = 0.
+    plt.figure()
+    ax = plt.gca()
+    colors = ['gray','Violet','DarkBlue','Maroon','r','Orange']
+    zs, Bsat = saturationB_simple(zs=zs)
+    Bs = np.logspace(np.log10(Bmin),np.log10(Bmax),nBs)
+    deltaG = np.zeros_like(Bs)
+
+    for j,z in enumerate(zs):
+        H_z = cf.H( z )
+        Ts = val_Ts( z )
+        Tg = val_Tg( z )
+        Tk = val_Tk( z )
+        Jlya = val_Jlya( z )        
+        Salpha = cf.val_Salpha(Ts, Tk, z, 1., 0) 
+        xalpha = rf.val_xalpha( Salpha=Salpha, Jlya=Jlya, Tg=Tg )
+        xc = rf.val_xc(z, Tk=Tk, Tg=Tg)
+        xBcoeff = ge * muB * Tstar / ( 2.*hbar * A * Tg ) 
+        x1s = 1.
+    
+        
+        deltaG = np.zeros_like(Bs)
+        Gref = pt.calc_G(thetak=thetak, phik=phik, 
+                        thetan=thetan, phin=phin,
+                        Ts=Ts, Tg=Tg, z=z, 
+                        verbose=False, 
+                        xalpha=xalpha, xc=xc, xB=xBcoeff*Bref, x1s=1.)
+        for i,B in enumerate(Bs):
+            xB = xBcoeff*B
+            G = pt.calc_G(thetak=thetak, phik=phik, 
+                            thetan=thetan, phin=phin,
+                            Ts=Ts, Tg=Tg, z=z, 
+                            verbose=False, 
+                            xalpha=xalpha, xc=xc, xB=xB, x1s=1.)
+            deltaG[i] = np.abs((G - Gref) / Gref)
+
+
+        ax.loglog(Bs,deltaG,lw=4,color=colors[j])
+        #plt.loglog(np.array([np.log10(Bsat[j]),np.log10(Bsat[j])]),np.array([np.log10(deltaG.min()),np.log10(deltaG.max())]),'--',lw=2,color=colors[j])
+        
+
+    plt.ylim(ymin=-14,ymax=-9)
+    
+    xlabel = ax.set_xlabel('B [Gauss]',fontsize=fontsize)
+    ylabel = ax.set_ylabel(r'$\Delta G / G$',fontsize=fontsize)
+    plt.savefig(root+'G_vs_B.pdf', 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
+        
+
+
+def saturationB_simple(zs=None,nzs=100,
+                zmin=15, zmax=35,
+                val_nk=f.FFTT_nk,
+                val_Ts=rf.Ts_21cmfast_interp, 
+                val_Tk=rf.Tk_21cmfast_interp, 
+                val_Jlya=rf.Jlya_21cmfast_interp, 
+                val_Tg=rf.Tg_21cmfast_interp,
+                make_plot=False,
+                fontsize=24):
+    """This computes the mag. field strength at saturation, at a given z, in a simplified way, as Bsaturation = (xc + xalpha +1) / xBcoeff.
+    """
+    if zs is None:
+        zs = np.linspace(zmin, zmax,nzs)
+    Bsat = np.zeros_like(zs)
+    for i,z in enumerate(zs):
+        
+        H_z = cf.H( z )
+        Ts = val_Ts( z )
+        Tg = val_Tg( z )
+        Tk = val_Tk( z )
+        Jlya = val_Jlya( z )        
+        Salpha = cf.val_Salpha(Ts, Tk, z, 1., 0) 
+        xalpha = rf.val_xalpha( Salpha=Salpha, Jlya=Jlya, Tg=Tg )
+        xc = rf.val_xc(z, Tk=Tk, Tg=Tg)
+        xBcoeff = ge * muB * Tstar / ( 2.*hbar * A * Tg ) 
+        x1s = 1.
+        Bsat[i] = (1+xalpha+xc)/xBcoeff/(1+z)**2
+        
+    if make_plot:
+        plt.figure()
+        #fig = plt.gcf()
+        ax = plt.gca()
+        
+        ylabel = ax.set_ylabel('Saturation B (comov.) [Gauss]',fontsize=fontsize)
+        xlabel = ax.set_xlabel('z',fontsize=fontsize)
+       
+        plt.semilogy(zs,Bsat,lw=4,color='k')
+
+        
+        plt.savefig(RESULTS_PATH+'Bsaturation.pdf',
+                    bbox_extra_artists=[xlabel, ylabel], 
+                    bbox_inches='tight')
+        
+    
+    return zs,Bsat
