@@ -105,7 +105,7 @@ def grid_DeltaL(mode='B0',t_yr=1.,
                 color='Maroon',
                 save=True,
                 smooth=True,
-                s=3,
+                s=3,binned=True,nbins=20,
                 cieling_zs=[25,26,27,28,29,30]):
 
     """Master plotter"""
@@ -151,6 +151,11 @@ def grid_DeltaL(mode='B0',t_yr=1.,
     else:
         x = ds
         y = sigmas
+
+    if binned:
+        npts = len(x) / nbins
+        x, y = bin_data(ds, sigmas, npts)
+        
     plt.semilogy(x, y, lw=3, color=color)
     plt.ylim(ymin=ymin,ymax=ymax)
     xlabel = ax.set_xlabel(r'$\Delta$ L [km]',fontsize=fontsize)
@@ -204,8 +209,7 @@ def saturationB(Bguess0=1e-19,
         xalpha = rf.val_xalpha( Salpha=Salpha, Jlya=Jlya, Tg=Tg )
         xc = rf.val_xc(z, Tk=Tk, Tg=Tg)
         xBcoeff = ge * muB * Tstar / ( 2.*hbar * A * Tg ) 
-        x1s = 1.
-
+        
         xB=xBcoeff*Bguess0
         Gref[i] = pt.calc_G(thetak=thetak, phik=phik, 
                   thetan=thetan, phin=phin,
@@ -264,16 +268,18 @@ def GvsB(zs=[20,22,25,28,31],
         phin=0., thetan=np.pi/2.,
         fontsize=24,
         make_plot=False,
-        root=RESULTS_PATH):
+        root=RESULTS_PATH,
+        ymax=1e-5,
+        ymin=1e-14):
     """This plots deltaG(B), at a given z.
     """
     Bref = 0.
     plt.figure()
     ax = plt.gca()
-    colors = ['gray','Violet','DarkBlue','Maroon','r','Orange']
+    colors = ['Violet','DarkBlue','Maroon','r','Orange','gray']
     zs, Bsat = saturationB_simple(zs=zs)
     Bs = np.logspace(np.log10(Bmin),np.log10(Bmax),nBs)
-    deltaG = np.zeros_like(Bs)
+    deltaG = np.zeros(len(Bs))
 
     for j,z in enumerate(zs):
         H_z = cf.H( z )
@@ -288,7 +294,7 @@ def GvsB(zs=[20,22,25,28,31],
         x1s = 1.
     
         
-        deltaG = np.zeros_like(Bs)
+        deltaG = np.zeros(len(Bs))
         Gref = pt.calc_G(thetak=thetak, phik=phik, 
                         thetan=thetan, phin=phin,
                         Ts=Ts, Tg=Tg, z=z, 
@@ -304,17 +310,16 @@ def GvsB(zs=[20,22,25,28,31],
             deltaG[i] = np.abs((G - Gref) / Gref)
 
 
+            
         ax.loglog(Bs,deltaG,lw=4,color=colors[j])
-        #plt.loglog(np.array([np.log10(Bsat[j]),np.log10(Bsat[j])]),np.array([np.log10(deltaG.min()),np.log10(deltaG.max())]),'--',lw=2,color=colors[j])
-        
-
-    plt.ylim(ymin=-14,ymax=-9)
+        ax.loglog(np.array([Bsat[j],Bsat[j]]),np.array([ymin,ymax]),'--',lw=2,color=colors[j])
     
     xlabel = ax.set_xlabel('B [Gauss]',fontsize=fontsize)
     ylabel = ax.set_ylabel(r'$\Delta G / G$',fontsize=fontsize)
     plt.savefig(root+'G_vs_B.pdf', 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
+
         
 
 
@@ -331,7 +336,7 @@ def saturationB_simple(zs=None,nzs=100,
     """
     if zs is None:
         zs = np.linspace(zmin, zmax,nzs)
-    Bsat = np.zeros_like(zs)
+    Bsat = np.zeros(len(zs))
     for i,z in enumerate(zs):
         
         H_z = cf.H( z )
@@ -343,18 +348,20 @@ def saturationB_simple(zs=None,nzs=100,
         xalpha = rf.val_xalpha( Salpha=Salpha, Jlya=Jlya, Tg=Tg )
         xc = rf.val_xc(z, Tk=Tk, Tg=Tg)
         xBcoeff = ge * muB * Tstar / ( 2.*hbar * A * Tg ) 
-        x1s = 1.
         Bsat[i] = (1+xalpha+xc)/xBcoeff/(1+z)**2
+
+       
         
     if make_plot:
         plt.figure()
         #fig = plt.gcf()
         ax = plt.gca()
         
-        ylabel = ax.set_ylabel('Saturation B (comov.) [Gauss]',fontsize=fontsize)
+        ylabel = ax.set_ylabel('Saturation [Gauss comov.]',fontsize=fontsize)
         xlabel = ax.set_xlabel('z',fontsize=fontsize)
        
-        plt.semilogy(zs,Bsat,lw=4,color='k')
+        plt.semilogy(zs,Bsat,lw=4,color='b')
+        plt.grid(b=True,which='major')
 
         
         plt.savefig(RESULTS_PATH+'Bsaturation.pdf',
@@ -363,3 +370,23 @@ def saturationB_simple(zs=None,nzs=100,
         
     
     return zs,Bsat
+
+
+def bin_data(x, y, npts):
+    """
+    A modification of Ruth Angus' function for binning your data.
+    Binning is sinning, of course, but if you want to get things
+    set up quickly this can be very helpful!
+    It takes your data: x, y
+    npts (int) is the number of points per bin.
+    """
+    mod, nbins = len(x) % npts, len(x) / npts
+    if mod != 0:
+        x, y = x[:-mod], y[:-mod]
+    xb, yb = [np.zeros(nbins) for i in range(2)]
+    for i in range(npts):
+        xb += x[::npts]
+        yb += y[::npts]
+        
+        x, y = x[1:], y[1:]
+    return xb/npts, yb/npts
