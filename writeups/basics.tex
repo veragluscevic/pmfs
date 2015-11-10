@@ -1,0 +1,143 @@
+\section{Basics}
+\label{sec:basics}
+\subsection{Definitions}
+\label{subsec:def}
+
+The redshifted 21-cm signal can be represented as a function of the location in physical space $I(\vec{r})$, or in Fourier space $\widetilde{I}(\vec{k})$. In sky coordinates, these functions become $\mathcal{I}(\theta_x, \theta_y, \theta_\nu)$, and $\widetilde{\mathcal{I}}(u,v,\eta)$. Here, vector $\vec{k}$ (in the units of comoving Mpc$^{-1}$) is a Fourier dual of $\vec{r}$ (comoving Mpc), and likewise, $\theta_x$ (rad), $\theta_y$ (rad), and $\theta_\nu$ (Hz) are duals of the coordinates in the $uv$-plane $u$ (rad$^{-1}$), $v$ (rad$^{-1}$), and $\eta$ (seconds), respectively. These two sets of coordinates are related through linear transformations in the following way
+\begin{equation}
+\begin{gathered}
+\theta_x = \frac{r_x}{D_M(z)}, \hspace{0.5in} u = \frac{k_xD_M(z)}{2\pi},\\
+\theta_y = \frac{r_y}{D_M(z)}, \hspace{0.5in} v = \frac{k_yD_M(z)}{2\pi},\\
+\theta_\nu = \frac{H(z)\nu_{21}}{c(1+z)^2} r_z, \hspace{0.5in} \eta = \frac{c(1+z)^2}{2\pi H(z)\nu_{21}}k_z,
+\end{gathered}
+\label{eq:fourier_duals}
+\end{equation} 
+where $\nu_{21}$ is the 21-cm frequency in the rest frame, $H(z)$ iz the Hubble parameter, $D_M(z)$ is the comoving distance in transverse direction, and z is the reference redshift in the middle of the observed data cube (where $r_z$ and $\theta_\nu$ intervals are evaluated). Note that conditions of the type $2\pi\theta_xu = r_xk_x$ are saticefied.
+
+The convention we use for the Fourier transforms is (note that Fourier-space functions are denoted with tilde)
+\beq
+\bga
+I(\vec{r}) = \int\widetilde{I}(\vec{k})e^{i\vec{k} \cdot \vec{r}}d^3\vec{k},\\
+\widetilde{I}(\vec{k}) = \frac{1}{(2\pi)^3}\int{I}(\vec{r})e^{-i\vec{k} \cdot \vec{r}}d^3\vec{r},
+\ega
+\label{eq:tildeI_I}
+\eeq
+and similarly,
+\beq
+\bga
+\mathcal{I}(\theta_x,\theta_y,\theta_\nu) = \int\widetilde{\mathcal{I}}(u,v,\eta)e^{2\pi i(u\theta_x + v\theta_y+\eta \theta_\nu)}dudvd\eta,\\
+\widetilde{\mathcal{I}}(u,v,\eta) = \int{\mathcal{I}}(\theta_x,\theta_y,\theta_\nu)e^{-2\pi i(u\theta_x + v\theta_y+\eta\theta_\nu)}d\theta_xd\theta_yd\theta_\nu.
+\ega
+\label{eq:mathcal_tildeI_I}
+\eeq
+The following scaling relation is saticefied
+\beq
+\widetilde{I}(\vec{k}) = \frac{c(1+z)^2D_M(z)^2}{(2\pi)^3H(z)\nu_{21}}\widetilde{\mathcal{I}}(u,v,\eta),
+\label{eq_tilde_I_vs_Ik_scaling}
+\eeq
+where the proportionallity factor is a Jacobian $\frac{d\theta_xd\theta_ydf}{dr_xdr_ydr_z}$. Note also that there is no scaling between $I$ and $\mathcal{I}$, as they are the same function, up to a change of variables.
+
+Finally, the relationship between the specific intensity in the $uv$-plane and the visibility function $V(u,v,\theta_\nu)$ is given by a Fourier transform over only the frequency coordinate,
+\beq
+\bga
+ V(u,v,\theta_\nu)= \int \mathcal{\widetilde{I}}(u,v,\eta)e^{2\pi i \theta_\nu\eta}d\eta,\\
+\mathcal{\widetilde{I}}(u,v,\eta) = \int V(u,v,\theta_\nu)e^{-2\pi i \theta_\nu\eta}d\theta_\nu,
+\ega
+\label{eq:visibility}
+\eeq
+Note that here, $\theta_\nu$ is a discrete variable such that $\theta_{\nu,\text{max}}-\theta_{\nu,\text{min}}=\Delta\nu$ is the bandwidth of the observed data cube centered on $z$ (see also Appendix \ref{app_Vrms}).
+%%%%%%%%%%%%%%
+\subsection{Power spectra and noise}
+\label{subsec:noise}
+
+Let us first define a brightness-temperature power spectrum,
+\beq
+\langle \widetilde{I}(\vec{k})\widetilde{I}^*(\vec{k}')\rangle \equiv (2\pi)^3P_{\widetilde{I}}\delta(\vec{k}-\vec{k}').
+\label{eq_tildeI_power}
+\eeq
+Furthermore, let us note that the observable we wish to relate to is the visibility function---a complex Gaussian variable with a zero mean, whose noise-induced variance is derived in Appendix \ref{} and reads
+\beq\bga
+\langle V(\vec{u},f)V(\vec{u}',f')^*\rangle \\
+= \left(\frac{2k_BT_\text{sys}}{A_e\sqrt{\Delta\nu t_1}}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta_{\theta_\nu\theta_{\nu}'},
+\ega
+\label{eq_Vrms}
+\eeq 
+where $T_\text{sys}$ is the system + sky temperature; $t_1$ is the total time a single baseline spent observing an element at the position $(u,v)$ in the $uv$ plane; $A_e$ is the collecting area of a single dish; $k_B$ is Boltzmann constant; $\Delta\nu$ is the bandwidth of the survey; and $\delta$ symbols denote the Dirac delta and the Kronecker delta, respectively.
+
+The next step is to combine Eqs.~(\ref{eq:visibility}) and (\ref{eq_Vrms}), and take ensamble average to get
+\beq
+\bga
+\langle\widetilde{\mathcal{I}}(u,v,\eta) \widetilde{\mathcal{I}}^*(u',v',\eta')\rangle \\
+ = \frac{1}{t_1}\left(\frac{2k_BT_\text{sys}}{A_e}\right)^2 \delta(\vec{u}-\vec{u}')\delta(\eta-\eta'),
+\ega
+\label{eq:mathcal_power_Vrms}
+\eeq 
+where 
+\beq
+\int e^{2\pi i \theta_\nu(\eta-\eta')}d\theta_\nu =\delta(\eta-\eta'),
+\eeq
+is the periodic delta-function on the $t_1$ interval.  Taking into account the scaling relation of Eq.~(\ref{eq_tilde_I_vs_Ik_scaling}), introducing the power spectrum of Eq.~(\ref{eq_tildeI_power}), and keeping in mind that $\delta(ax)=\frac{1}{a}\delta(x)$, we arrive at
+\beq
+P_1^N(\vec k) = \frac{1}{t_1}\frac{c(1+z)^2D_M^2(z)}{H(z)\nu_{21}}\left(\frac{2k_BT_\text{sys}}{A_e}\right)^2 ,
+\label{eq:Pnoise_1mode}
+\eeq
+for the noise per $\vec k$ mode, per baseline.
+
+Computation of $t_1$ from the total duration of the survey  $t_\text{obs}$ will depend on the type of the experiment.  For a small beam size (much smaller than $\Omega_\text{survey}$), where telescopes scan the sky one beamwidth at a time (such as the case of radio dishes), $t_1$ is the total time spent observing a given $uv$ element of size corresponding to the beam $\Omega_\text{beam}=\lambda^2/A_e$, and is obtained by multiplying  $t_\text{obs}$ by the ratio of the solid angle of the survey and the solid angle of the beam, $\Omega_\text{survey}/\Omega_\text{beam}$. However, in the case of simple dipole antennas, the beam is greater or equal to the survey angular size, and in this case $t_1$ just equals $t_\text{obs}$. In the following, we will not account for the fact that a given patch of the sky is only visible for a part of a day from a given location; therefore, $t_\text{obs}$ is the survey duration times a factor of a few or less that corrects for this assumption.
+
+The last step we need to take is to get from Eq.~(\ref{eq:Pnoise_1mode}) to the expression for the noise power spectrum that corresponds to the observation with all the available baselines. To do that, we need to incorporate the knowledge about the array configuration and the coverage of the $uv$ plane. In other words, we need to divide the expression in Eq.~(\ref{eq:Pnoise_1mode}) by the number of baselines that see a given mode $\vec k$ at any given time $n_\text{base}(\vec k)$ (for a discussion of the $uv$ coverage, see the following section). The final result for the noise power spectrum per mode $\vec k$ in the intensity units is then
+\beq
+P^N(\vec k) = \frac{1}{t_\text{1}}\frac{c(1+z)^2D_M^2(z)}{H(z)\nu_{21}}\frac{\left(2k_BT_\text{sys}\right)^2}{A_e^2n_\text{base}(\vec k)},
+\label{eq:Pnoise_Jy}
+\eeq
+and in temperature units
+\beq
+P^N(\vec k) = \frac{\lambda^4}{t_\text{1}}\frac{c(1+z)^2D_M^2(z)}{H(z)\nu_{21}}\frac{T_\text{sys}^2}{A_e^2n_\text{base}(\vec k)}.
+\label{eq:Pnoise_K}
+\eeq
+%%%%%%%%%%%%
+\subsection{The UV coverage}
+\label{subsec:uv}
+
+Total number of baselines that can observe mode $\vec k$, $n_\text{base}(\vec k)$, is related to the (unitless) number density of baselines per element $dudv$, $n(u,v)$, as
+\beq
+n_\text{base}(\vec k) = \frac{n(u,v)}{\Omega_\text{beam}},
+\label{eq:nuv_nk}
+\eeq
+where $\frac{1}{\Omega_\text{beam}}$ represents an element in the $uv$ plane, and the number density integrates to the total number of baselines $N_\text{base}$ as 
+\beq
+N_\text{base}=\frac{1}{2}N_\text{ant}(N_\text{ant}+1) = \int_\text{half} n(u,v)dudv,
+\label{eq:nk}
+\eeq
+where $N_\text{ant}$ is the number of antennas in the array, and the integration is done on the half of the $uv$ plane (because the visibility has the following property $V(u,v,f)=V^*(-u,-v,f)$, and only half the plane contains independent samples). We assume that the array consists of many antennas, so that time-dependence of $n(u,v)$ is negligible; if this is not the case, one should compute its time average to account for Earth's rotation.
+
+Let us now derive $n(\vec k)$ for a specific array configuration that is of particualr interest to cosmology---a tightly packed array of simple dipole antennas, tiling a squared-surface of the area $(\Delta L)^2$ with a filling fraction close to one. This is a design such as the FFT telescope described in \cite{Tegmark and Zaldarriaga (2009)}. In this case, the beam is close to the size of the entire survey and coveres 1 sr, the affective area of a single dipole is $A_e = \lambda^2$, and the effective number of antennas is then $N_\text{ant} = \frac{(\Delta L)^2}{\lambda^2}$.
+
+A uniform tiling of a $(\Delta L)^2$ surface with dipoles then results in the following number density of baselines per $uv$ element
+\beq
+n(u,v) = (\frac{\Delta L}{\lambda} - u)(\frac{\Delta L}{\lambda} - v).
+\label{eq:nuv_fftt}
+\eeq
+After substituting the relation between $\vec k=(k,\theta_k,\phi_k)$ and $(u,v)$, 
+\beq
+\bga
+u_\perp \equiv \frac{D_A(z)}{2\pi}k\sin\theta_k,\\
+u = u_\perp \cos\phi_k,\\
+v = u_\perp \sin\phi_k,
+\ega
+\label{eq:k_uv}
+\eeq
+the corresponsing number of baselines observing a given $\vec k$ at a given time where azimuthal angle of the mode in the frame where $\widehat n$ is the vertical axis is $\phi_k$ is then
+\beq
+\bga
+n_\text{base}(\vec k) = (\frac{\Delta L}{\lambda} - \frac{D_A(z)}{2\pi}k\sin\theta_k\cos\phi_k)\\\times (\frac{\Delta L}{\lambda} - \frac{D_A(z)}{2\pi}k\sin\theta_k\sin\phi_k).
+\ega
+\label{eq:nk_fftt}
+\eeq
+We will use a $\phi_k$-averaged version of this quantity (between $0$ and $\pi/2$ only, due to the four-fold symmetry of the experimental setup of a square of dipoles), to account for the rotation of the baselines with respect to the modes,
+\beq
+\bga
+\langle n_\text{base}(\vec k) \rangle_{\phi_k}= \left(\frac{\Delta L}{\lambda}\right)^2 -\frac{4}{\pi}\frac{\Delta L}{\lambda}\frac{D_A(z)}{2\pi}k\sin\theta_k \\+ \left(\frac{D_A(z)}{2\pi}k\sin\theta_k\right)^2.
+\ega
+\label{eq:nk_fftt_mean}
+\eeq
