@@ -45,38 +45,38 @@ Finally, the relationship between the specific intensity in the $uv$-plane and t
 \ega
 \label{eq:visibility}
 \eeq
-Here, $\theta_\nu$ is a discrete variable such that $\theta_{\nu,\text{max}}-\theta_{\nu,\text{min}}=\Delta\nu$ is the bandwidth of the observed data cube centered on $z$ (see also Appendix \ref{app_Vrms}).
+Here, $\theta_\nu$ is a discrete variable such that $\theta_{\nu,\text{max}}-\theta_{\nu,\text{min}}=\Delta\nu$ is the bandwidth of the observed data cube centered on $z$ (see also Appendix \ref{app:Vrms}).
 %%%%%%%%%%%%%%
 \subsection{Power spectra and noise}
 \label{subsec:noise}
 
 In this Section, we derive the noise power spectrum for the brightness temperature signal. We start by defining a brightness-temperature power spectrum as
 \beq
-\langle \widetilde{I}(\vec{k})\widetilde{I}^*(\vec{k}')\rangle \equiv (2\pi)^3P_{\widetilde{I}}\delta(\vec{k}-\vec{k}').
+\langle \widetilde{I}(\vec{k})\widetilde{I}^*(\vec{k}')\rangle \equiv (2\pi)^3P_{\widetilde{I}}\delta_D(\vec{k}-\vec{k}'),
 \label{eq_tildeI_power}
 \eeq
-The observable we wish to relate this power spectrum to is the visibility function---a complex Gaussian variable with a zero mean, whose noise-induced variance (derived in Appendix \ref{}) reads
+where $\delta_D$ is the Dirac delta function. The observable we wish to relate this power spectrum to is the visibility function---a complex Gaussian variable with a zero mean, whose noise-induced variance (derived in Appendix \ref{app:Vrms}) reads
 \beq\bga
-\langle V(\vec{u},f)V(\vec{u}',f')^*\rangle \\
+\langle V({u},v,\theta_\nu)V({u'},v',\theta_\nu')^*\rangle \\
 = \left(\frac{2k_BT_\text{sys}}{A_e\sqrt{\Delta\nu t_1}}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta_{\theta_\nu\theta_{\nu}'},
 \ega
 \label{eq_Vrms}
 \eeq 
-where $T_\text{sys}$ is the system + sky temperature; $t_1$ is the total time a single baseline spent observing an element at the position $(u,v)$ in the $uv$ plane; $A_e$ is the collecting area of a single dish; $k_B$ is Boltzmann constant; $\Delta\nu$ is the bandwidth of the survey; and $\delta$ symbols denote the Dirac delta and the Kronecker delta, respectively.
+where $T_\text{sys}$ is the system + sky temperature; $t_1$ is the total time a single baseline spent observing an element at the position $(u,v)$ in the $uv$ plane; $A_e$ is the collecting area of a single dish; $k_B$ is Boltzmann constant; $\Delta\nu$ is the bandwidth centered on $z$; and $\delta$ symbol with subscripts denotes the Kronecker delta.
 
 The next step is to combine Eqs.~(\ref{eq:visibility}) and (\ref{eq_Vrms}), and take ensamble average to get
 \beq
 \bga
 \langle\widetilde{\mathcal{I}}(u,v,\eta) \widetilde{\mathcal{I}}^*(u',v',\eta')\rangle \\
- = \frac{1}{t_1}\left(\frac{2k_BT_\text{sys}}{A_e}\right)^2 \delta(\vec{u}-\vec{u}')\delta(\eta-\eta'),
+ = \frac{1}{t_1}\left(\frac{2k_BT_\text{sys}}{A_e}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta(\eta-\eta'),
 \ega
 \label{eq:mathcal_power_Vrms}
 \eeq 
 where 
 \beq
-\int e^{2\pi i \theta_\nu(\eta-\eta')}d\theta_\nu =\delta(\eta-\eta'),
+\int e^{2\pi i \theta_\nu(\eta-\eta')}d\theta_\nu =\delta_D(\eta-\eta'),
 \eeq
-is the periodic delta-function on the $t_1$ interval.  Taking into account the scaling relation of Eq.~(\ref{eq_tilde_I_vs_Ik_scaling}), introducing the power spectrum of Eq.~(\ref{eq_tildeI_power}), and keeping in mind the scaling property of the delta function, we arrive at
+is the periodic delta-function on the $t_1$ interval.  Taking into account the scaling relation of \eq{\ref{eq_tilde_I_vs_Ik_scaling}}, introducing the power spectrum of \eq{\ref{eq_tildeI_power}}, and keeping in mind the scaling property of the delta function, we arrive at
 \beq
 P_1^N(\vec k) = \frac{1}{t_1}\frac{c(1+z)^2D_M^2(z)}{H(z)\nu_{21}}\left(\frac{2k_BT_\text{sys}}{A_e}\right)^2 ,
 \label{eq:Pnoise_1mode}
@@ -85,7 +85,7 @@ for the noise per $\vec k$ mode, per baseline.
 
 Computation of $t_1$ from the total duration of the survey  $t_\text{obs}$ depends on the type of the experiment.  For a beam of a solid angle $\Omega_\text{beam}=\lambda^2/A_e$ much smaller than the solid angle of the entire survey, $\Omega_\text{survey}$, where telescopes scan the sky one beamwidth at a time (such as the case for radio dishes), $t_1$ is the total time spent observing one $uv$ element of size corresponding to the beam size, $t_1=t_\text{obs}\Omega_\text{survey}/\Omega_\text{beam}$. However, in the case of an array of dipoles, the beam is greater or equal to the survey angular size, and $t_1=t_\text{obs}$. When deriving numerical results in \S\ref{sec:results}, we will assume the latter. Finally, we will not account for the fact that a given patch of the sky is only visible for a part of a day from a given location; therefore, $t_\text{obs}$ we use in \S\ref{sec:results} is the survey duration times a factor of a few or less that corrects for this assumption.
 
-The last step is to get from Eq.~(\ref{eq:Pnoise_1mode}) to the expression for the noise power spectrum that corresponds to the observation with all the available baselines. To do that, we need to incorporate the knowledge about the array configuration and the coverage of the $uv$ plane. In other words, we need to divide the expression in Eq.~(\ref{eq:Pnoise_1mode}) by the number of baselines that see a given mode $\vec k$ at any given time $n_\text{base}(\vec k)$ (for a discussion of the $uv$ coverage, see the following section). The final result for the noise power spectrum per mode $\vec k$ in the intensity units is then
+The last step is to get from \eq{\ref{eq:Pnoise_1mode}} to the expression for the noise power spectrum that corresponds to the observation with all the available baselines. To do that, we need to incorporate the knowledge about the array configuration and the coverage of the $uv$ plane. In other words, we need to divide the expression in \eq{\ref{eq:Pnoise_1mode}} by the number of baselines that see a given mode $\vec k$ at any given time $n_\text{base}(\vec k)$ (for a discussion of the $uv$ coverage, see the following section). The final result for the noise power spectrum per mode $\vec k$ in the intensity units is then
 \beq
 P^N(\vec k) = \frac{1}{t_\text{1}}\frac{c(1+z)^2D_M^2(z)}{H(z)\nu_{21}}\frac{\left(2k_BT_\text{sys}\right)^2}{A_e^2n_\text{base}(\vec k)},
 \label{eq:Pnoise_Jy}
