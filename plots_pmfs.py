@@ -45,6 +45,56 @@ val_Ts = rf.Ts_21cmfast_interp
 from scipy.interpolate import UnivariateSpline as interpolate
 from scipy.ndimage import gaussian_filter1d
 
+@jit 
+def sigma_z(zmin=15,zmax=35,
+                       t_yr=2.,
+                       baselines=[1.,4.,10.],
+                       kminmin=0.01,kmaxmax=1.,
+                       neval=300,neval_PBi=100,
+                       Omega_survey=1.,
+                       thetan=np.pi/2.,phin=0.,
+                       fontsize=24, smooth=True, binned=True, 
+                       nbins=20,s=4):
+
+    """Integrand of SNR for SI, as a function of z"""
+
+    colors = ['DarkBlue','blue','cyan','gray']
+    for i,DeltaL_km in enumerate(baselines):
+        zs, sigma = f.calc_SNR(zmin=zmin,zmax=zmax,
+                 t_yr=t_yr,
+                  DeltaL_km=DeltaL_km,
+                  kminmin=kminmin,kmaxmax=kmaxmax,
+                  neval=neval,neval_PBi=neval_PBi,
+                  Omega_survey=Omega_survey,
+                  thetan=thetan,phin=phin,
+                  plotter_calling=True)
+        if smooth:
+            x = gaussian_filter1d(zs, sigma)
+            y = gaussian_filter1d(sigma, s)
+        else:
+            x = zs
+            y = sigma
+
+        if binned:
+            npts = len(x) / nbins
+            x, y = bin_data(zs, sigma, npts)
+        plt.semilogy(x, y,lw=4,color=colors[i],label='{:.0f}'.format(DeltaL_km))
+
+        
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel(r'$1\sigma$ amplitude [Gauss]', fontsize=fontsize)
+
+    plt.legend(fontsize=fontsize, frameon=False)
+
+    fname = RESULTS_PATH + 'sigma_vs_z.pdf'
+    plt.savefig(fname, 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
+
+    
+
 @jit
 def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
                  nside=64, npix=None,

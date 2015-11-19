@@ -596,7 +596,8 @@ def calc_SNR(zmin=22,zmax=35,
               neval=100,neval_PBi=100,
               Omega_survey=1.,
               thetan=np.pi/2.,phin=0.,
-              debug=False):
+              debug=False,
+              plotter_calling=False):
     
     """This is a master function for calculating SNR for detecting amplitude A0[Gauss^2] = 1/SNR at 1 sigma.
 
@@ -648,7 +649,10 @@ def calc_SNR(zmin=22,zmax=35,
     
     """
 
-    zs = np.random.random(size=neval)*(zmax - zmin) + zmin
+    if plotter_calling:
+        zs = np.linspace(zmin, zmax, neval)
+    else:
+        zs = np.random.random(size=neval)*(zmax - zmin) + zmin
     samples = np.zeros(neval)
     for i,z in enumerate(zs):
         PBi = calc_PBi(z, neval=neval_PBi, 
@@ -665,6 +669,8 @@ def calc_SNR(zmin=22,zmax=35,
         if debug:
             print(z,samples[i],lambda_z,(1. - (DeltaL_km / lambda_z)**3))
 
+    if plotter_calling:
+        return zs, 1/(7.*np.pi**2/4. * samples)**0.25
 
     res = 7.*np.pi**2/4. * samples.mean() * (zmax - zmin) 
     return 1./res**0.25
