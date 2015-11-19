@@ -9,6 +9,23 @@ from geometric_functions import Y2
 from numba import jit
 
 @jit#(nopython=True)
+def pattern_Tb(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4., 
+            xalpha=34.247221, xc=0.004176, xB=0.365092):
+    
+    """ 
+    NOTE: Magnetic-field direction is along the z-axis!
+    It takes x's (all unitless),
+    and angles in [rad]."""
+  
+    summ = 0.
+    for i,m in enumerate( np.array([-2,-1,0,1,2]) ):
+        summand = Y2( m,thetak,phik ) * np.conjugate( Y2( m,thetan,phin ) ) / (1. + xalpha + xc - 1j*m*xB)
+        summ += summand.real
+
+    return summ
+    
+
+@jit#(nopython=True)
 def calc_Tb(thetak=np.pi/3., phik=np.pi/8., thetan=np.pi/3., phin=np.pi/4., 
             delta=0., Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, xB=0.365092, x1s=1.):

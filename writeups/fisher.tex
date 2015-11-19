@@ -38,7 +38,7 @@ The integral in \eq{\ref{eq:fisher_patch}} is performed on a small, approximatel
 \label{eq:sigma_sum_survey}
 \eeq
 
-%%%   MORE HERE!!! FIGURES of saturation??
+%%%   MORE HERE!!!
 In the saturated case, we would be unable to measure the exact magnitude of $B$, but a slightly different inquiry becomes interesting. Namely, it is useful to know how sensitive are future experiments to distinguishing staturated case from zero magnetic field. To answer this question, we can write the signal power spectrum as a sum of the contributions from the case $B=0$ and from the saturated case scenario of a very strong field (denoted as infinity), 
 \beq
 P^S(\vec k) = (1-\xi)P^S(\vec k, B=0) + \xi P^S(\vec k, B\to \infty).
@@ -54,11 +54,12 @@ Let us now discuss the case of a stochastic field. Using \eq{\ref{eq:NK}}, with 
 \begin{widetext}
 \beq
 \bga
-P^N_{B_i}(\vec K) = \left(\frac{1}{2}\int d{\vec k} \frac{\left|P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right|^2}{\left(G^2_0(\vec k)P_\delta(\vec k) + P^N(\vec k)\right)\left(G^2_0(\vec k')P_\delta(\vec k') + P^N(\vec k')\right) } \right)^{-1},
+P^N_{B_i}(\vec K) = \left(\frac{1}{2}\int k^2d{k}\sin \theta_kd\theta_kd\phi_k \frac{\left|P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right|^2}{\left(G^2_0(\vec k)P_\delta(\vec k) + P^N(\vec k)\right)\left(G^2_0(\vec k')P_\delta(\vec k') + P^N(\vec k')\right) } \right)^{-1},
 \ega
 \label{eq:NK2}
 \eeq
 \end{widetext}
+with the condition $\vec k'=\vec K -\vec k$.
 
 To simplify the calculation, in the following, we only focus on signal-to-noise ratio (SNR) for detecting a particular model of magnetic field power spectrum. Namely, we consider the case where most of the signal comes from the largest modes (smallest $\vec K$'s). In this (squeezed) limit, $\vec K \ll \vec k$ and thus $\vec k \approx \vec k'$, such that the noise power spectrum of \eq{\ref{eq:NK2}} becomes white noise (independent on $\vec K$). If we further denote pixels with Greek indicies, and, as before, retain Roman indicies for components of $\vec B$, then the pixel-noise variance for measuring a single mode $\vec K$ of $B_i$ component is $\sigma_{B_i}^2 \equiv P^N_{B_i}(z)/V_\text{voxel}$, where $V_\text{voxel}$ is volume of a survey voxel (3d pixel). The model for the power spectrum is defined through
 \beq
@@ -131,7 +132,7 @@ Substituting this into \eq{\ref{eq:snr_intK}}, we get
 \eeq
 Finally, performing the integration over $K,\theta,\phi$ analitically, for the FFTT case gives
 \beq
-\text{SNR}^2 =  A_0^2\pi^2\frac{7}{4} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right).
+\text{SNR}^2 =  A_0^2\pi^2\frac{7}{4} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right),
 \label{eq:snr_ints}
 \eeq
-When the last expression is evaluated at $A_0=1$, it provides the inverse of a value of $A_0$ detectable at $1\sigma$ sensitivity with a given experiment.
+where $P^N_{B_i}$ is given by \eq{\ref{eq:NK2}}. When the last expression is evaluated at $A_0=1$, it provides the inverse of a value of $A_0$ detectable at $1\sigma$ sensitivity with a given experiment.

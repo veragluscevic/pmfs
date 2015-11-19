@@ -22,16 +22,16 @@ T^S(\vec k) = T^S_0(\vec k) + B\frac{\partial T^S_0}{\partial B}(\vec k),%\bigg|
 where the magnitude of the field $B$ is a small expansion parameter in the linear theory we adop throught this work. We use the subscript ``0'' to denote functions evaluated at $B=0$. The only Gaussian random field the signal temperature is proportional to is the density fluctuation $\delta$, with the proportionality being the transfer funtion $G$,
 \beq
 \bga
-T^S(\vec k) = G(\widehat k)\delta(k),\\
-T^S_0(\vec k) = G_0(\widehat k)\delta(k),
+T^S(\vec k) = G({\bf{\widehat k}})\delta(k),\\
+T^S_0(\vec k) = G_0({\bf{\widehat k}})\delta(k),
 \ega
 \label{eq:def_G}
 \eeq
-where $\widehat k=(\theta_k,\phi_k)$ is a unit vector in the direction of $\vec k$. Note especially that we use the following notation
+where ${\bf{\widehat k}}=(\theta_k,\phi_k)$ is a unit vector in the direction of $\vec k$. Note especially that we use the following notation
 \beq
 \bga
-\frac{\partial T_0^S}{\partial B}(\vec k)\equiv  \delta(k)\frac{\partial G}{\partial B}(\widehat k,B=0),\\
-\frac{\partial G_0}{\partial B}(\widehat k)\equiv\frac{\partial G}{\partial B}.(\widehat k,B=0)
+\frac{\partial T_0^S}{\partial B}(\vec k)\equiv  \delta(k)\frac{\partial G}{\partial B}({\bf{\widehat k}},B=0),\\
+\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\equiv\frac{\partial G}{\partial B}.({\bf{\widehat k}},B=0)
 \ega
 \label{eq:dTdB_dGdB}
 \eeq
@@ -66,7 +66,7 @@ where we assume that the signal and the noise are uncorrelated, and keep only te
 \beq
 \bga
 \langle T(\vec k)T^*(\vec k')\rangle = P_\text{null}(\vec k)(2\pi)^3\delta_D(\vec k-\vec k')\\
- + 2BP_{\delta}(\vec k)Re\left[G_0^*(\widehat k)\frac{\partial G_0}{\partial B}(\widehat k)\right] (2\pi)^3\delta_D(\vec k-\vec k').
+ + 2BP_{\delta}(\vec k)Re\left[G_0^*({\bf{\widehat k}})\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\right] (2\pi)^3\delta_D(\vec k-\vec k').
 \ega
 \label{eq:TT_step2}
 \eeq
@@ -74,7 +74,7 @@ Notice here that, unlike the case of a uniform magnetic field, a stochastic fiel
 
 The next step is to note that we observe only one universe, so the measured proxy for the ensamble average of \eq{\ref{eq:TT_step2}} is just the product $T(\vec k)T^*(\vec k)$.  Using this fact and inverting \eq{\ref{eq:TT_step2}} gives an estimator for $B$ from a single $\vec k$-mode measurement,
 \beq
-\widehat B_{\vec k} = \frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{2P_{\delta}(\vec k)Re\left[G_0^*(\widehat k)\frac{\partial G_0}{\partial B}(\widehat k)\right]}.
+\widehat B_{\vec k} = \frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{2P_{\delta}(\vec k)Re\left[G_0^*({\bf{\widehat k}})\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\right]}.
 \label{eq:hatBk}
 \eeq 
 Note that we used the following property of the Dirac delta function on a bound volume (volume of the survey $V$)
@@ -88,14 +88,16 @@ and its relation to the Kroneker delta
 \label{eq:deltas}
 \eeq
 The estimator of \eq{\ref{eq:hatBk}} is unbiased, $\langle \widehat B_{\vec k}\rangle=0$, and the above expression can be used to calculate its covariance, 
+\begin{widetext}
 \beq
 \bga
-C_{\vec k,\vec k'} \equiv \langle \widehat B_{\vec k}\widehat B^*_{\vec k'}\rangle \\
+C_{\vec k,\vec k'} \equiv \langle \widehat B_{\vec k}\widehat B^*_{\vec k'}\rangle 
 = 
-\frac{\left\langle\left(\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)\right)\left(\frac{1}{V}T^*(\vec k')T(\vec k') - P_\text{null}(\vec k')\right)\right\rangle}{4P_{\delta}(\vec k)P_{\delta}(\vec k')Re\left[G_0^*(\widehat k)\frac{\partial G_0}{\partial B}(\widehat k)\right]Re\left[G_0(\widehat k')\frac{\partial G_0^*}{\partial B}(\widehat k')\right]},
+\frac{\left\langle\left(\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)\right)\left(\frac{1}{V}T^*(\vec k')T(\vec k') - P_\text{null}(\vec k')\right)\right\rangle}{4P_{\delta}(\vec k)P_{\delta}(\vec k')Re\left[G_0^*({\bf{\widehat k}})\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\right]Re\left[G_0({\bf{\widehat k}}')\frac{\partial G_0^*}{\partial B}({\bf{\widehat k}}')\right]},
 \ega
 \label{eq:mean_BB}
 \eeq
+\end{widetext}
 The expectation value in the above equation involves temperature 4-point correlation. If we enumerate factors of ``$T$'' in this correlation as $\langle 1\text{ }2\text{ }3\text{ }4\rangle$, the expansion of this correlation of four Gaussian random variables can be represented as a sum of the following contractions: $\langle T(\vec k)T^*(\vec k)T^*(\vec k')T(\vec k') \rangle=\langle1\text{ }2\rangle\langle3\text{ }4\rangle+
 \langle1\text{ }4\rangle\langle2\text{ }3\rangle+\langle1\text{ }3\rangle\langle2\text{ }4\rangle$. Keeping this order of summands, the correlation becomes
 \beq
@@ -142,7 +144,7 @@ The final expression for the estimator is then
 and its variance is
 \beq
 \bga
-\sigma^2_{\widehat B} = \left(\sum_{\vec k}\left(\frac{2P_{\delta}(\vec k)Re\left[G_0^*(\vec k)\frac{\partial G_0}{\partial B}(\vec k)\right]}{P_\text{null}(\vec k)}\right)^{2}\right)^{-1}.
+\sigma^2_{\widehat B} = \left(\sum_{\vec k}\left(\frac{2P_{\delta}(\vec k)Re\left[G_0^*(\vec k)\frac{\partial G_0}{\partial B}(\vec k)\right]}{G^2_0({\bf{\widehat k}})P_\delta(k)+P^N(\vec k)}\right)^{2}\right)^{-1}.
 \ega
 \label{eq:B_estimator_var}
 \eeq

@@ -36,8 +36,54 @@ from scipy.optimize import fsolve, root
 import healpy as hp
 from numba import jit
 
+val_Jlya = rf.Jlya_21cmfast_interp
+val_Tg = rf.Tg_21cmfast_interp
+val_Tk = rf.Tk_21cmfast_interp
+val_Ts = rf.Ts_21cmfast_interp
+             
+
 from scipy.interpolate import UnivariateSpline as interpolate
 from scipy.ndimage import gaussian_filter1d
+
+@jit
+def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
+                 nside=64, npix=None,
+                fileroot=RESULTS_PATH, z=30,
+                fontsize=24):
+    """This produces healpy visualization of the quadrupole patter,
+    in the frame of the atom.
+    """
+    Bs = np.array([0.,1e-18,1e-17, 1e-16])
+   
+    Ts = val_Ts( z )
+    Tg = val_Tg( z )
+    Tk = val_Tk( z )
+    Jlya = val_Jlya( z )        
+    Salpha = cf.val_Salpha(Ts, Tk, z, 1., 0) 
+    xalpha = rf.val_xalpha( Salpha=Salpha, Jlya=Jlya, Tg=Tg )
+    xc = rf.val_xc(z, Tk=Tk, Tg=Tg)
+    xBcoeff = ge * muB * Tstar / ( 2.*hbar * A * Tg ) 
+    
+    if npix is None:
+        npix = hp.nside2npix(nside)
+    for B in Bs:
+        filename = fileroot + 'hp_B_{:.0}G.pdf'.format(B)
+        mapa = np.zeros(npix)
+        for ipix in np.arange(npix):
+            thetan, phin = hp.pix2ang(nside, ipix)
+            mapa[ipix] = pt.pattern_Tb(thetak=thetak, phik=phik,
+                                       thetan=thetan, phin=phin, 
+                                        xalpha=xalpha, xc=xc, xB=xBcoeff*B)
+        if B > 0.:
+            Bexponent = np.log10(B / (1+z)**2)
+            title = r'$10^{:.0f}$ Gauss'.format(Bexponent)
+        else:
+            title = 'no magnetic field'
+        hp.mollview(mapa, title='', cbar=False)
+        plt.title(title, fontsize=fontsize)
+        plt.savefig(filename)
+    
+
 
 @jit
 def vis_xT(zmin=15,zmax=35, nzs=100,
@@ -399,3 +445,5 @@ def bin_data(x, y, npts):
         
         x, y = x[1:], y[1:]
     return xb/npts, yb/npts
+
+

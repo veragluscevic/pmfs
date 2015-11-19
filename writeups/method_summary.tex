@@ -1,2 +1,33 @@
 \section{Summary of the Method}
 \label{sec:method}
+
+In a classical picture, an external magnetic field causes precession of hydrogen atoms in the excited state of the 21-cm transition, because of the non-vanishing magnetic moments in that state.  Furthermore, the magnetic moments of the excited atoms tend to be aligned with the incident quadrupole of the 21-cm radiation from the surrounding medium. This effect of ``ground-state alignment'' arises in cosmological setting due to velocity-field gradients, and its magnitude can be computed for a given cosmology. In the presence of external large-scale magnetic fields, the emitted 21-cm quadrupole is misaligned with the incident quadrupole, due to atomic precession. See Figure \ref{fig:precession} for illustration of the effect of ground-state alignment and precession in inhomogenous universe. 
+\begin{figure}
+\centering
+\includegraphics[width=.35\textwidth,keepaspectratio=true]{Slide2.pdf}
+\includegraphics[width=.35\textwidth,keepaspectratio=true]{Slide3.pdf}
+\caption{Illustration of the effect of a magnetic field on hydrogen atoms in the excited state of 21-cm transition at high redshifts. The magnetic moments of the atoms (red arrows) tend to be aligned with the gradient in density (left panel; the gradient is depicted with the background shading), unless they precess about the direction of ambient magnetic field (pointing out of the page on the right panel). When the precessing atoms decay back into the ground state, the emitted quadrupole (aligned with the direction of the magnetic moments) is misaligned with the incident quadrupole. This offset can be observed as a statistical anisotropy of 21-cm-brightness-temperature correlation functions.\label{fig:precession}}
+\end{figure}
+
+The main result of Paper I was calculation of the 21-cm brightness temperature as a function of the line of sight (LOS) direction ${\bf{\widehat n}}$, in the frame of the emitting ensamble of atoms. The relevant expression is
+\beq
+\bga
+  \delta T_{\rm b}({\bf{\widehat n}}) = \left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2} \\
+  \times \biggl[ 26.4 \ {\rm mK} \Bigl\{ 1 + \left(1 + ({\bf{\widehat k}} \cdot {\bf{\widehat n}})^2 \right)\delta \Bigr\}  \\
+- 0.128 \ {\rm mK} \left( \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2}  \\
+\times \Bigl\{ 1 + 2 \left(1 + ({\bf{\widehat k}} \cdot {\bf{\widehat n}})^2 \right)\delta \\
+- \frac{ \delta }{15} \sum_m \frac{4\pi}{5} \frac{Y_{2 m}({\bf{\widehat k}}) \left[ Y_{2 m} ({\bf{\widehat n}}) \right]^* }{1 + x_{ \alpha, (2) } + x_{{\rm c}, (2)} - i m x_{\rm B}} \Bigr\} \biggr] \mbox{,} 
+\ega
+\label{eq:tbsoln}
+\eeq
+where $x_{\alpha, (2)}$, $x_{{\rm c}, (2)}$ and $x_{\rm B}$ parametrize the rates of depolarization of the ground state by optical pumping, collisions, and magnetic precession (relative to radiative depolarization), respectively. The are defined in detail in Paper I. Furthermore,  $T_{\rm b}$, $T_{\rm s}$, and $T_\gamma$ are the brightness temperature, the spin temperature, and the temperature of the cosmic microwave background at a give redshift $z$, respectively; $\bf{\widehat k}$ is a unit vector in the direction of the wave-vector $\vec k$ of a given density Fourier mode; $Y_{2 m}$ represent the usual spin-zero spherical harmonics. See Figure \ref{fig:hp} for the illustration of the effect of magnetic field on the brightness temperature emission pattern in the frame of the atom.
+
+\begin{figure}
+\centering
+\includegraphics[width=.35\textwidth,keepaspectratio=true]{hp_B_0e+00G.pdf}
+\includegraphics[width=.35\textwidth,keepaspectratio=true]{hp_B_1e-18G.pdf}
+\includegraphics[width=.35\textwidth,keepaspectratio=true]{hp_B_1e-17G.pdf}
+\includegraphics[width=.35\textwidth,keepaspectratio=true]{hp_B_1e-16G.pdf}
+\caption{.\label{fig:hp}}
+\end{figure}
+The affect of quadrupole misalignement arises at second order in optical depth (it is a result of a two-scattering process), and is thus a small correction to the total brightness temperature. However, owing to the long lifetime of the excited state (during which even an extremely slow precession has large cumulative effect), the effect of quadrupole misalignement is excuisitively sensitive to magnetic fields in the IGM at redshifts prior to cosmic reionization---as we show in Paper I, miniscule magnetic field strength of  $10^{-21}$ Gauss (in comoving units) produces order-one changes in the direction of the quadrupole. This means that a high-precision measurement of the 21-cm brightness-temperature 2-point correlation function has that level of intrinsic sensitivity to detecting magnetic fields in the Dark Ages. We now proceed to develop a formalism to search for this effect, with future surveys of teh redshifted 21-cm line, and to identifying experimental setups that can reach it. 
