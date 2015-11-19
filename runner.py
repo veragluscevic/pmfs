@@ -28,7 +28,7 @@ parser.add_argument('--fastfile', default=INPUTS_PATH+'21cmfast_teja_nov2014.txt
 parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations
 parser.add_argument('--nevalPBi', type=int, default=10000) # number of integrand evaluations
 
-parser.add_argument('--mode', default='B0') # 'B0' or 'zeta'
+parser.add_argument('--mode', default='B0') # 'B0' or 'xi' or 'SI' 
 
 parser.add_argument('--zmin', type=int, default=15)
 parser.add_argument('--zmax', type=int, default=35)
@@ -46,7 +46,7 @@ args = parser.parse_args()
 grid_path = RESULTS_PATH 
 
 # compute Fisher integral:
-if args.mode=='B0' or args.mode=='zeta':
+if args.mode=='B0' or args.mode=='xi':
     res = f.rand_integrator(neval=args.neval, 
                             t_yr=args.tyr,
                             DeltaL_km=args.DeltaL,
@@ -69,8 +69,8 @@ if args.mode=='SI':
 fout = open(grid_path + args.resfile, 'w')
 if args.mode=='B0':
     header = 'B0[Gauss]'
-if args.mode=='zeta':
-    header = 'zeta'
+if args.mode=='xi':
+    header = 'xi'
 if args.mode=='SI':
     header = 'sigma(sqrt[SI amplitude])'
 fout.write('{}  Omega_survey[sr]  DeltaL^2[km^2]  tobs[yr]\n'.format(header))

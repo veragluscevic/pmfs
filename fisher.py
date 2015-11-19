@@ -115,8 +115,8 @@ def integrand(x, mode='B0',
 
     :param mode:
       The mode of calculation; if mode == 'B0', returns sensitivity to measuring uniform mag. field B0
-      if mode == 'zeta', returns 1 sigma sensitivity to distinguishing saturated from unsaturated case, 
-      where zeta is unitless and between 0 and 1.
+      if mode == 'xi', returns 1 sigma sensitivity to distinguishing saturated from unsaturated case, 
+      where xi is unitless and between 0 and 1.
     :type mode: ``str``
 
     :param DeltaL_km:
@@ -229,7 +229,7 @@ def integrand(x, mode='B0',
 
         res = k_Mpc**2*np.sin(thetak)* Vpatch * Numerator/Denominator/(2.*np.pi)**3 
 
-    if mode=='zeta':
+    if mode=='xi':
         G_Bzero = pt.calc_G_Bzero(thetak=thetak, phik=phik, 
                                   thetan=thetan, phin=phin,
                                   Ts=Ts, Tg=Tg, z=z, 
@@ -427,12 +427,12 @@ def rand_integrator(neval=1000, DeltaL_km=2.,
                     mode='B0'):
     """Master integration function used to evaluate sensitivity to uniform mag. field.
 
-    Returns sigma_B0[Gauss] or zeta[no units], depending on the mode.
+    Returns sigma_B0[Gauss] or xi[no units], depending on the mode.
 
     :param mode:
       The mode of calculation; if mode == 'B0', returns sensitivity to measuring uniform mag. field B0
-      if mode == 'zeta', returns 1 sigma sensitivity to distinguishing saturated from unsaturated case, 
-      where zeta is unitless and between 0 and 1.
+      if mode == 'xi', returns 1 sigma sensitivity to distinguishing saturated from unsaturated case, 
+      where xi is unitless and between 0 and 1.
     :type mode: ``str``
 
     :param zmin:
@@ -519,7 +519,7 @@ def calc_PBi(z, neval=1000,
              Omega_survey=1.,
              kminmin=0.01,kmaxmax=1.,
              thetan=np.pi/2.,phin=0.):
-    """Master function to calculate noise per component of a stochastic mag. field vector B.
+    """Master function to calculate noise per component of a stochastic mag. field.
     It computes integral of eq 51 of detectability_notes, using random integrator algorithm.
 
     Takes the stuff below and returns noise per component in Gauss^2. ???
@@ -682,7 +682,7 @@ def vegas_integrator(neval=1000,nitn=10,
                      Omega_survey=1.,
                      Omega_patch=1.,
                      mode='B0'):
-    """Alternative integrator for B0 and zeta sensitivity; 
+    """Alternative integrator for B0 and xi sensitivity; 
     NOTE: does not return the same units output as rand_integrator.
     """
 
@@ -712,7 +712,7 @@ def nest_integrator(neval=100, Nz=20,
                     Omega_patch=1.,
                     thetan=np.pi/2.,phin=0.):
 
-    """Alternative integrator for B0 and zeta sensitivity; 
+    """Alternative integrator for B0 and xi sensitivity; 
     NOTE: does not return the same units output as rand_integrator.
     """
 
@@ -765,7 +765,7 @@ def nest_integrator(neval=100, Nz=20,
     return result
 
 ##################################################
-#####testing functions for integrand for B0/zeta.:
+#####testing functions for integrand for B0/xi.:
 def test_integrand_k(z=30,Nks=1000,
                    kmin=0.0001,kmax=10,
                    thetak=0.1,phik=0.,logplot=True,

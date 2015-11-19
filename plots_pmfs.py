@@ -90,87 +90,93 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
     ax = plt.gca()
     xlabel = ax.set_xlabel('z',fontsize=fontsize)
     ylabel = ax.set_ylabel(r'$J_{Ly\alpha}$ [$cm^{-2} sec^{-1} Hz^{-1}sr^{-1}$]',fontsize=fontsize)
-    plt.semilogy(zs,Jlya,lw=4,color='DarkBlue')
+    plt.semilogy(zs,Jlya,lw=4,color='Gray')
     plt.xlim(xmin=zmin,xmax=zmax)
     plt.savefig(RESULTS_PATH+'Jlya.pdf', 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
 
-def grid_DeltaL(mode='B0',t_yr=1., 
+def grid_DeltaL(modes=['B0','SI'],t_yr=2., 
                 Jmode='default',Omega=1.,
                 fontsize=24,
                 ymax=None,ymin=None,
                 xlabel='\Delta L [km]',
                 root=RESULTS_PATH,
-                color='Maroon',
+                colors=['Maroon','gray'],
                 save=True,
                 smooth=True,
                 s=3,binned=True,nbins=20,
+                plot_cieling=False,
                 cieling_zs=[25,26,27,28,29,30]):
 
     """Master plotter"""
-    
-    DeltaLs = np.load(root + 'DeltaLs_{}_{}_tyr_{:.2f}_Omega_{:.2f}.npy'.format(mode,Jmode,t_yr,Omega))
 
-
-    sigmas = []
-    ds = []
-    for j,d in enumerate(DeltaLs):
-        infile = root + '{}_{}_tyr_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}.txt'.format(mode,
-                                                                    Jmode,
-                                                                    t_yr,
-                                                                    d,Omega)
-
-        if os.path.exists(infile):
-            data = np.loadtxt(infile, skiprows=1, usecols=(0,))
-            sigmas.append(data)
-            ds.append(d)
-        else:
-            print('Did not find: {}'.format(infile))
-
-
-    ds = np.array(ds)
-    sigmas = np.array(sigmas)
-    #print(ds,sigmas)
-    
+    latexmode = {'SI':'stochastic (SI)', 'B0':'uniform', 'xi': r'$\xi$'}
     plt.figure()
     ax = plt.gca()
     fig = plt.gcf()
-
-    if mode=='B0':
-        ylabel = ax.set_ylabel('B [Gauss]',fontsize=fontsize)
-    if mode=='zeta':
-        ylabel = ax.set_ylabel(r'$\xi$',fontsize=fontsize)
-
-    if mode=='SI':
-        ylabel = ax.set_ylabel(r'(SI amplitude)$^{1/2}$ [Gauss]',fontsize=fontsize)
-
-    if smooth:
-        x = gaussian_filter1d(ds, s)
-        y = gaussian_filter1d(sigmas, s)
-    else:
-        x = ds
-        y = sigmas
-
-    if binned:
-        npts = len(x) / nbins
-        x, y = bin_data(ds, sigmas, npts)
-        
-    plt.semilogy(x, y, lw=3, color=color)
-    plt.ylim(ymin=ymin,ymax=ymax)
     xlabel = ax.set_xlabel(r'$\Delta$ L [km]',fontsize=fontsize)
+    if len(modes) > 1:
+        ylabel = ax.set_ylabel('[Gauss]',fontsize=fontsize)
+    else:
+        ylabel = ax.set_ylabel(r'$\xi$',fontsize=fontsize)
+    if plot_cieling:
+        zs, Bsat = saturationB_simple()
+        for z in cieling_zs:
+            ind = np.argmin(np.abs(zs-z))
+            B = Bsat[ind]
+            plt.semilogy(x,np.ones(len(x))*B,lw=2,label=z)
 
-    zs, Bsat = saturationB_simple()
-    for z in cieling_zs:
-        ind = np.argmin(np.abs(zs-z))
-        B = Bsat[ind]
-        plt.semilogy(x,np.ones(len(x))*B,lw=2,label=z)
-        
 
-    plt.legend()
+
+    for i,mode in enumerate(modes):
+        #if mode=='SI':
+        #    t_yr =2.
+        #else:
+        #    t_yr=1.
+        DeltaLs = np.load(root + 'DeltaLs_{}_{}_tyr_{:.2f}_Omega_{:.2f}.npy'.format(mode,Jmode,t_yr,Omega))
+
+
+        sigmas = []
+        ds = []
+        for j,d in enumerate(DeltaLs):
+            infile = root + '{}_{}_tyr_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}.txt'.format(mode,
+                                                                        Jmode,
+                                                                        t_yr,
+                                                                        d,Omega)
+
+            if os.path.exists(infile):
+                data = np.loadtxt(infile, skiprows=1, usecols=(0,))
+                sigmas.append(data)
+                ds.append(d)
+            else:
+                print('Did not find: {}'.format(infile))
+
+
+        ds = np.array(ds)
+        sigmas = np.array(sigmas)
+
+        if smooth:
+            x = gaussian_filter1d(ds, s)
+            y = gaussian_filter1d(sigmas, s)
+        else:
+            x = ds
+            y = sigmas
+
+        if binned:
+            npts = len(x) / nbins
+            x, y = bin_data(ds, sigmas, npts)
+
+        plt.semilogy(x, y, lw=4, color=colors[i],label=latexmode[mode])
+
+
+    
+    plt.ylim(ymin=ymin,ymax=ymax)
+    if len(modes) > 1:
+        plt.legend(fontsize=fontsize, frameon=False)
 
     if save:
-        plt.savefig(root + '{}_vs_deltas.pdf'.format(mode), 
+        plt.savefig(root + 'sigma_vs_deltas.pdf', 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
 

@@ -14,7 +14,7 @@ parser.add_argument('--tyr', type=float, default=2.) # duration of the survey, i
 parser.add_argument('--DeltaLmin', type=float, default=1) # min side of a square-shaped FFTT in km.
 parser.add_argument('--DeltaLmax', type=float, default=10) # max side of a square-shaped FFTT in km.
 parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in sr.
-parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations
+parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations; should be 100 for mode=='SI'
 parser.add_argument('--nevalPBi', type=int, default=5000) # number of integrand evaluations
 
 parser.add_argument('--NDeltaL', type=int, default=300) # DeltaL sample points.
