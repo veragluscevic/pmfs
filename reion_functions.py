@@ -35,17 +35,25 @@ Pnp_tuple = ((2,1.), (3,0), (4,0.2609), (5,0.3078), (6,0.3259), (7,0.3353), (8,0
 
 
 file_21cmfast = np.loadtxt(INPUTS_PATH+'21cmfast_teja_nov2014.txt')
+file_21cmfast_noheat = np.loadtxt(INPUTS_PATH+'21cmfast_teja_nov2015_noheat.txt')
+#file_21cmfast_hiheat = np.loadtxt(INPUTS_PATH+'21cmfast_teja_nov2015_hiheat.txt')
 Tks_21cmfast = file_21cmfast[:,2][::-1]
 Tgs_21cmfast = file_21cmfast[:,5][::-1]
 Tss_21cmfast = file_21cmfast[:,4][::-1]
 Jlyas_21cmfast = file_21cmfast[:,6][::-1]
+Jlyas_21cmfast_noheat = file_21cmfast_noheat[:,6][::-1]
+#Jlyas_21cmfast_hiheat = file_21cmfast_hiheat[:,6][::-1]
 zs_21cmfast = file_21cmfast[:,0][::-1]
+zs_21cmfast_noheat = file_21cmfast_noheat[:,0][::-1]
+#zs_21cmfast_hiheat = file_21cmfast_hiheat[:,0][::-1]
 
 Tk_21cmfast_interp = interpolate(zs_21cmfast, Tks_21cmfast, s=0)
 Tg_21cmfast_interp = interpolate(zs_21cmfast, Tgs_21cmfast, s=0)
 Ts_21cmfast_interp = interpolate(zs_21cmfast, Tss_21cmfast, s=0)
 
 Jlya_21cmfast_interp = interpolate(zs_21cmfast, Jlyas_21cmfast, s=0)
+Jlya_21cmfast_noheat_interp = interpolate(zs_21cmfast_noheat, Jlyas_21cmfast_noheat, s=0)
+#Jlya_21cmfast_hiheat_interp = interpolate(zs_21cmfast_hiheat, Jlyas_21cmfast_hiheat, s=0)
 
 
 def calc_simple_Jlya( z ):

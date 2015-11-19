@@ -92,7 +92,7 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
     B0=1e-16
     #powB = np.log10(B0)
     zs = np.linspace(zmin,zmax,nzs)
-    Ts = []; Tg = []; Tk = []; Jlya = []
+    Ts = []; Tg = []; Tk = []; Jlya = []; Jlya_noheat = []; Jlya_hiheat = []
     xc = []; xB = []; xalpha = []
     for i,z in enumerate(zs):
         B = B0/(1+z)**2
@@ -100,6 +100,8 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
         Tg.append(f.val_Tg( z ))
         Tk.append(f.val_Tk( z ))
         Jlya.append(rf.Jlya_21cmfast_interp( z ))
+        #Jlya_noheat.append(rf.Jlya_21cmfast_noheat_interp( z ))
+        #Jlya_hiheat.append(rf.Jlya_21cmfast_hiheat_interp( z ))
         Salpha = cf.val_Salpha(Ts[i], Tk[i], z, 1., 0) 
         xalpha.append(rf.val_xalpha( Salpha=Salpha, Jlya=Jlya[i], Tg=Tg[i] ))
         xc.append(rf.val_xc(z, Tk=Tk[i], Tg=Tg[i]))
@@ -137,10 +139,13 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
     xlabel = ax.set_xlabel('z',fontsize=fontsize)
     ylabel = ax.set_ylabel(r'$J_{Ly\alpha}$ [$cm^{-2} sec^{-1} Hz^{-1}sr^{-1}$]',fontsize=fontsize)
     plt.semilogy(zs,Jlya,lw=4,color='Gray')
+    plt.semilogy(zs,Jlya_noheat,lw=4,color='Gray')
     plt.xlim(xmin=zmin,xmax=zmax)
     plt.savefig(RESULTS_PATH+'Jlya.pdf', 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
+
+    return zs,Jlya_noheat, Jlya
 
 def grid_DeltaL(modes=['B0','SI'],t_yr=2., 
                 Jmode='default',Omega=1.,
