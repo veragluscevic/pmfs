@@ -76,7 +76,7 @@ def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
                                         xalpha=xalpha, xc=xc, xB=xBcoeff*B)
         if B > 0.:
             Bexponent = np.log10(B / (1+z)**2)
-            title = r'$10^{:.0f}$ Gauss'.format(Bexponent)
+            title = r'$10^{{{:.0f}}}$ Gauss'.format(Bexponent)
         else:
             title = 'no magnetic field'
         hp.mollview(mapa, title='', cbar=False)
