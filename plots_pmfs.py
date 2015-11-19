@@ -153,6 +153,7 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
                 smooth=True,
                 s=3,binned=True,nbins=20,
                 plot_cieling=False,
+                plot_grid=True,
                 cieling_zs=[25,26,27,28,29,30]):
 
     """Master plotter"""
@@ -173,7 +174,8 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
             B = Bsat[ind]
             plt.semilogy(x,np.ones(len(x))*B,lw=2,label=z)
 
-
+    if plot_grid:
+        plt.grid(b=True,which='both')
 
     for i,mode in enumerate(modes):
         #if mode=='SI':
