@@ -176,7 +176,10 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
         plt.legend(fontsize=fontsize, frameon=False)
 
     if save:
-        plt.savefig(root + 'sigma_vs_deltas.pdf', 
+        fname = root + 'sigma_vs_deltas.pdf'
+        if len(modes) < 2:
+            fname = root + 'xi_vs_deltas.pdf'
+        plt.savefig(fname, 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
 
