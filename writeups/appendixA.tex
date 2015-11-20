@@ -52,23 +52,23 @@ Resuming the derivation, if different frequencies are uncorrelated, the result o
 \caption{Two-antennae interferometer.\label{fig:2antennae}}
 \end{figure}
 %%%%%%%%%%%%
-The final step in this derivation requires the relation between intensity in the sky $\mathcal{I}(\theta_x,\theta_y, \nu)$ (within the beam of the solid angle $\Omega_b$, centered on the direction $(\theta_x,\theta_y)$) and the electric fields measured in the two antennae,
+The final step in this derivation requires the relation between intensity in the sky $\mathcal{I}(\theta_x,\theta_y, \nu)$ (within the beam of the solid angle $\Omega_b$, centered on the direction $(\theta_x,\theta_y)$) and the electric fields measured in the two antennas,
 \beq
 \bga
-\langle \widetilde{E}_i^*(\nu)\widetilde{E}_j(\nu)\rangle \propto \int_{\Omega_b} d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\nu)\\
+\langle \widetilde{E}_i^*(\nu)\widetilde{E}_j(\nu)\rangle \propto \int_{\Omega_b} d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu)\\
 \times e^{ i\frac{2\pi\nu}{c}(b_x\theta_x + b_y\theta_y)  }R(\theta_x,\theta_y),
 \ega
 \label{eq:E_vs_mathcalI}
 \eeq
 where $R(\theta_x,\theta_y)$ is the antenna response function (the shape of the beam in the sky), which we will assume to be unity. Furthermore, $\frac{2\pi\nu}{c}(b_x\theta_x + b_y\theta_y)\equiv {2\pi}(u\theta_x + v\theta_y)$ is the phase delay between two antennae (position in the $uv$ plane measures the phase lag between the two dishes in wavelenghts). The coefficient of proportionallity in the above equation is set by various instrumental parameters, and is not relevant for our purposes. From \eq{\ref{eq:rho_ij}}, it follows
 \beq
-\rho_{ij}(\nu) = \frac{\int_{\Omega_b}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\nu)e^{2\pi i(u\theta_x+v\theta_y)}}{\int_{\Omega_b}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\nu)},
+\rho_{ij}(\nu) = \frac{\int_{\Omega_b}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu)e^{2\pi i(u\theta_x+v\theta_y)}}{\int_{\Omega_b}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu)},
 \label{eq:rho_mathcalI}
 \eeq
 where the denominator in the above formula approximately integrates to (for a small beam)
 \beq
-\int_{\Omega_b}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\nu) \approx
-\Omega_b \mathcal{I}(\theta_x,\theta_y,\nu).
+\int_{\Omega_b}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu) \approx
+\Omega_b \mathcal{I}(\theta_x,\theta_y,\theta_\nu).
 \label{eq:rho_denominator}
 \eeq
 We can now use the approximate expression for the resolution of a single dish,
@@ -78,17 +78,17 @@ We can now use the approximate expression for the resolution of a single dish,
 \eeq
 the Reyliegh-Jeans law (or the definition of the brightness temperature),
 \beq
-\mathcal{I}(\theta_x,\theta_y,\nu) = \frac{2k_BT_\text{sys}}{\lambda^2},
+\mathcal{I}(\theta_x,\theta_y,\theta_\nu) = \frac{2k_BT_\text{sys}}{\lambda^2},
 \label{eq:I_Tsys}
 \eeq
 and note that the numerator in \eq{\ref{eq:rho_mathcalI}} matches the definition of visibility from \eq{\ref{eq:visibility}} to get 
 \beq
-\rho_{ij}(\nu) = \frac{A_e}{2k_BT_\text{sys}}V(u,v,\nu),
+\rho_{ij}(\nu) = \frac{A_e}{2k_BT_\text{sys}}V(u,v,\theta_\nu),
 \label{eq:rho_V}
 \eeq
 Combining the above expression and \eq{\ref{eq:var_rho}}, we get the final result of this derivation,
 \beq
-\langle|V(u,v,\nu)|^2\rangle = \left(\frac{2k_BT_\text{sys}}{A_e\sqrt{t_1\Delta \nu}}\right)^2\delta(u-u')\delta(v-v')\delta_{\nu\nu'},
+\langle|V(u,v,\theta_\nu)|^2\rangle = \left(\frac{2k_BT_\text{sys}}{A_e\sqrt{t_1\Delta \nu}}\right)^2\delta(u-u')\delta(v-v')\delta_{\theta_\nu\theta_{\nu'}},
 \label{eq:Vrms_final}
 \eeq
 where $V$ is a complex Gaussian variable, centered at zero, and uncorrelated for different values of its arguments.
