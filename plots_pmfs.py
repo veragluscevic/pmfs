@@ -102,7 +102,7 @@ def sigma_z(zmin=15,zmax=35,
 
         
     xlabel = ax.set_xlabel('z',fontsize=fontsize)
-    ylabel = ax.set_ylabel(r'$1\sigma$ amplitude [Gauss]', fontsize=fontsize)
+    ylabel = ax.set_ylabel(r'$1\sigma$ [Gauss]', fontsize=fontsize)
     plt.grid(b=True,which='both')
     plt.legend(loc='upper right',fontsize=fontsize)
 
