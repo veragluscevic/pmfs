@@ -45,31 +45,51 @@ val_Ts = rf.Ts_21cmfast_interp
 from scipy.interpolate import UnivariateSpline as interpolate
 from scipy.ndimage import gaussian_filter1d
 
-@jit 
+
 def sigma_z(zmin=15,zmax=35,
-                       t_yr=2.,
-                       baselines=[1.,4.,10.],
-                       kminmin=0.01,kmaxmax=1.,
-                       neval=300,neval_PBi=100,
-                       Omega_survey=1.,
-                       thetan=np.pi/2.,phin=0.,
-                       fontsize=24, smooth=True, binned=True, 
-                       nbins=20,s=4):
+            mode='B0',
+            t_yr=2.,
+            baselines=[1.,2.,4.,10.],
+            kminmin=0.01,kmaxmax=1.,
+            neval=300,neval_PBi=100,
+            Omega_survey=1.,
+            thetan=np.pi/2.,phin=0.,
+            fontsize=24, smooth=True, binned=True, 
+            nbins=20,s=4,ymax=1e-16, xmax=34):
 
     """Integrand of SNR for SI, as a function of z"""
 
-    colors = ['DarkBlue','blue','cyan','gray']
+    
+    colors = ['DarkCyan','DarkBlue','blue','cyan']
+
+    plt.figure()
+    ax = plt.gca()
+
+    zsat, Bsat = saturationB_simple(nzs=neval, zmin=zmin, zmax=zmax)
+    ceiling = np.ones(len(zsat)) * ymax
+    plt.semilogy(zsat, Bsat,'--', lw=2, color='gray')
+    plt.fill_between(zsat, Bsat, ceiling, alpha=0.14, color='gray')
+    
     for i,DeltaL_km in enumerate(baselines):
-        zs, sigma = f.calc_SNR(zmin=zmin,zmax=zmax,
-                 t_yr=t_yr,
-                  DeltaL_km=DeltaL_km,
-                  kminmin=kminmin,kmaxmax=kmaxmax,
-                  neval=neval,neval_PBi=neval_PBi,
-                  Omega_survey=Omega_survey,
-                  thetan=thetan,phin=phin,
-                  plotter_calling=True)
+        if mode=='SI':
+            zs, sigma = f.calc_SNR(zmin=zmin,zmax=zmax,
+                     t_yr=t_yr,
+                      DeltaL_km=DeltaL_km,
+                      kminmin=kminmin,kmaxmax=kmaxmax,
+                      neval=neval,neval_PBi=neval_PBi,
+                      Omega_survey=Omega_survey,
+                      thetan=thetan,phin=phin,
+                      plotter_calling=True)
+        if mode=='B0':
+            zs, sigma = f.rand_k_integrator(neval=100, nzs=100, DeltaL_km=DeltaL_km,
+                                          t_yr=t_yr,
+                                          kminmin=kminmin,kmaxmax=kmaxmax,
+                                          zmax=zmax,zmin=zmin,
+                                          Omega_survey=Omega_survey,
+                                          thetan=thetan,phin=phin)
+     
         if smooth:
-            x = gaussian_filter1d(zs, sigma)
+            x = gaussian_filter1d(zs, s)
             y = gaussian_filter1d(sigma, s)
         else:
             x = zs
@@ -78,21 +98,24 @@ def sigma_z(zmin=15,zmax=35,
         if binned:
             npts = len(x) / nbins
             x, y = bin_data(zs, sigma, npts)
-        plt.semilogy(x, y,lw=4,color=colors[i],label='{:.0f}'.format(DeltaL_km))
+        plt.semilogy(x, y,lw=4,color=colors[i],label='{:.0f} km'.format(DeltaL_km))
 
         
-    plt.figure()
-    ax = plt.gca()
     xlabel = ax.set_xlabel('z',fontsize=fontsize)
     ylabel = ax.set_ylabel(r'$1\sigma$ amplitude [Gauss]', fontsize=fontsize)
+    plt.grid(b=True,which='both')
+    plt.legend(loc='upper right',fontsize=fontsize)
 
-    plt.legend(fontsize=fontsize, frameon=False)
-
-    fname = RESULTS_PATH + 'sigma_vs_z.pdf'
+    if xmax is None:
+        xmax = zmax
+    ax.set_ylim(ymax=ymax)
+    ax.set_xlim(xmax=xmax)
+    fname = RESULTS_PATH + 'sigma{}_vs_z.pdf'.format(mode)
     plt.savefig(fname, 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
 
+    return zs, sigma
     
 
 @jit
@@ -200,16 +223,13 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
 def grid_DeltaL(modes=['B0','SI'],t_yr=2., 
                 Jmode='default',Omega=1.,
                 fontsize=24,
-                ymax=None,ymin=None,
                 xlabel='\Delta L [km]',
                 root=RESULTS_PATH,
                 colors=['Maroon','gray'],
                 save=True,
                 smooth=True,
                 s=3,binned=True,nbins=20,
-                plot_cieling=False,
-                plot_grid=True,
-                cieling_zs=[25,26,27,28,29,30]):
+                plot_grid=True):
 
     """Master plotter"""
 
@@ -222,13 +242,7 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
         ylabel = ax.set_ylabel('[Gauss]',fontsize=fontsize)
     else:
         ylabel = ax.set_ylabel(r'$\xi$',fontsize=fontsize)
-    if plot_cieling:
-        zs, Bsat = saturationB_simple()
-        for z in cieling_zs:
-            ind = np.argmin(np.abs(zs-z))
-            B = Bsat[ind]
-            plt.semilogy(x,np.ones(len(x))*B,lw=2,label=z)
-
+  
     if plot_grid:
         plt.grid(b=True,which='both')
 
@@ -272,11 +286,10 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
 
         plt.semilogy(x, y, lw=4, color=colors[i],label=latexmode[mode])
 
-
-    
-    plt.ylim(ymin=ymin,ymax=ymax)
     if len(modes) > 1:
-        plt.legend(fontsize=fontsize, frameon=False)
+        plt.legend(fontsize=fontsize)
+    else:
+        ax.set_ylim(ymax=1)
 
     if save:
         fname = root + 'sigma_vs_deltas.pdf'
@@ -469,7 +482,7 @@ def saturationB_simple(zs=None,nzs=100,
         #fig = plt.gcf()
         ax = plt.gca()
         
-        ylabel = ax.set_ylabel('Saturation [Gauss comov.]',fontsize=fontsize)
+        ylabel = ax.set_ylabel('Saturation [Gauss]',fontsize=fontsize)
         xlabel = ax.set_xlabel('z',fontsize=fontsize)
        
         plt.semilogy(zs,Bsat,lw=4,color='b')

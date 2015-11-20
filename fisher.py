@@ -484,7 +484,6 @@ def rand_integrator(neval=1000, DeltaL_km=2.,
     
 
     """
-
     zs = np.random.random(size=neval)*(zmax - zmin) + zmin
     thetas = np.random.random(size=neval)*np.pi
     phis = np.random.random(size=neval)*2.*np.pi
@@ -504,13 +503,50 @@ def rand_integrator(neval=1000, DeltaL_km=2.,
                                Omega_patch=Omega_patch)
         #print(samples[i])
 
+
     result = samples.mean()*Volume
     alpha_survey = (Omega_survey)**0.5 
     result_all_survey = result / Omega_patch * np.pi * (alpha_survey + np.cos(alpha_survey)*np.sin(alpha_survey))
 
+
     res = 1./result_all_survey**0.5
     return res
 
+
+@jit#(nopython=True)
+def rand_k_integrator(neval=100, DeltaL_km=2.,
+                    t_yr=1.,nzs=100,
+                    kminmin=0.01,kmaxmax=1.,
+                    zmax=35,zmin=15,
+                    Omega_survey=1.,
+                    Omega_patch=1.,
+                    thetan=np.pi/2.,phin=0.):
+
+    zs = np.linspace(zmin, zmax, nzs)
+    thetas = np.random.random(size=neval)*np.pi
+    phis = np.random.random(size=neval)*2.*np.pi
+    ks = np.random.random(size=neval)*(kmaxmax - kminmin) + kminmin
+
+    Volume = (kmaxmax - kminmin) * 2.* np.pi**2
+
+    result = np.zeros(nzs)
+    for j,z in enumerate(zs):
+        xlist = []
+        for i in np.arange(neval):
+            xlist.append(np.array([z,ks[i],thetas[i],phis[i]]))
+        xs = np.array(xlist)
+
+        samples = np.zeros(neval)
+        for i,x in enumerate(xs):
+            samples[i] = integrand(x,mode='B0',
+                                   DeltaL_km=DeltaL_km,
+                                   Omega_patch=Omega_patch)
+
+        result[j] = samples.mean()*Volume
+    alpha_survey = (Omega_survey)**0.5 
+    result_all_survey = result / Omega_patch * np.pi * (alpha_survey + np.cos(alpha_survey)*np.sin(alpha_survey))
+    res = 1./result_all_survey**0.5
+    return zs, res
 
 @jit#(nopython=True)
 def calc_PBi(z, neval=1000,
