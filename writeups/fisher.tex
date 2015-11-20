@@ -105,7 +105,7 @@ where $\vec r_{\alpha/\beta}$ represents spatial position of a given voxel, and 
 where $dV_\text{patch}$ is the volume of a redshift-slice patch at $z$, given by \eq{\ref{eq:dVpatch}}. Note that we use the power spectrum of a comoving field $B$, such that the redshift evolution factors out in the usual way, described in the uniform-field case. Substituting \eq{\ref{eq:SI}}, and integrating over all $z$'s available in the survey, 
 \beq
 \bga
-\text{SNR}^2 =  \frac{A_0^2}{2}  \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 
+\text{SNR}^2 =  \frac{A_0^4}{2}  \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 
 \int_0^{\pi} \sin\theta d\theta \\
 \int_0^{2\pi} d\phi\int_{K_\text{min}(z,\theta,\phi)}^{K_\text{max}(z,\theta,\phi)} \frac{d K}{K^4}\sum_{ij\in \{xx, xy, yx, yy\}}(\delta_{ij} - \widehat K_i\widehat K_j)^2,
 \ega
@@ -125,14 +125,14 @@ The sum in the above expression reduces to
 Substituting this into \eq{\ref{eq:snr_intK}}, we get 
 \beq
 \bga
-\text{SNR}^2 =  \frac{A_0^2}{2} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 \int_0^{\pi} d\theta\\
+\text{SNR}^2 =  \frac{A_0^4}{2} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 \int_0^{\pi} d\theta\\
 \int_0^{2\pi} d\phi(2-\sin^2\theta(1+\sin^2\phi\cos^2\phi)) \int_{K_\text{min}(z,\theta,\phi)}^{K_\text{max}(z,\theta,\phi)} \frac{d K}{K^4}.
 \ega
 \label{eq:snr_ints}
 \eeq
 Finally, performing the integration over $K,\theta,\phi$ analitically, for the FFTT case gives
 \beq
-\text{SNR}^2 =  A_0^2\pi^2\frac{7}{4} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right),
+\text{SNR}^2 =  A_0^4\pi^2\frac{7}{4} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^4 \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right),
 \label{eq:snr_ints}
 \eeq
 where $P^N_{B_i}$ is given by \eq{\ref{eq:NK2}}. When the last expression is evaluated at $A_0=1$, it provides the inverse of a value of $A_0$ detectable at $1\sigma$ sensitivity with a given experiment.
