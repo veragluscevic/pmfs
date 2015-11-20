@@ -1,7 +1,7 @@
 \section{Fisher analysis}
 \label{sec:fisher}
 
-We now use the key results of \S\ref{sec:estimators} to discuss estimation of sensitivity of future observations to detecting magnetic fields in the IGM at high redshifts. We first discuss the case of a field uniform in the entire survey volume, starting with the unsatured case, where the strength of $\vec B$ classically produces less than 1 radian of precession at all redshifts of interest, and then move on to discussing detectability in the saturated case, where $B$ is a strong field in this sense. Finally, we discuss detectability of a stochastic magnetic field with a scale-independent power spectrum.
+We now use the key results of \S\ref{sec:estimators} to discuss estimation of sensitivity of future observations to detecting magnetic fields in the IGM at high redshifts. We first discuss the case of a field uniform in the entire survey volume, starting with the unsatured case, where the strength of $\vec B$ classically produces less than 1 radian of precession at all redshifts of interest, and then move on to discussing detectability in the saturated case, where $\vec B$ is a strong field in this sense. Finally, we discuss detectability of a stochastic magnetic field with a scale-independent power spectrum.
 
 \subsection{Uniform field case}
 \label{subsec:uniform_fisher}
@@ -54,7 +54,7 @@ Let us now discuss the case of a stochastic field. Using \eq{\ref{eq:NK}}, with 
 \begin{widetext}
 \beq
 \bga
-P^N_{B_i}(\vec K) = \left(\frac{1}{2}\int k^2d{k}\sin \theta_kd\theta_kd\phi_k \frac{\left|P_\delta(\vec k')G_0^*(\vec k')\frac{\partial G_0}{\partial B_i}(\vec k') - P_\delta(\vec k)G_0(\vec k)\frac{\partial G_0^*}{\partial B_i}(\vec k)\right|^2}{\left(G^2_0(\vec k)P_\delta(\vec k) + P^N(\vec k)\right)\left(G^2_0(\vec k')P_\delta(\vec k') + P^N(\vec k')\right) } \right)^{-1},
+P^N_{B_i}(\vec K) = \left(\frac{1}{2}\int k^2d{k}\sin \theta_kd\theta_kd\phi_k \frac{\left|P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k}})\right|^2}{\left(G^2_0({\bf{\widehat k}})P_\delta(k) + P^N(\vec k)\right)\left(G^2_0({\bf{\widehat k'}})P_\delta(k') + P^N(\vec k')\right) } \right)^{-1},
 \ega
 \label{eq:NK2}
 \eeq
