@@ -2,11 +2,6 @@
 \section{Appendix A: Visibility-variance derivation}
 \label{app:Vrms}
 
-\begin{figure}
-\centering
-\includegraphics[width=.5\textwidth,keepaspectratio=true]{2antennae.pdf}
-\caption{Two-antennae interferometer.\label{fig:2antennae}}
-\end{figure}
 Here we derive the variance of the visibility for an interferometric array of two antennas separated by a baseline $\vec{b}=(b_x,b_y)$, each with an effective collecting area $A_e$, observing a single element in $uv$ plane for time duration $t_1$, in the total bandwidth $\Delta \nu = \nu_\text{max}-\nu_\text{min}$. This setup is shown in Figure \ref{fig:2antennae}. Note that modes with frequencies that differ by less than $1/t_1$ cannot be distinguished in observation time $t_1$, and modes with frequencies in each interval of size $1/t_1$ are ``collapsed'' into a discrete mode with $\nu_n = n/t_1$, where $n\in Z$. Thus, the number of measured (discrete) frequencies is $N_\nu=t_1\Delta \nu$.
 
 Electric field induced in a single antenna is
@@ -29,7 +24,8 @@ Let us now assume that
 In the following, for clarity, we will omit writing the explicit dependence on $\nu$.  The real (or imaginary) part of $\rho$ has the following variance
 \beq
 \bga
-var(Re[\rho_{ij}]) = \frac{1}{(2\sigma^2)^2}var(\langle Re[\widetilde{E}_i]Re[\widetilde{E}_j] + Im[\widetilde{E}_i]Im[\widetilde{E}_j]]\rangle) \\
+var(Re[\rho_{ij}]) \\
+= \frac{1}{(2\sigma^2)^2}var(\langle Re[\widetilde{E}_i]Re[\widetilde{E}_j] + Im[\widetilde{E}_i]Im[\widetilde{E}_j]]\rangle) \\
 = \frac{2\sigma^2\sigma^2}{(2\sigma^2)^2} = \frac{1}{2N_\nu} = \frac{1}{2t_1\Delta \nu}.
 \ega
 \label{eq:var_Rerho}
@@ -51,6 +47,11 @@ Resuming the derivation, if different frequencies are uncorrelated, the result o
 \label{eq:var_rho}
 \eeq
 
+\begin{figure}
+\centering
+\includegraphics[width=.5\textwidth,keepaspectratio=true]{2antennae.pdf}
+\caption{Two-antennae interferometer.\label{fig:2antennae}}
+\end{figure}
 %%%%%%%%%%%%
 The final step in this derivation requires the relation between intensity in the sky $\mathcal{I}(\theta_x,\theta_y, \nu)$ (within the beam of the solid angle $\Omega_b$, centered on the direction $(\theta_x,\theta_y)$) and the electric fields measured in the two antennae,
 \beq
