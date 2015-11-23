@@ -61,11 +61,11 @@ In this Section, we derive the noise power spectrum for the brightness temperatu
 where $\delta_D$ is the Dirac delta function. The observable we wish to relate this power spectrum to is the visibility function---a complex Gaussian variable with a zero mean, whose noise-induced variance (derived in Appendix \ref{app:Vrms}) reads
 \beq\bga
 \langle V({u},v,\theta_\nu)V({u'},v',\theta_\nu')^*\rangle \\
-= \left(\frac{2k_BT_\text{sys}}{A_e\sqrt{\Delta\nu t_1}}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta_{\theta_\nu\theta_{\nu}'},
+= \left(\frac{2k_BT_\text{sky}}{A_e\sqrt{\Delta\nu t_1}}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta_{\theta_\nu\theta_{\nu}'},
 \ega
 \label{eq_Vrms}
 \eeq 
-where $T_\text{sys}$ is the system + sky temperature; $t_1$ is the total time a single baseline spent observing an element at the position $(u,v)$ in the $uv$ plane; $A_e$ is the collecting area of a single dish; $k_B$ is Boltzmann constant; $\Delta\nu$ is the bandwidth centered on $z$; and $\delta$ symbol with subscripts denotes the Kronecker delta.
+where $T_\text{sky}$ is the sky temperature; $t_1$ is the total time a single baseline spent observing an element at the position $(u,v)$ in the $uv$ plane; $A_e$ is the collecting area of a single dish; $k_B$ is Boltzmann constant; $\Delta\nu$ is the bandwidth centered on $z$; and $\delta$ symbol with subscripts denotes the Kronecker delta.
 
 The next step is to combine Eqs.~(\ref{eq:visibility}) and (\ref{eq_Vrms}), and take ensamble average to get
 \beq
@@ -81,7 +81,7 @@ where
 \eeq
 is the periodic delta-function on the $t_1$ interval.  Taking into account the scaling relation of \eq{\ref{eq_tilde_I_vs_Ik_scaling}}, introducing the power spectrum of \eq{\ref{eq_tildeI_power}}, and keeping in mind the scaling property of the delta function, we arrive at
 \beq
-P_1^N(\vec k) = \frac{1}{t_1}\frac{c(1+z)^2D_M^2(z)}{H(z)\nu_{21}}\left(\frac{2k_BT_\text{sys}}{A_e}\right)^2 ,
+P_1^N(\vec k) = \frac{1}{t_1}\frac{c(1+z)^2D_M^2(z)}{H(z)\nu_{21}}\left(\frac{2k_BT_\text{sky}}{A_e}\right)^2 ,
 \label{eq:Pnoise_1mode}
 \eeq
 for the noise per $\vec k$ mode, per baseline.
