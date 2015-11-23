@@ -45,6 +45,20 @@ val_Ts = rf.Ts_21cmfast_interp
 from scipy.interpolate import UnivariateSpline as interpolate
 from scipy.ndimage import gaussian_filter1d
 
+@jit
+def plot_dA(zmin=15,zmax=35,nz=100):
+    das = np.zeros(nz)
+    zs = np.linspace(zmin,zmax,nz)
+    for i,z in enumerate(zs):
+        das[i] = cf.val_dA( z )/Mpc_in_cm # Mpc comoving
+
+
+    #kmin = 2.*np.pi/(dA*sint/Mpc_in_cm) # 1/Mpc comoving
+    #kmax = kmin * DeltaL_cm / lambda_z # 1/Mpc comoving
+    plt.plot(zs,das,lw=3)
+    
+        
+
 
 def sigma_z(zmin=15,zmax=35,
             mode='B0',

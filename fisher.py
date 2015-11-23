@@ -522,6 +522,9 @@ def rand_k_integrator(neval=100, DeltaL_km=2.,
                     Omega_patch=1.,
                     thetan=np.pi/2.,phin=0.):
 
+    """this is only to plot integrands of uniform case integration;
+        integral is performed only over \vec k, so that the integrand is a function of z."""
+
     zs = np.linspace(zmin, zmax, nzs)
     thetas = np.random.random(size=neval)*np.pi
     phis = np.random.random(size=neval)*2.*np.pi
@@ -708,7 +711,7 @@ def calc_SNR(zmin=22,zmax=35,
     if plotter_calling:
         return zs, 1/(7.*np.pi**2/4. * samples)**0.25
 
-    res = 7.*np.pi**2/4. * samples.mean() * (zmax - zmin) 
+    res = 7./36./np.pi * samples.mean() * (zmax - zmin) 
     return 1./res**0.25
 
 
