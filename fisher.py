@@ -155,7 +155,7 @@ def integrand(x, mode='B0',
     
     DeltaL_cm = DeltaL_km * 1e5 # cm
     lambda_z = lambda21 * ( 1. + z ) # cm
-    dA = cf.val_dA( z ) # cm 
+    dA = cf.val_dA( z ) # cm comov.
     
     kmin = 2.*np.pi/(dA*sint/Mpc_in_cm) # 1/Mpc comoving
     kmax = kmin * DeltaL_cm / lambda_z # 1/Mpc comoving
@@ -704,7 +704,7 @@ def calc_SNR(zmin=22,zmax=35,
         H_z = cf.H( z )
         dV = Vpatch_factor(z, dA=dA, H_z=H_z, Omega_patch=Omega_survey)
         lambda_z = lambda21 * ( 1. + z ) * 1e-5 #converting lambda to km
-        samples[i] = dV * (1 + z)**4 / PBi**2 * (1. - (lambda_z / DeltaL_km)**3)
+        samples[i] = dV * (1 + z)**4 / PBi**2 * (1. - (lambda_z / DeltaL_km)**3 * (2.*np.pi/(dA/Mpc_in_cm))**3)
         if debug:
             print(z,samples[i],lambda_z,(1. - (DeltaL_km / lambda_z)**3))
 
