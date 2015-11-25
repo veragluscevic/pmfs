@@ -263,7 +263,7 @@ def integrand(x, mode='B0',
                             Ts=Ts, Tg=Tg, z=z, 
                             verbose=False, 
                             xalpha=xalpha, xc=xc, 
-                            xBcoeff=xBcoeff, x1s=1.)
+                            xBcoeff=xBcoeff, x1s=1.) / (1.+z)**2  #!!! VG: check
 
         Psignal = Pdelta*G**2
         Numerator = (2.*G*dGdB*Pdelta)**2
@@ -383,7 +383,7 @@ def integrand_PBi(x,
                     z=z, Tsys=Tsys, 
                     t1=t1, Ae=lambda_z**2, 
                     Lmax=DeltaL_cm, Lmin=lambda_z, 
-                    lambda_z=lambda_z, nk=nk )
+                    lambda_z=lambda_z, nk=nk ) 
     if np.isnan( Pnoise ):
         raise ValueError( 'Pnoise is nan.' )
 
@@ -402,11 +402,11 @@ def integrand_PBi(x,
                         Ts=Ts, Tg=Tg, z=z, 
                         verbose=False, 
                         xalpha=xalpha, xc=xc, 
-                        xBcoeff=xBcoeff, x1s=1.)
+                        xBcoeff=xBcoeff, x1s=1.)/(1.+z)**2 #!!! VG: check
 
     Psignal = Pdelta*G**2
-    Numerator = (2.*G*dGdB*Pdelta)**2
-    Denominator = 2.*(Psignal + Pnoise)**2
+    Numerator = (2.*G*dGdB*Pdelta)**2   
+    Denominator = 2.*(Psignal + Pnoise)**2  
 
     res = k_Mpc**2*np.sin(thetak)* Numerator/Denominator ###IS THERE A FACTOR of 1/2???
 
@@ -704,7 +704,7 @@ def calc_SNR(zmin=22,zmax=35,
         H_z = cf.H( z )
         dV = Vpatch_factor(z, dA=dA, H_z=H_z, Omega_patch=Omega_survey)
         lambda_z = lambda21 * ( 1. + z ) * 1e-5 #converting lambda to km
-        samples[i] = dV * (1 + z)**4 / PBi**2 * (1. - (lambda_z / DeltaL_km)**3 * (2.*np.pi/(dA/Mpc_in_cm))**3)
+        samples[i] = dV / PBi**2 * (1. - (lambda_z / DeltaL_km)**3 ) / (2.*np.pi/(dA/Mpc_in_cm))**3 #* (1 + z)**4
         if debug:
             print(z,samples[i],lambda_z,(1. - (DeltaL_km / lambda_z)**3))
 

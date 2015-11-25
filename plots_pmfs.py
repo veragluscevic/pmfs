@@ -243,7 +243,8 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
                 save=True,
                 smooth=True,
                 s=3,binned=True,nbins=20,
-                plot_grid=True):
+                plot_grid=True,
+                debug=False):
 
     """Master plotter"""
 
@@ -286,6 +287,8 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
 
         ds = np.array(ds)
         sigmas = np.array(sigmas)
+        if mode=='SI':
+            sigmas = sigmas / np.pi
 
         if smooth:
             x = gaussian_filter1d(ds, s)
