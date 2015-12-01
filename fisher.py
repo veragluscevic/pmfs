@@ -466,7 +466,7 @@ def rand_integrator(neval=1000, DeltaL_km=2.,
       The number of evaluations of the integrand, in z direction;
       neval = 1000 is usually enough for convergence at a ~10% level.
     :type neval: ``int``
-
+  
     :param Omega_survey:
       The survey area (on the sky) in steradians.
     :type Omega_survey: ``float``

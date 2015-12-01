@@ -29,7 +29,8 @@ def nH(z, delta):
  
 
 def val_dA( z ):
-    """This returns angular-diameter distance in [cm comoving]. It only takes z.""" 
+    """This returns angular-diameter distance in [cm comoving],
+    or in other words, the comoving radial distance [in cm comoving]. It only takes z.""" 
     cosmo = {'omega_M_0' : Omatter, 'omega_lambda_0' : Olambda, 'h' : h0}
     cosmo = cd.set_omega_k_0( cosmo )
 
