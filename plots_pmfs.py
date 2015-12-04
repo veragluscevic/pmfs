@@ -171,11 +171,105 @@ def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
         plt.savefig(filename)
     
 
-
 @jit
+def arb_xT(zmin=15,zmax=35, nzs=100,
+           fontsize=24,root=RESULTS_PATH,
+           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop2_300_200Mpc___default',#'21cmfast_teja_nov2014.txt',
+           label=''):
+
+    file_21cmfast = np.loadtxt(INPUTS_PATH+filename)
+    Tks_21cmfast = file_21cmfast[:,2][::-1]
+    Tgs_21cmfast = file_21cmfast[:,5][::-1]
+    Tss_21cmfast = file_21cmfast[:,4][::-1]
+    Jlyas_21cmfast = file_21cmfast[:,6][::-1]
+    zs_21cmfast = file_21cmfast[:,0][::-1]
+    xH_21cmfast = file_21cmfast[:,1][::-1]
+
+    #Tk_21cmfast_interp = interpolate(zs_21cmfast, Tks_21cmfast, s=0)
+    #Tg_21cmfast_interp = interpolate(zs_21cmfast, Tgs_21cmfast, s=0)
+    #Ts_21cmfast_interp = interpolate(zs_21cmfast, Tss_21cmfast, s=0)
+    #Jlya_21cmfast_interp = interpolate(zs_21cmfast, Jlyas_21cmfast, s=0)
+
+    B0=1e-16
+    
+    #zs = np.linspace(zmin,zmax,nzs)
+    #Ts = []; Tg = []; Tk = []; Jlya = []; 
+    xc = []; xB = []; xalpha = []
+    #for i,z in enumerate(zs):
+    fout = open(RESULTS_PATH + 'xs_table.txt', 'w')
+    fout.write('z  x_alpha x_c xBcoeff\n')
+    for i,z in enumerate(zs_21cmfast):
+        B = B0/(1+z)**2
+        #Ts.append(Ts_21cmfast_interp( z ))
+        #Tg.append(Tg_21cmfast_interp( z ))
+        #Tk.append(Tk_21cmfast_interp( z ))
+        #Jlya.append(Jlya_21cmfast_interp( z ))
+       
+        Salpha = cf.val_Salpha(Tss_21cmfast[i], Tks_21cmfast[i], z, xH_21cmfast[i], 0) 
+        xalpha.append(rf.val_xalpha( Salpha=Salpha, Jlya=Jlyas_21cmfast[i], Tg=Tgs_21cmfast[i] ))
+        xc.append(rf.val_xc(z, Tk=Tks_21cmfast[i], Tg=Tgs_21cmfast[i]))
+        xBcoeff = ge * muB * Tstar / ( 2.*hbar * A * Tgs_21cmfast[i] )
+        xB.append(B*xBcoeff)
+        fout.write('{}  {}  {} {}\n'.format(z, xalpha[i], xc[i], xBcoeff ))
+    fout.close()
+        
+
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel('$x_H$',fontsize=fontsize)
+    plt.plot(zs_21cmfast,xH_21cmfast,lw=4,color='red')
+    #plt.legend(fontsize=fontsize,frameon=False,loc='upper right')
+    #plt.xlim(xmin=zmin,xmax=zmax)
+    plt.savefig(RESULTS_PATH+'xion{}.pdf'.format(label), 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
+
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel('')
+    plt.semilogy(zs_21cmfast,xc,lw=4,color='g',label='$x_c$')
+    plt.semilogy(zs_21cmfast,xalpha,lw=4,color='b',label=r'$x_{\alpha}$')
+    plt.semilogy(zs_21cmfast,xB,lw=4,color='k',label=r'$x_B$ ($10^{-16}$ G)')
+    plt.legend(fontsize=fontsize,frameon=False,loc='upper right')
+    plt.xlim(xmin=zmin,xmax=zmax)
+    plt.savefig(RESULTS_PATH+'xs{}.pdf'.format(label), 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
+
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel('T [K]',fontsize=fontsize)
+    plt.plot(zs_21cmfast,Tss_21cmfast,lw=4,color='k',label='$T_S$')
+    plt.plot(zs_21cmfast,Tgs_21cmfast,'--',lw=4,color='b',label='$T_{CMB}$')
+    plt.plot(zs_21cmfast,Tks_21cmfast,'-',lw=4,color='g',label='$T_K$')
+    plt.legend(fontsize=fontsize,frameon=False,loc='upper left')
+    plt.xlim(xmin=zmin,xmax=zmax)
+    plt.savefig(RESULTS_PATH+'Ts{}.pdf'.format(label), 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
+
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel(r'$J_{Ly\alpha}$ [$cm^{-2} sec^{-1} Hz^{-1}sr^{-1}$]',fontsize=fontsize)
+    plt.semilogy(zs_21cmfast,Jlyas_21cmfast,lw=4,color='Gray')
+
+    plt.xlim(xmin=zmin,xmax=zmax)
+    plt.savefig(RESULTS_PATH+'Jlya{}.pdf'.format(label), 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
+
+
+
+
+#@jit
 def vis_xT(zmin=15,zmax=35, nzs=100,
            fontsize=24,root=RESULTS_PATH):
 
+ 
     B0=1e-16
     #powB = np.log10(B0)
     zs = np.linspace(zmin,zmax,nzs)
@@ -226,13 +320,12 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
     xlabel = ax.set_xlabel('z',fontsize=fontsize)
     ylabel = ax.set_ylabel(r'$J_{Ly\alpha}$ [$cm^{-2} sec^{-1} Hz^{-1}sr^{-1}$]',fontsize=fontsize)
     plt.semilogy(zs,Jlya,lw=4,color='Gray')
-    plt.semilogy(zs,Jlya_noheat,lw=4,color='Gray')
+    #plt.semilogy(zs,Jlya_noheat,lw=4,color='Gray')
     plt.xlim(xmin=zmin,xmax=zmax)
     plt.savefig(RESULTS_PATH+'Jlya.pdf', 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
 
-    return zs,Jlya_noheat, Jlya
 
 def grid_DeltaL(modes=['B0','SI'],t_yr=2., 
                 Jmode='default',Omega=1.,
@@ -244,7 +337,8 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
                 smooth=True,
                 s=3,binned=True,nbins=20,
                 plot_grid=True,
-                debug=False):
+                debug=False,
+                ymax=1e-22):
 
     """Master plotter"""
 
@@ -305,8 +399,8 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
 
     if len(modes) > 1:
         plt.legend(fontsize=fontsize)
-    else:
-        ax.set_ylim(ymax=1)
+        #else:
+    ax.set_ylim(ymax=ymax)
 
     if save:
         fname = root + 'sigma_vs_deltas.pdf'
