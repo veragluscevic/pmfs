@@ -6,7 +6,7 @@ We now use the key results of \S\ref{sec:estimators} to discuss estimation of se
 \subsection{Uniform field case}
 \label{subsec:uniform_fisher}
 
-If an experiment measures the redshifted 21-cm brightness temperature, and thus provides an estimate of its 2-point statistic, its sensitivity to recovering $B$ is given by the usual Fisher formula \cite{}. For a case of the uniform field, where \eq{\ref{eq:B0}} holds, the sensitivity $\sigma_{B_0}$ to measuring $B_0$ is directly derived from \eq{\ref{eq:B_estimator}},
+If an experiment measures the redshifted 21-cm brightness temperature, and thus provides an estimate of its 2-point statistic, its sensitivity to recovering $B$ is given by the usual Fisher formula. For a case of the uniform field, where \eq{\ref{eq:B0}} holds, the sensitivity $\sigma_{B_0}$ to measuring $B_0$ is directly derived from \eq{\ref{eq:B_estimator}},
 %\begin{widetext}
 \beq
 \bga
@@ -14,7 +14,7 @@ If an experiment measures the redshifted 21-cm brightness temperature, and thus 
 \frac{d\vec k}{(2\pi)^3}\left(  \frac{\frac{\partial P^S}{\partial B_0}(\vec k)}{P^N (\vec k)+ P_0^S(\vec k) }\right)^2 
 \\
 =\int dV_\mathrm{patch}(z)
-\frac{k^2dk d\phi_k\sin \theta_kd\theta_k}{2(2\pi)^3}(1+z)^2\\
+\frac{k^2dk d\phi_k\sin \theta_kd\theta_k}{2(2\pi)^3}\\
 \times\left( \frac{2P_\delta(k,z)G_0(\theta_k,\phi_k,z)\frac{\partial G_0}{\partial B}(\theta_k, \phi_k,z)}{P^N(k,\theta_k,z) + P_\delta(k,z)G_0^2(\theta_k,\phi_k,z)} \right)^2,
 \ega
 \label{eq:fisher_patch}
@@ -98,14 +98,15 @@ where $\vec r_{\alpha/\beta}$ represents spatial position of a given voxel, and 
 \text{SNR}^2 (z) = 
 \frac{1}{2} \sum_{ij}  \frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}\int d\vec s \left< B_i(\vec r_\beta - \vec s) B_j(\vec r_\beta)\right>^2
 \\=
-\frac{1}{2(2\pi)^3} \sum_{ij}  \frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}} \int d\vec K\left(P_{B_iB_j}(\vec K)\right)^2 (1+z)^{-8},
+\frac{1}{2(2\pi)^3} \sum_{ij}  \frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}} \int d\vec K\left(P_{B_iB_j}(\vec K)\right)^2,
 \ega
 \label{eq:snr_z}
 \eeq
-where $dV_\text{patch}$ is the volume of a redshift-slice patch at $z$, given by \eq{\ref{eq:dVpatch}}. Note that we use the power spectrum of a comoving field $B$, such that the redshift evolution factors out in the usual way, described in the uniform-field case. Substituting \eq{\ref{eq:SI}}, and integrating over all $z$'s available in the survey, 
+where $dV_\text{patch}$ is the volume of a redshift-slice patch at $z$, given by \eq{\ref{eq:dVpatch}}. %Note that we use the power spectrum of a comoving field $B$, such that the redshift evolution factors out in the usual way, described in the uniform-field case. 
+Substituting \eq{\ref{eq:SI}}, and integrating over all $z$'s available in the survey, 
 \beq
 \bga
-\text{SNR}^2 =  \frac{A_0^4}{2(2\pi)^3}  \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^{-8}
+\text{SNR}^2 =  \frac{A_0^4}{2(2\pi)^3}  \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}
 \int_0^{\pi} \sin\theta d\theta \\
 \int_0^{2\pi} d\phi\int_{K_\text{min}(z,\theta,\phi)}^{K_\text{max}(z,\theta,\phi)} \frac{d K}{K^4}\sum_{ij\in \{xx, xy, yx, yy\}}(\delta_{ij} - \widehat K_i\widehat K_j)^2,
 \ega
@@ -125,14 +126,14 @@ The sum in the above expression reduces to
 Substituting this into \eq{\ref{eq:snr_intK}}, we get 
 \beq
 \bga
-\text{SNR}^2 =  \frac{A_0^4}{2(2\pi)^3} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^{-8} \int_0^{\pi} d\theta\\
+\text{SNR}^2 =  \frac{A_0^4}{2(2\pi)^3} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}} \int_0^{\pi} d\theta\\
 \int_0^{2\pi} d\phi(2-\sin^2\theta(1+\sin^2\phi\cos^2\phi)) \int_{K_\text{min}(z,\theta,\phi)}^{K_\text{max}(z,\theta,\phi)} \frac{d K}{K^4}.
 \ega
 \label{eq:snr_ints}
 \eeq
 Finally, performing the integration over $K,\theta,\phi$ analitically, for the FFTT case gives
 \beq
-\text{SNR}^2 =  \frac{7A_0^4}{36\pi} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}(1+z)^{-8} \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right),
+\text{SNR}^2 =  \frac{7A_0^4}{36\pi} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}} \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right),
 \label{eq:snr_ints}
 \eeq
 where $P^N_{B_i}$ is given by \eq{\ref{eq:NK2}}; as before, $K_\text{min}$ is taken to correspond to the largest mode that fits a given survey volume, $K_\text{min}=2\pi/d_A$, and $K_\text{max}=\Delta L/\lambda(z)$ (note that the numerical value of $K_\text{max}$ makes very little difference in the total value of this integral). When the last expression is evaluated at $A_0=1$, it provides the inverse of a value of $A_0$ detectable at $1\sigma$ sensitivity with a given experiment.

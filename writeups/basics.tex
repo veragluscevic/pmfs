@@ -1,21 +1,21 @@
 \section{Basics}
 \label{sec:basics}
 
-Before focusing on the estimator formalism in the next Section, here we review the basics of cosmological estimation with 21-cm temperature fluctuation measurements. In \S\ref{subsec:def}, we review definitions of quantities describing sensitivity of interferometric radio arrays; in \S\ref{subsec:noise}, we particularly focus on teh derivation of the noise power spectrum; and in \S\ref{subsec:uv}, we discuss the effects of teh array configuration and its relation to coverage of modes in the $uv$ plane of the array. 
+Before focusing on the estimator formalism in the next Section, here we review the basics of 21-cm brightness temperature fluctuation measurements. In \S\ref{subsec:def}, we review definitions of quantities describing sensitivity of interferometric radio arrays; in \S\ref{subsec:noise}, we focus on the derivation of the noise power spectrum; and in \S\ref{subsec:uv}, we discuss the effects of the array configuration and its relation to coverage of modes in the $uv$ plane of the array. 
 
 \subsection{Definitions}
 \label{subsec:def}
 
-The redshifted 21-cm signal can be represented as a specific intensity at  the location in physical space $I(\vec{r})$, or in Fourier space $\widetilde{I}(\vec{k})$. In sky coordinates (centered on an emitting patch of the sky), these functions become $\mathcal{I}(\theta_x, \theta_y, \theta_\nu)$, and $\widetilde{\mathcal{I}}(u,v,\eta)$, respectively. Here, vector $\vec{k}$ (in the units of comoving Mpc$^{-1}$) is a Fourier dual of $\vec{r}$ (comoving Mpc), and likewise, $\theta_x$ (rad), $\theta_y$ (rad), and $\theta_\nu$ (Hz) are duals of the coordinates in the $uv$-plane $u$ (rad$^{-1}$), $v$ (rad$^{-1}$), and $\eta$ (seconds), respectively.  Notice that $\theta_x$ and $\theta_y$ represent the angular extent of the patch in the sky, while $\theta_\nu$ represents its extent in the frequency space. The two sets of coordinates are related through linear transformations in the following way
+The redshifted 21-cm signal can be represented as a specific intensity at  the location in physical space $I(\vec{r})$, or in Fourier space $\widetilde{I}(\vec{k})$. In sky coordinates (centered on an emitting patch of the sky), these functions become $\mathcal{I}(\theta_x, \theta_y, \theta_\nu)$, and $\widetilde{\mathcal{I}}(u,v,\eta)$, respectively. Here, vector $\vec{k}$ (in the units of comoving Mpc$^{-1}$) is a Fourier dual of $\vec{r}$ (comoving Mpc), and likewise, $\theta_x$ (rad), $\theta_y$ (rad), and $\theta_\nu$ (Hz) are duals of the coordinates $u$ (rad$^{-1}$), $v$ (rad$^{-1}$), and $\eta$ (seconds), respectively.  Notice that $\theta_x$ and $\theta_y$ represent the angular extent of the patch in the sky, while $\theta_\nu$ represents its extent in the frequency space. The two sets of coordinates are related through linear transformations in the following way
 \begin{equation}
 \begin{gathered}
-\theta_x = \frac{r_x}{D_M(z)}, \hspace{0.5in} u = \frac{k_xD_M(z)}{2\pi},\\
-\theta_y = \frac{r_y}{D_M(z)}, \hspace{0.5in} v = \frac{k_yD_M(z)}{2\pi},\\
+\theta_x = \frac{r_x}{\chi(z)}, \hspace{0.5in} u = \frac{k_x\chi(z)}{2\pi},\\
+\theta_y = \frac{r_y}{\chi(z)}, \hspace{0.5in} v = \frac{k_y\chi(z)}{2\pi},\\
 \theta_\nu = \frac{H(z)\nu_{21}}{c(1+z)^2} r_z, \hspace{0.5in} \eta = \frac{c(1+z)^2}{2\pi H(z)\nu_{21}}k_z,
 \end{gathered}
 \label{eq:fourier_duals}
 \end{equation} 
-where $\nu_{21}$ is the 21-cm frequency in the rest frame, $H(z)$ iz the Hubble parameter, $D_M(z)$ is the comoving distance in transverse direction, and z is the reference redshift in the middle of the observed data cube (where $r_z$ and $\theta_\nu$ intervals are evaluated). Note that conditions of the type $2\pi\theta_xu = r_xk_x$ are saticefied.
+where $\nu_{21}$ is the 21-cm frequency in the rest frame of emitting atoms, $H(z)$ iz the Hubble parameter, $\chi(z)$ is the comoving distance to redshift z, which marks the middle of the observed data cube (where $r_z$ and $\theta_\nu$ intervals are evaluated). Note that conditions of the type $2\pi\theta_xu = r_xk_x$ are saticefied.
 
 The convention we use for the Fourier transforms is (note that Fourier-space functions are denoted with tilde)
 \beq
@@ -35,12 +35,10 @@ and similarly,
 \eeq
 The following scaling relation is saticefied
 \beq
-\widetilde{I}(\vec{k}) = \frac{c(1+z)^2D_M(z)^2}{(2\pi)^3H(z)\nu_{21}}\widetilde{\mathcal{I}}(u,v,\eta),
+\widetilde{I}(\vec{k}) = \frac{c(1+z)^2\chi(z)^2}{(2\pi)^3H(z)\nu_{21}}\widetilde{\mathcal{I}}(u,v,\eta),
 \label{eq_tilde_I_vs_Ik_scaling}
 \eeq
-where the proportionallity factor is a Jacobian $\frac{d\theta_xd\theta_yd\theta_\nu}{dr_xdr_ydr_z}$. 
-
-Finally, the relationship between the specific intensity in the $uv$-plane and the visibility function $V(u,v,\theta_\nu)$ is given by a Fourier transform over only the frequency coordinate,
+where the proportionallity factor contains a Jacobian $\frac{dr_xdr_ydr_z}{d\theta_xd\theta_yd\theta_\nu}$. Finally, the relationship between the specific intensity in the $uv$-plane and the visibility function $V(u,v,\theta_\nu)$ is given by a Fourier transform over only the frequency coordinate,
 \beq
 \bga
  V(u,v,\theta_\nu)= \int \mathcal{\widetilde{I}}(u,v,\eta)e^{2\pi i \theta_\nu\eta}d\eta,\\
@@ -48,7 +46,7 @@ Finally, the relationship between the specific intensity in the $uv$-plane and t
 \ega
 \label{eq:visibility}
 \eeq
-Here, $\theta_\nu$ is a discrete variable such that $\theta_{\nu,\text{max}}-\theta_{\nu,\text{min}}=\Delta\nu$ is the bandwidth of the observed data cube centered on $z$ (see also Appendix \ref{app:Vrms}).
+Here, $\theta_{\nu,\text{max}}-\theta_{\nu,\text{min}}=\Delta\nu$ is the bandwidth of the observed data cube centered on $z$ (see also Appendix \ref{app:Vrms}).
 %%%%%%%%%%%%%%
 \subsection{Power spectra and noise}
 \label{subsec:noise}
@@ -81,7 +79,7 @@ where
 \eeq
 is the periodic delta-function on the $t_1$ interval.  Taking into account the scaling relation of \eq{\ref{eq_tilde_I_vs_Ik_scaling}}, introducing the power spectrum of \eq{\ref{eq_tildeI_power}}, and keeping in mind the scaling property of the delta function, we arrive at
 \beq
-P_1^N(\vec k) = \frac{1}{t_1}\frac{c(1+z)^2D_M^2(z)}{H(z)\nu_{21}}\left(\frac{2k_BT_\text{sky}}{A_e}\right)^2 ,
+P_1^N(\vec k) = \frac{1}{t_1(2\pi)^6}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\left(\frac{2k_BT_\text{sky}}{A_e}\right)^2 ,
 \label{eq:Pnoise_1mode}
 \eeq
 for the noise per $\vec k$ mode, per baseline.
@@ -90,12 +88,12 @@ Computation of $t_1$ from the total duration of the survey  $t_\text{obs}$ depen
 
 The last step is to get from \eq{\ref{eq:Pnoise_1mode}} to the expression for the noise power spectrum that corresponds to the observation with all the available baselines. To do that, we need to incorporate the knowledge about the array configuration and the coverage of the $uv$ plane. In other words, we need to divide the expression in \eq{\ref{eq:Pnoise_1mode}} by the number of baselines that see a given mode $\vec k$ at any given time $n_\text{base}(\vec k)$ (for a discussion of the $uv$ coverage, see the following section). The final result for the noise power spectrum per mode $\vec k$ in the intensity units is then
 \beq
-P^N(\vec k) = \frac{1}{t_\text{1}}\frac{c(1+z)^2D_M^2(z)}{H(z)\nu_{21}}\frac{\left(2k_BT_\text{sys}\right)^2}{A_e^2n_\text{base}(\vec k)},
+P^N(\vec k) = \frac{1}{t_\text{1}(2\pi)^6}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\frac{\left(2k_BT_\text{sys}\right)^2}{A_e^2n_\text{base}(\vec k)},
 \label{eq:Pnoise_Jy}
 \eeq
 and in temperature units
 \beq
-P^N(\vec k) = \frac{\lambda^4}{t_\text{1}}\frac{c(1+z)^2D_M^2(z)}{H(z)\nu_{21}}\frac{T_\text{sys}^2}{A_e^2n_\text{base}(\vec k)}.
+P^N(\vec k) = \frac{\lambda^4}{t_\text{1}(2\pi)^6}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\frac{T_\text{sys}^2}{A_e^2n_\text{base}(\vec k)}.
 \label{eq:Pnoise_K}
 \eeq
 %%%%%%%%%%%%
