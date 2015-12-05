@@ -247,6 +247,7 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
     plt.plot(zs_21cmfast,Tks_21cmfast,'-',lw=4,color='g',label='$T_K$')
     plt.legend(fontsize=fontsize,frameon=False,loc='upper left')
     plt.xlim(xmin=zmin,xmax=zmax)
+    plt.ylim(ymax=100)
     plt.savefig(RESULTS_PATH+'Ts{}.pdf'.format(label), 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
