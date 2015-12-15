@@ -22,20 +22,20 @@ import fisher as f
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--respath', default='/data/verag/pmfs/') 
-parser.add_argument('--tag', default=None)
+parser.add_argument('--folder', default=None)
 parser.add_argument('--resfile', default='test.txt') # e.g.: B0_tyr_1_DeltaL_2.00_Omega_1.txt
-parser.add_argument('--fastfile', default=INPUTS_PATH+'21cmfast_teja_nov2014.txt')
+#parser.add_argument('--fastfile', default=INPUTS_PATH+'21cmfast_teja_nov2014.txt')
 parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations
 parser.add_argument('--nevalPBi', type=int, default=10000) # number of integrand evaluations
 
 parser.add_argument('--mode', default='B0') # 'B0' or 'xi' or 'SI' 
 
-parser.add_argument('--zmin', type=int, default=15)
-parser.add_argument('--zmax', type=int, default=35)
+parser.add_argument('--zmin', type=int, default=10)
+parser.add_argument('--zmax', type=int, default=25)
 parser.add_argument('--kminmin', type=float, default=0.01)
 parser.add_argument('--kmaxmax', type=float, default=1.)
 
-parser.add_argument('--tyr', type=float, default=2.) # duration of the survey, in years.
+parser.add_argument('--tyr', type=float, default=1.) # duration of the survey, in years.
 parser.add_argument('--DeltaL', type=float, default=2.) # side of a square-shaped FFTT in km.
 parser.add_argument('--Omegapatch', type=float, default=1.) # Omega_patch in degrees^2.
 parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in sr.
@@ -43,7 +43,13 @@ parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in s
 
 args = parser.parse_args()
 
-grid_path = RESULTS_PATH 
+resfile = RESULTS_PATH 
+if args.folder is not None:
+    resfile += args.folder + '/'
+if not os.path.exists(resfile):
+    os.mkdir(resfile)
+resfile += args.resfile
+fout = open(resfile, 'w')
 
 # compute Fisher integral:
 if args.mode=='B0' or args.mode=='xi':
@@ -66,7 +72,7 @@ if args.mode=='SI':
                      Omega_survey=args.Omegasurvey,
                      thetan=np.pi/2.,phin=0.)
 #print result to output file:
-fout = open(grid_path + args.resfile, 'w')
+
 if args.mode=='B0':
     header = 'B0[Gauss]'
 if args.mode=='xi':

@@ -60,16 +60,16 @@ def plot_dA(zmin=15,zmax=35,nz=100):
         
 
 
-def sigma_z(zmin=15,zmax=35,
+def sigma_z(zmin=10,zmax=25,
             mode='B0',
-            t_yr=2.,
+            t_yr=1.,
             baselines=[1.,2.,4.,10.],
             kminmin=0.01,kmaxmax=1.,
             neval=300,neval_PBi=100,
             Omega_survey=1.,
             thetan=np.pi/2.,phin=0.,
             fontsize=24, smooth=True, binned=True, 
-            nbins=20,s=4,ymax=1e-16, xmax=34):
+            nbins=20,s=4,ymax=1e-18, xmax=None):
 
     """Integrand of SNR for SI, as a function of z"""
 
@@ -118,7 +118,7 @@ def sigma_z(zmin=15,zmax=35,
     xlabel = ax.set_xlabel('z',fontsize=fontsize)
     ylabel = ax.set_ylabel(r'$1\sigma$ [Gauss]', fontsize=fontsize)
     plt.grid(b=True,which='both')
-    plt.legend(loc='upper right',fontsize=fontsize)
+    plt.legend(loc='upper left',fontsize=fontsize)
 
     if xmax is None:
         xmax = zmax
@@ -328,8 +328,8 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
                 bbox_inches='tight')
 
 
-def grid_DeltaL(modes=['B0','SI'],t_yr=2., 
-                Jmode='default',Omega=1.,
+def grid_DeltaL(modes=['B0','SI'],t_yr=1., 
+                folder='default',Omega=1.,
                 fontsize=24,
                 xlabel='\Delta L [km]',
                 root=RESULTS_PATH,
@@ -342,6 +342,8 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
                 ymax=1e-22):
 
     """Master plotter"""
+    if folder is not None:
+        root += folder + '/'
 
     latexmode = {'SI':'stochastic (SI)', 'B0':'uniform', 'xi': r'$\xi$'}
     plt.figure()
@@ -361,14 +363,13 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=2.,
         #    t_yr =2.
         #else:
         #    t_yr=1.
-        DeltaLs = np.load(root + 'DeltaLs_{}_{}_tyr_{:.2f}_Omega_{:.2f}.npy'.format(mode,Jmode,t_yr,Omega))
+        DeltaLs = np.load(root + 'DeltaLs_{}_tyr_{:.2f}_Omega_{:.2f}.npy'.format(mode,t_yr,Omega))
 
 
         sigmas = []
         ds = []
         for j,d in enumerate(DeltaLs):
-            infile = root + '{}_{}_tyr_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}.txt'.format(mode,
-                                                                        Jmode,
+            infile = root + '{}_tyr_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}.txt'.format(mode,
                                                                         t_yr,
                                                                         d,Omega)
 
