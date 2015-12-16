@@ -6,11 +6,11 @@ We now use the key results of \S\ref{sec:estimators} to discuss estimation of se
 \subsection{Uniform field case}
 \label{subsec:uniform_fisher}
 
-If an experiment measures the redshifted 21-cm brightness temperature, and thus provides an estimate of its 2-point statistic, its sensitivity to recovering $B$ is given by the usual Fisher formula. For a case of the uniform field, where \eq{\ref{eq:B0}} holds, the sensitivity $\sigma_{B_0}$ to measuring $B_0$ is directly derived from \eq{\ref{eq:B_estimator}},
+If an experiment measures the power spectrum of the redshifted 21-cm brightness temperature, its sensitivity $\sigma_{B_0}$ to recovering $B_0$ is given by the usual Fisher formula. For the case of a uniform field, where \eq{\ref{eq:B0}} holds, the sensitivity is given by
 %\begin{widetext}
 \beq
 \bga
-\sigma_{B_0}^{-2}(z) = \int dV_\mathrm{patch}(z)
+\sigma_{B_0}^{-2} = \int dV_\mathrm{patch}(z)
 \frac{d\vec k}{(2\pi)^3}\left(  \frac{\frac{\partial P^S}{\partial B_0}(\vec k)}{P^N (\vec k)+ P_0^S(\vec k) }\right)^2 
 \\
 =\int dV_\mathrm{patch}(z)
@@ -20,16 +20,18 @@ If an experiment measures the redshifted 21-cm brightness temperature, and thus 
 \label{eq:fisher_patch}
 \eeq
 %\end{widetext}
-where we transitioned from a sum over $\vec k$ modes to an integral, using $\sum_{\vec k} \to V\int d\vec k /(2\pi)^3$. Note that we made dependence on the redshift explicit. Furthermore, the integral is performed over $V_\mathrm{patch}$, the comoving volume of the survey, where
+where we transitioned from a sum over $\vec k$ modes to an integral, using $\sum_{\vec k} \to V\int d\vec k /(2\pi)^3$. %Note that we made dependence on the redshift explicit. F
+The integral is performed over $V_\mathrm{patch}$, the (comoving) volume of the survey of angular size $\Omega_\mathrm{survey}$ (in steradians) at a given redshift, 
 \beq
-dV_\mathrm{patch} = \frac{c}{H(z)}\chi^2(z)\Omega_\mathrm{survey}dz,
+dV_\mathrm{patch} = \frac{c}{H(z)}\chi^2(z)\Omega_\mathrm{survey}dz.
 \label{eq:dVpatch}
 \eeq
-where $D_A$ is angular diameter distance to $z$.
-Note again that we operate under the null assumtion of small $B$, so every summand in the above equation is evaluated for a fiducial case of $B=0$. In this case, the above expression can be used to compute magnitude of $B$ detectable at 1$\sigma$ level for a given noise level (and cosmology). The power spectrum of the 21-cm signal is in the denominator of the summands in order to account for sample variance. A perhaps unusual feature of this analysis is that we do not take the average of the noise over $\phi_k$; this is because the magnetic field introduces anisotropy in the signal.
-The integration limits in \eq{\ref{eq:fisher_patch}} are: $\phi_k\in[0,2\pi]$; $\theta_k\in [0,\pi]$; and $k\in[2\pi u_\mathrm{min}/(d_A\sin\theta_k),2\pi u_\mathrm{max}/(d_A\sin\theta_k)]$, where $u_\mathrm{min, max}=\frac{L_\text{min, max}}{\lambda}$ correspond to the maximum and minimum baseline, respectively.
+%Note again that we operate under the null assumtion of small $B$, so every summand in the above equation is evaluated for a fiducial case of $B=0$. In this case, the above expression can be used to compute magnitude of $B$ detectable at 1$\sigma$ level for a given noise level (and cosmology). The power spectrum of the 21-cm signal is in the denominator of the summands in order to account for sample variance. 
+%A perhaps unusual feature of this analysis is that we do not take the average of the noise over $\phi_k$, because the magnetic field introduces anisotropy in the signal.
+The integration limits are: $\phi_k\in[0,2\pi]$; $\theta_k\in [0,\pi]$; and $k\in[2\pi u_\mathrm{min}/(d_A\sin\theta_k),2\pi u_\mathrm{max}/(d_A\sin\theta_k)]$, where $u_\mathrm{min, max}=\frac{L_\text{min, max}}{\lambda}$ correspond to the maximum and minimum baseline $L_\text{min}$ and $L_\text{max}$, respectively.
 
-The integral in \eq{\ref{eq:fisher_patch}} is performed on a small, approximately flat, patch of the sky. If the survey area is big enough that this approximation does not hold in the entire survey patch, then this integral should be performed on small parts of the survey, and the results added in quadriture to obrain the sensitivity of the entire survey. This will then account for the change in the angle that a uniform field $\vec B$ makes with a line of sight, as the line of sight moves through a large survey area, and the total sensitivity is given with
+The integral in \eq{\ref{eq:fisher_patch}} is performed on a small, approximately flat, patch of the sky. If the survey area is big enough that the flat-sky approximation does not hold, the following geometric correction factor can be applied %then the summation should be performed on small parts of the survey, and the results added in quadrature to obrain the sensitivity of the entire survey. 
+\footnote{This accounts for the change in the angle that a uniform magnetic field makes with a line of sight, as the line of sight moves through a large survey area.}
 \beq
 \bga
 \sigma^{-2}_{B_0,\text{ survey}} = \frac{\sigma^{-2}_{B_0}}{\Omega_\text{patch}} \int_0^{\theta_\text{survey}}\int_{0}^{2\pi} \cos^2 \theta d\theta d\phi \\
@@ -39,12 +41,14 @@ The integral in \eq{\ref{eq:fisher_patch}} is performed on a small, approximatel
 \eeq
 
 %%%   MORE HERE!!!
-In the saturated case, we would be unable to measure the exact magnitude of $B$, but a slightly different inquiry becomes interesting. Namely, it is useful to know how sensitive are future experiments to distinguishing staturated case from zero magnetic field. To answer this question, we can write the signal power spectrum as a sum of the contributions from the case $B=0$ and from the saturated case scenario of a very strong field (denoted as infinity), 
+Finally, let us now consider a field that is strong enough so as to produce precession by more than a radian in a lifetime of the excited state. This is the ``saturated case''. The brightness-temperature power spectrum still captures the presence of the field in this case, but it loses sensitivity to recovering its exact magnitude. Sensitivity to distinguishing staturated case from zero magnetic field becomes a relevant quantity in this case. 
+
+We can write the signal power spectrum as a sum of the contributions from the case $B_0=0$ and from the saturated case scenario of a very strong field (denoted as infinity), 
 \beq
 P^S(\vec k) = (1-\xi)P^S(\vec k, B=0) + \xi P^S(\vec k, B\to \infty).
 \label{eq:saturated_P}
 \eeq
-We can then perform the standard Fisher analysis, completely analogous to the unsaturated case, in order to understand constraints on parameter $\xi$. In this case, $\sigma_\xi$ would give a 1$\sigma$ sensitivity to simply detecting a strong magnetic field.
+We can then perform the standard Fisher analysis, completely analogous to the unsaturated case, in order to make projections for sensitivity to measuring $\xi$, where $\sigma_\xi$ gives a 1$\sigma$ sensitivity to \textit{detecting} presence of a strong magnetic field.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Stochastic field case}
