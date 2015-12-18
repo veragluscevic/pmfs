@@ -30,8 +30,8 @@ T^S_0(\vec k) = G_0({\bf{\widehat k}})\delta(k),
 where ${\bf{\widehat k}}=(\theta_k,\phi_k)$ is a unit vector in the direction of $\vec k$. Note that while $G$ is a function of the direction vector ${\bf{\widehat k}}$ only, the power spectrum $P_\delta$ is a function of the magnitude $k$, in an isotropic universe. For simplicity of the expressions, we adopt the following notation
 \beq
 \bga
-\frac{\partial T_0^S}{\partial B}(\vec k)\equiv  \delta(k)\frac{\partial G}{\partial B_0}({\bf{\widehat k}},B_0=0),\\
-\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\equiv\frac{\partial G}{\partial B_0}({\bf{\widehat k}},B_0=0)
+\frac{\partial T_0^S}{\partial B_0}(\vec k)\equiv  \delta(k)\frac{\partial G}{\partial B_0}({\bf{\widehat k}},B_0=0),\\
+\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})\equiv\frac{\partial G}{\partial B_0}({\bf{\widehat k}},B_0=0)
 \ega
 \label{eq:dTdB_dGdB}
 \eeq
@@ -58,103 +58,87 @@ The observable 2-point correlation function in Fourier space is
 \beq
 \bga
 \langle T(\vec k)T^*(\vec k')\rangle = P_\text{null}(\vec k)(2\pi)^3\delta_D(\vec k-\vec k') \\
-+ \langle T^S_0(\vec k)B_0\frac{\partial T_0^{S,*}}{\partial B}(\vec k')\rangle + \langle T_0^{S,*}(\vec k')B_0\frac{\partial T_0^S}{\partial B}(\vec k)\rangle\\
++ \langle T^S_0(\vec k)B_0\frac{\partial T_0^{S,*}}{\partial B_0}(\vec k')\rangle + \langle T_0^{S,*}(\vec k')B_0\frac{\partial T_0^S}{\partial B_0}(\vec k)\rangle\\
 =\left(P_\text{null}(\vec k)
- + 2B_0P_{\delta}( k)Re\left[G_0^*({\bf{\widehat k}})\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\right] \right) \\\times(2\pi)^3\delta_D(\vec k-\vec k'),
+ + 2B_0P_{\delta}( k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}}) \right) \\\times(2\pi)^3\delta_D(\vec k-\vec k'),
 \ega
 \label{eq:TT_step2}
 \eeq
-where we assume that the signal and the noise are uncorrelated and keep only terms linear in $B_0$.
+where we assume that the signal and the noise are uncorrelated and keep only terms linear in $B_0$; note also that $G$ and $\partial G/\partial B_0$ are real quantities.
 %Notice here that, unlike the case of a uniform magnetic field, a stochastic field introduces cross correlations between otherwise independent Fourier modes in the brightness temperature signal. This produces the characteristic statistical-anisotropy signal that is a telltale signatrure of the magnetic fields \text{in situ} at high redshift.
 
 Since we observe only one universe, the measured proxy for the ensamble average in \eq{\ref{eq:TT_step2}} is the product $T(\vec k)T^*(\vec k)$. Using \eq{\ref{eq:TT_step2}}, each $T(\vec k)$ gives an estimate for $B_0$,
 \beq
-\widehat B_0^{\vec k} = \frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{2P_{\delta}(\vec k)Re\left[G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\right]},
+\widehat B_0^{\vec k} = \frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{2P_{\delta}( k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})},
 \label{eq:hatBk}
 \eeq 
-where we use the reality of $G$ in the null case and the following property of the Dirac delta function on a finite volume of the survey $V$
+where we use the following property of the Dirac delta function on a finite volume of the survey $V$
 \beq
 \delta_D(\vec k-\vec k') = \frac{V}{(2\pi)^3},\hspace{0.2in} \text{for }\vec k = \vec k',
 \label{eq:delta_kk}
 \eeq
-related to the Kroneker delta as
+related to the Kroneker delta,
 \beq
 \delta_{\vec k\vec k'} = \frac{(2\pi)^3}{V}\delta_D(\vec k-\vec k').
 \label{eq:deltas}
 \eeq
-The estimator of \eq{\ref{eq:hatBk}} is unbiased, $\langle \widehat B_0^{\vec k}\rangle=0$. The covariance of the estimates from all available modes is given by
-\begin{widetext}
+The estimator of \eq{\ref{eq:hatBk}} is unbiased, $\langle \widehat B_0^{\vec k}\rangle=0$. The covariance of the estimates from all available temperature-field modes $\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle $ involves temperature-field 4-point correlation with three Wick constractions; its numerator reads
 \beq
 \bga
-\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle 
-= 
-\frac{\left\langle\left(\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)\right)\left(\frac{1}{V}T^*(\vec k')T(\vec k') - P_\text{null}(\vec k')\right)\right\rangle}{4P_{\delta}( k)P_{\delta}( k')Re\left[G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\right]Re\left[G_0({\bf{\widehat k}}')\frac{\partial G_0}{\partial B}({\bf{\widehat k}}')\right]},
-\ega
-\label{eq:mean_BB}
-\eeq
-\end{widetext}
-The expectation value in the above equation involves temperature-field 4-point correlation. If we enumerate factors of ``$T$'' in this correlation as $\langle 1\text{ }2\text{ }3\text{ }4\rangle$, the 4-point function is a sum of the following contractions (assuming Gaussianity of the temperature field in the null case): $\langle T(\vec k)T^*(\vec k)T^*(\vec k')T(\vec k') \rangle=\langle1\text{ }2\rangle\langle3\text{ }4\rangle+
-\langle1\text{ }4\rangle\langle2\text{ }3\rangle+\langle1\text{ }3\rangle\langle2\text{ }4\rangle$. Keeping this order of summands,
-\beq
-\bga
-\langle T(\vec k)T^*(\vec k)T^*(\vec k')T(\vec k') \rangle \\
-= V^2P_\text{null}(\vec k)P_\text{null}(\vec k')\left( 1+\delta_{\vec k,\vec k'}+\delta_{\vec k,-\vec k'}\right)
+\frac{1}{V^2}\langle T(\vec k)T^*(\vec k)T(\vec k')T^*(\vec k') \rangle + P_\text{null}(\vec k)P_\text{null}(\vec k')\\
+- \frac{1}{V}P_\text{null}(\vec k)\langle T(\vec k')T^*(\vec k') \rangle
+- \frac{1}{V}P_\text{null}(\vec k')\langle T(\vec k)T^*(\vec k) \rangle \\
+= P_\text{null}(\vec k)P_\text{null}(\vec k') \left[\frac{(2\pi)^6}{V^2}\right.\delta_D(\vec k-\vec k)\delta_D(\vec k'-\vec k')\\
++\frac{(2\pi)^6}{V^2}\delta_D(\vec k-\vec k')\delta_D(\vec k-\vec k')+
+\frac{(2\pi)^6}{V^2}\delta_D(\vec k+\vec k')\delta_D(\vec k+\vec k')\\
+-\frac{(2\pi)^3}{V}\delta_D(\vec k'-\vec k')-\left.\frac{(2\pi)^3}{V}\delta_D(\vec k-\vec k)\right]\\
+=P_\text{null}(\vec k)P_\text{null}(\vec k')\left(\delta_{\vec k,\vec k'} + \delta_{\vec k,-\vec k'}\right)
 \ega
 \label{eq:TTTT_expansion}
 \eeq
-where we used Eqs.~(\ref{eq:delta_kk}) and (\ref{eq:deltas}).
-The rest of the terms in \eq{\ref{eq:mean_BB}} are of the form
+where every ensamble average yielded one factor of $V$. Finally, we get the following expression 
 \beq
-\bga
-\frac{1}{V}\langle T(\vec k)T^*(\vec k)\rangle P_\text{null}(\vec k') =  P_\text{null}(\vec k)P_\text{null}(\vec k'),
-\ega
-\label{eq:BB_crossterms}
-\eeq
-for the null case.
-Finally, substituting Eqs.~(\ref{eq:TTTT_expansion}), (\ref{eq:BB_crossterms}), and (\ref{eq:deltas}), into \eq{\ref{eq:mean_BB}}, we get the following expression for the covariance
-\beq
-\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle = \frac{P_\text{null}^2(\vec k)\left(\delta_{\vec k,\vec k'}  + \delta_{\vec k,-\vec k'} \right)}{\left(2P_{\delta}(\vec k)Re\left[G_0^*({\bf{\widehat k}})\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\right]\right)^2},
+\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle = \frac{P_\text{null}^2(\vec k)\left(\delta_{\vec k,\vec k'}  + \delta_{\vec k,-\vec k'} \right)}{4P_{\delta}( k)^2\left[G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})\right]^2},
 \label{eq:B_covariance}
 \eeq
-where we used reality of the temperature field ($T(\vec k)=T^*(-\vec k')$), and the isotropy of space in the null-assumption case ($G({\bf{\widehat k}})=G(-{\bf{\widehat k}})$).
-This covariance matrix is singular, and the only non-vanishing entries are those relating the same mode with itself (or to the same mode in the opposite direction). In this case, the usual expression for a minimum-variance estimator reduces to 
+Estimates coming from different $\vec k$-modes can be combined with inverse-variance weights in the usual way to form a minimum-variance estimator,
 \beq
 \bga
-\widehat B_0 = \frac{\sum_{\vec k}\frac{\widehat B_0^{\vec k}}{\sigma^2_{{\vec k}}}}{\sum_{\vec k}\frac{1}{\sigma^2_{\vec k}}},
+\widehat B_0 = \frac{\sum_{\vec k}\frac{\widehat B_0^{\vec k}}{\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k},*}\rangle}}{\sum_{\vec k}\frac{1}{\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k},*}\rangle}}.
 \ega
 \label{eq:B_mve}
-\eeq
-where $\sigma^2_{\vec k}\equiv\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle $, and the sums are restricted to a half of the available volume to avoid double-counting modes. %The factor of $\frac{1}{2}$ comes from the two Kronecker deltas in \eq{\ref{eq:B_covariance}}. 
-
-We can now proceed to combine estimates from all available modes with inverse-variance weights in order to obtain the optimal estimate. The final expression for the estimator is 
+\eeq 
+The final expression for the minimum-variance quadratic estimator computed from temperature measurements at a given redshift is 
 \beq
 \bga
-\widehat B_0 = \frac{\sum_{\vec k}\frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{P_\text{null}^2(\vec k)}2P_{\delta}( k)Re\left[G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\right]}{{\sum_{\vec k}\left(\frac{2P_{\delta}( k)Re\left[G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\right]}{P_\text{null}(\vec k)}\right)^2}},
+\widehat B_0 = \sigma^{2}_{\widehat B_0}\sum_{\vec k}\frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{P_\text{null}^2(\vec k)}\\
+\times 2P_{\delta}( k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}}),
 \ega
 \label{eq:B_estimator}
 \eeq
-and its variance is given by
+with variance given by
 \beq
 \bga
-\sigma^{-2}_{\widehat B_0} = \sum_{\vec k}\left(\frac{2P_{\delta}(k)Re\left[G_0^*({\bf{\widehat k}})\frac{\partial G_0}{\partial B}({\bf{\widehat k}})\right]}{G^2_0({\bf{\widehat k}})P_\delta(k)+P^N(\vec k)}\right)^{2},
+\sigma^{-2}_{\widehat B_0} = \sum_{\vec k}\left(\frac{2P_{\delta}(k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})}{G^2_0({\bf{\widehat k}})P_\delta(k)+P^N(\vec k)}\right)^{2},
 \ega
 \label{eq:B_estimator_var}
 \eeq
-where all the sums are restricted to one half of the plane.
+where the sums are over the whole $\vec k$-plane, and thus the factor of 2 coming from Kronecker deltas is removed to avoid double-counting modes. This is because $\widehat B_0^{\vec k}=\widehat B_0^{-\vec k}$, following from the reality condition on the temperature field, $T(\vec k)=T^*(\vec k)$, and the isotropy of space in the null-assumption case ($G({\bf{\widehat k}})=G(-{\bf{\widehat k}})$).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Stochastic field}
 \label{subsec:SI}
 
-We now derive a minimum-variance quadratic estimator for Fourier modes of a stochastic magnetic field. Note that in this Section we do \textit{not} assume a particular model for its power spectrum. We use $B_i$ to denote a component of $\vec B$ along one of the three Cartesian-system axes, and $\vec x$ to denote a position vector in physical space. We start with 
+We now derive a minimum-variance quadratic estimator for Fourier modes of a stochastic magnetic field. Note that in this Section we do \textit{not} assume a particular model for its power spectrum. We use $B_0$ to denote a component of $\vec B$ along one of the three Cartesian-system axes, and $\vec x$ to denote a position vector in physical space. We start with 
 \beq
-T^S(\vec x) = T^S_0(\vec x) + B_i(\vec x)\frac{\partial T^S_0}{\partial B_i}(\vec x),
+T^S(\vec x) = T^S_0(\vec x) + B_0(\vec x)\frac{\partial T^S_0}{\partial B_0}(\vec x),
 \eeq
 where the subscripts and superscripts have the same meaning as before. Note that the distinction from the uniform field case is that $B$ (and its components) is now a function of $\vec x$. We then transition to Fourier space,
 \beq
 \bga
-T^S(\vec k) = T^S_0(\vec k) + \int d\vec x e^{-i\vec k \cdot \vec x} B_i(\vec x) \frac{\partial T^S_0}{\partial B_i}(\vec x)\\
-= T^S_0(\vec k) + \frac{1}{(2\pi)^3}\int d\vec k_1B_i(\vec k_1) \frac{\partial T^S_0}{\partial B_i}(\vec k-\vec k_1),
+T^S(\vec k) = T^S_0(\vec k) + \int d\vec x e^{-i\vec k \cdot \vec x} B_0(\vec x) \frac{\partial T^S_0}{\partial B_0}(\vec x)\\
+= T^S_0(\vec k) + \frac{1}{(2\pi)^3}\int d\vec k_1B_0(\vec k_1) \frac{\partial T^S_0}{\partial B_0}(\vec k-\vec k_1),
 \ega
 \eeq
 where $k_1$ is the integration variable, and the last step used the convolution theorem. 
@@ -163,44 +147,44 @@ In this case, the observable 2-point correlation function in Fourier space becom
 \beq
 \bga
 \left < T(\vec k)T^*(\vec k')\right > = P_\text{null}(\vec k)(2\pi)^3\delta_D(\vec k-\vec k')\\
-+ \left <T_0^*(\vec k')\frac{1}{(2\pi)^3}\int d\vec k_1 B_i(\vec k_1) \frac{\partial T_0}{\partial B_i}(\vec k-\vec k_1)\right > \\
-+ \left <T_0(\vec k)\frac{1}{(2\pi)^3}\int d\vec k_1 B_i^*(\vec k_1) \left(\frac{\partial T_0}{\partial B_i}(\vec k'-\vec k_1)\right)^*\right >, 
++ \left <T_0^*(\vec k')\frac{1}{(2\pi)^3}\int d\vec k_1 B_0(\vec k_1) \frac{\partial T_0}{\partial B_0}(\vec k-\vec k_1)\right > \\
++ \left <T_0(\vec k)\frac{1}{(2\pi)^3}\int d\vec k_1 B_0^*(\vec k_1) \left(\frac{\partial T_0}{\partial B_0}(\vec k'-\vec k_1)\right)^*\right >, 
 \ega
 \eeq
-to first order in $B_i$. Expanding this expression further and transitioning from Dirac to Kronecked delta in order to perform the integrals within the brakets, we get
+to first order in $B_0$. Expanding this expression further and transitioning from Dirac to Kronecked delta in order to perform the integrals within the brakets, we get
 \beq
 \bga
-\left< T(\vec k)T^*(\vec k')\right> = (2\pi)^3\delta_D(\vec k - \vec k')  P_\text{null}(\vec k)+B_i(\vec k - \vec k')\\
-\times\left[ P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k}})\right],
+\left< T(\vec k)T^*(\vec k')\right> = (2\pi)^3\delta_D(\vec k - \vec k')  P_\text{null}(\vec k)+B_0(\vec k - \vec k')\\
+\times\left[ P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k}})\right],
 \ega
 \eeq
-where we also used the reality of the $B_i$ field, $B_i^*(-\vec K) = -B_i(\vec K)$. Now, if we wish to estimate $B_i(\vec K\equiv\vec k-\vec k')$ from $\vec k,\vec k'$ pair of modes, following an analogous procedure to that used in \S\ref{subsec:uniform}, we get
+where we also used the reality of the $B_0$ field, $B_0^*(-\vec K) = -B_0(\vec K)$. Now, if we wish to estimate $B_0(\vec K\equiv\vec k-\vec k')$ from $\vec k,\vec k'$ pair of modes, following an analogous procedure to that used in \S\ref{subsec:uniform}, we get
 \beq
-\widehat B_i^{\vec k\vec k'}(\vec K) = \frac{T(\vec k)T^*(\vec k')}{P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k}})},
+\widehat B_0^{\vec k\vec k'}(\vec K) = \frac{T(\vec k)T^*(\vec k')}{P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k}})},
 \label{eq:Bkkp_estimator}
 \eeq
 where we only focus on terms $\vec K\ne0$ ($\vec k \ne\vec k'$).
 The variance of this estimator (evaluated under the null assumption) is 
 \begin{widetext}
 \begin{equation}
-\left< \widehat B_i^{\vec k\vec k'}(\vec K)\left(\widehat B_i^{\vec k\vec k'}(\vec K')\right)^*\right> = 
-\frac{\left<  T(\vec k)T^*(\vec k')T^*(\vec k)T(\vec k') \right>}{\left(P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k'}})\right)\left(P_\delta(k')G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k'}}) - P_\delta(k)G_0^*({\bf{\widehat k}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k}})\right)}.
+\left< \widehat B_0^{\vec k\vec k'}(\vec K)\left(\widehat B_0^{\vec k\vec k'}(\vec K')\right)^*\right> = 
+\frac{\left<  T(\vec k)T^*(\vec k')T^*(\vec k)T(\vec k') \right>}{\left(P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k'}})\right)\left(P_\delta(k')G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k'}}) - P_\delta(k)G_0^*({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})\right)}.
 \label{eq:Bkkp_var}
 \end{equation}
 \end{widetext}
 
-Finally, using Eqs.~(\ref{eq:Bkkp_estimator}) and (\ref{eq:Bkkp_var}), we can derive the full estimator for the mode $B_i(\vec K)$, in the usual way (by combining the individual $\widehat B_i^{\vec k\vec k'}(\vec K)$ estimates with inverse-variance weights, and normalizing appropriately); as this is a straightforward exercise, we will not present this equation here. The null-case measurement of the power spectrum of $B_i$ is the variance of its estimator, and reads
+Finally, using Eqs.~(\ref{eq:Bkkp_estimator}) and (\ref{eq:Bkkp_var}), we can derive the full estimator for the mode $B_0(\vec K)$, in the usual way (by combining the individual $\widehat B_0^{\vec k\vec k'}(\vec K)$ estimates with inverse-variance weights, and normalizing appropriately); as this is a straightforward exercise, we will not present this equation here. The null-case measurement of the power spectrum of $B_0$ is the variance of its estimator, and reads
 \begin{widetext}
 \beq
-(2\pi)^3\delta_D(\vec K - \vec K') P^N_{B_i}(\vec K) \equiv \left< \widehat B_i(\vec K)\widehat B_i(\vec K')^*\right>
-= \left( \sum_{\vec k} \frac{1}{2}\frac{\left|P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k}})\right|^2}{V^2\left(G^2_0({\bf{\widehat k}})P_\delta(k) + P^N(\vec k)\right)\left(G^2_0({\bf{\widehat k'}})P_\delta(k') + P^N(\vec k')\right) } \right)^{-1},
+(2\pi)^3\delta_D(\vec K - \vec K') P^N_{B_0}(\vec K) \equiv \left< \widehat B_0(\vec K)\widehat B_0(\vec K')^*\right>
+= \left( \sum_{\vec k} \frac{1}{2}\frac{\left|P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k}})\right|^2}{V^2\left(G^2_0({\bf{\widehat k}})P_\delta(k) + P^N(\vec k)\right)\left(G^2_0({\bf{\widehat k'}})P_\delta(k') + P^N(\vec k')\right) } \right)^{-1},
 \label{eq:NK1}
 \eeq
 \end{widetext}
-with the restriction $\vec K=\vec k-\vec k'$, and where the factor of $1/2$ serves to avoid double-counting mode pairs. As before, $P^N$ is given by Eq.~(\ref{eq:Pnoise_K}). If we limit ourselves to the diagonal terms only, $\vec K=\vec K'$, then the lhs of the above expression becomes $V P^N_{B_i}(\vec K)$. The resulting expression for the noise power spectrum is
+with the restriction $\vec K=\vec k-\vec k'$, and where the factor of $1/2$ serves to avoid double-counting mode pairs. As before, $P^N$ is given by Eq.~(\ref{eq:Pnoise_K}). If we limit ourselves to the diagonal terms only, $\vec K=\vec K'$, then the lhs of the above expression becomes $V P^N_{B_0}(\vec K)$. The resulting expression for the noise power spectrum is
 \begin{widetext}
 \beq
-P^N_{B_i}(\vec K) = \left(\frac{(2\pi)^3}{2V}\sum_{\vec k} \frac{\left|P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k}})\right|^2}{\left(G^2_0({\bf{\widehat k}})P_\delta(k) + P^N(\vec k)\right)\left(G^2_0({\bf{\widehat k'}})P_\delta(k') + P^N(\vec k')\right) } \right)^{-1},
+P^N_{B_0}(\vec K) = \left(\frac{(2\pi)^3}{2V}\sum_{\vec k} \frac{\left|P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k}})\right|^2}{\left(G^2_0({\bf{\widehat k}})P_\delta(k) + P^N(\vec k)\right)\left(G^2_0({\bf{\widehat k'}})P_\delta(k') + P^N(\vec k')\right) } \right)^{-1},
 \label{eq:NK}
 \eeq
 \end{widetext}

@@ -20,8 +20,8 @@ where $\nu_{21}$ is the 21-cm frequency in the rest frame of emitting atoms, $H(
 The convention we use for the Fourier transforms is (note that Fourier-space functions are denoted with tilde)
 \beq
 \bga
-I(\vec{r}) = \int\widetilde{I}(\vec{k})e^{i\vec{k} \cdot \vec{r}}d^3\vec{k},\\
-\widetilde{I}(\vec{k}) = \frac{1}{(2\pi)^3}\int{I}(\vec{r})e^{-i\vec{k} \cdot \vec{r}}d^3\vec{r},
+I(\vec{r}) = \frac{1}{(2\pi)^3}\int\widetilde{I}(\vec{k})e^{i\vec{k} \cdot \vec{r}}d^3\vec{k},\\
+\widetilde{I}(\vec{k}) = \int{I}(\vec{r})e^{-i\vec{k} \cdot \vec{r}}d^3\vec{r},
 \ega
 \label{eq:tildeI_I}
 \eeq
@@ -35,7 +35,7 @@ and similarly,
 \eeq
 The following scaling relation is saticefied
 \beq
-\widetilde{I}(\vec{k}) = \frac{c(1+z)^2\chi(z)^2}{(2\pi)^3H(z)\nu_{21}}\widetilde{\mathcal{I}}(u,v,\eta),
+\widetilde{I}(\vec{k}) = \frac{c(1+z)^2\chi(z)^2}{H(z)\nu_{21}}\widetilde{\mathcal{I}}(u,v,\eta),
 \label{eq_tilde_I_vs_Ik_scaling}
 \eeq
 where the proportionallity factor contains a Jacobian $\frac{dr_xdr_ydr_z}{d\theta_xd\theta_yd\theta_\nu}$. Finally, the relationship between the specific intensity in the $uv$-plane and the visibility function $V(u,v,\theta_\nu)$ is given by a Fourier transform over only the frequency coordinate,
@@ -69,7 +69,7 @@ The next step is to combine Eqs.~(\ref{eq:visibility}) and (\ref{eq_Vrms}), and 
 \beq
 \bga
 \langle\widetilde{\mathcal{I}}(u,v,\eta) \widetilde{\mathcal{I}}^*(u',v',\eta')\rangle \\
- = \frac{1}{t_1}\left(\frac{2k_BT_\text{sys}}{A_e}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta(\eta-\eta'),
+ = \frac{1}{t_1}\left(\frac{2k_BT_\text{sky}}{A_e}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta(\eta-\eta'),
 \ega
 \label{eq:mathcal_power_Vrms}
 \eeq 
@@ -79,7 +79,7 @@ where
 \eeq
 is the periodic delta-function on the $t_1$ interval.  Taking into account the scaling relation of \eq{\ref{eq_tilde_I_vs_Ik_scaling}}, introducing the power spectrum of \eq{\ref{eq_tildeI_power}}, and keeping in mind the scaling property of the delta function, we arrive at
 \beq
-P_1^N(\vec k) = \frac{1}{t_1(2\pi)^6}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\left(\frac{2k_BT_\text{sky}}{A_e}\right)^2 ,
+P_1^N(\vec k) = \frac{1}{t_1(2\pi)^3}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\left(\frac{2k_BT_\text{sky}}{A_e}\right)^2 ,
 \label{eq:Pnoise_1mode}
 \eeq
 for the noise per $\vec k$ mode, per baseline.
@@ -88,12 +88,12 @@ Computation of $t_1$ from the total duration of the survey  $t_\text{obs}$ depen
 
 The last step is to get from \eq{\ref{eq:Pnoise_1mode}} to the expression for the noise power spectrum that corresponds to the observation with all the available baselines. To do that, we need to incorporate the knowledge about the array configuration and the coverage of the $uv$ plane. In other words, we need to divide the expression in \eq{\ref{eq:Pnoise_1mode}} by the number of baselines that see a given mode $\vec k$ at any given time $n_\text{base}(\vec k)$ (for a discussion of the $uv$ coverage, see the following section). The final result for the noise power spectrum per mode $\vec k$ in the intensity units is then
 \beq
-P^N(\vec k) = \frac{1}{t_\text{1}(2\pi)^6}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\frac{\left(2k_BT_\text{sys}\right)^2}{A_e^2n_\text{base}(\vec k)},
+P^N(\vec k) = \frac{1}{t_\text{1}(2\pi)^3}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\frac{\left(2k_BT_\text{sky}\right)^2}{A_e^2n_\text{base}(\vec k)},
 \label{eq:Pnoise_Jy}
 \eeq
 and in temperature units
 \beq
-P^N(\vec k) = \frac{\lambda^4}{t_\text{1}(2\pi)^6}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\frac{T_\text{sys}^2}{A_e^2n_\text{base}(\vec k)}.
+P^N(\vec k) = \frac{\lambda^4}{t_\text{1}(2\pi)^3}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\frac{T_\text{sky}^2}{A_e^2n_\text{base}(\vec k)}.
 \label{eq:Pnoise_K}
 \eeq
 %%%%%%%%%%%%
