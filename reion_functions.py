@@ -35,10 +35,17 @@ Pnp_tuple = ((2,1.), (3,0), (4,0.2609), (5,0.3078), (6,0.3259), (7,0.3353), (8,0
 
 
 ###file_21cmfast = np.loadtxt(INPUTS_PATH+'21cmfast_teja_nov2014.txt') #old default params
+
+
 #file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop2_300_200Mpc___default') # default params
-file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_loFSTAR')
+#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_loFSTAR') #F_STAR=2.4e-4
+file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_midFSTAR') #F_STAR=2.4e-3
+#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_hiFSTAR') #F_STAR=2.4e-2
+
+
 #file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX2.0e+56_alphaX1.2_TvirminX1.0e+04_Pop2_300_200Mpc') #twice the heat
-#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc') #pop3
+#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc') #pop3, default
+
 file_21cmfast_noheat = np.loadtxt(INPUTS_PATH+'21cmfast_teja_nov2015_noheat.txt')
 #file_21cmfast_hiheat = np.loadtxt(INPUTS_PATH+'21cmfast_teja_nov2015_hiheat.txt')
 Tks_21cmfast = file_21cmfast[:,2][::-1]

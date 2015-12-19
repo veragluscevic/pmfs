@@ -38,7 +38,7 @@ def P21_N(z, dA=3.1695653382881036e+28,
           
     It returns noise power in [K^2 (comoving cm)^3]. """
 
-    res = dA**2 * c * (1+z)**2 * lambda_z**4 * Tsys**2 / ( Ae**2 * nu21 * t1 *nk * H_z )
+    res = dA**2 * c * (1+z)**2 * lambda_z**4 * Tsys**2 / ( Ae**2 * nu21 * t1 *nk * H_z * (2.*np.pi)**3)
     return res
 
 @jit(nopython=True)
@@ -225,7 +225,7 @@ def integrand(x, mode='B0',
 
         Psignal = Pdelta*G**2
         Numerator = (2.*G*dGdB*Pdelta)**2
-        Denominator = 2.*(Psignal + Pnoise)**2
+        Denominator = (Psignal + Pnoise)**2 #2.*(Psignal + Pnoise)**2
 
         res = k_Mpc**2*np.sin(thetak)* Vpatch * Numerator/Denominator/(2.*np.pi)**3 * (1+z)**4
 

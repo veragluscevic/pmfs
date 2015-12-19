@@ -7,7 +7,7 @@ from globals import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--mode',default='B0')
-parser.add_argument('--zmin', type=int, default=10)
+parser.add_argument('--zmin', type=int, default=15)
 parser.add_argument('--zmax', type=int, default=25)
 parser.add_argument('--folder',default='default') # 'default', 'noheat', 'hiheat', loFSTAR
 parser.add_argument('--tyr', type=float, default=1.) # duration of the survey, in years.

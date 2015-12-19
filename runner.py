@@ -30,7 +30,7 @@ parser.add_argument('--nevalPBi', type=int, default=10000) # number of integrand
 
 parser.add_argument('--mode', default='B0') # 'B0' or 'xi' or 'SI' 
 
-parser.add_argument('--zmin', type=int, default=10)
+parser.add_argument('--zmin', type=int, default=15)
 parser.add_argument('--zmax', type=int, default=25)
 parser.add_argument('--kminmin', type=float, default=0.01)
 parser.add_argument('--kmaxmax', type=float, default=1.)
