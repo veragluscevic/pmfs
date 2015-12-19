@@ -118,15 +118,15 @@ def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
             xalpha=34.247221, xc=0.004176, xBcoeff=3.65092e18, x1s=1.):
 
     """Calculates the derivative of the transfer function wrt the magnitude of a homogeneous component
-    of the magnetic field B0 *at present day* ( such that B(z)=B0*(1+z)^2 ), evaluated at B0=0, 
+    of the magnetic field B(z) *at a given redshift* ( such that B(z)=B0*(1+z)^2 ), evaluated at B=0, 
     from analytic derivative of eq 138 of Teja's draft v3. Result is in [K/Gauss].
-    B is along z.  It takes x's (all unitless), temperatures in [K], and angles in [rad]."""
+    B is along z-axis.  It takes x's (all unitless), temperatures in [K], and angles in [rad]."""
 
-    #if np.isclose(thetan, np.pi/2.) and np.isclose(phin, 0.): #---->causes jit issues
+    summ = 0.
+    ####if np.isclose(thetan, np.pi/2.) and np.isclose(phin, 0.): #---->causes jit issues
     if (thetan==np.pi/2.) and (phin==0.):
         summ = 0.25*(15./(2.*np.pi)) * np.sin(thetak)**2 * np.sin(2.*phik)
     else:
-        summ = 0.
         for i,m in enumerate( np.array([-2,-1,0,1,2]) ):
             summand =  1j * m * Y2( m,thetak,phik ) * np.conjugate( Y2(m,thetan,phin) ) 
             summ += summand.real
@@ -135,7 +135,7 @@ def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     #    summ = 0.#---->causes jit issues
     summ *= xBcoeff / ( 1. + xalpha + xc )**2
     
-    res = (0.128*4.*np.pi/75.) * x1s**2 * ( 1 - Tg/Ts ) * (Tg/Ts) * (1 + z)**3/10. * summ
+    res = (0.128*4.*np.pi/75.) * x1s**2 * ( 1 - Tg/Ts ) * (Tg/Ts) * (1 + z)/10. * summ
     return res/1000. #this is to make it to K from mK.
 
 

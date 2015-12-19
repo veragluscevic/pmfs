@@ -224,10 +224,10 @@ def integrand(x, mode='B0',
                             xBcoeff=xBcoeff, x1s=1.)
 
         Psignal = Pdelta*G**2
-        Numerator = (2.*G*dGdB*Pdelta)**2
-        Denominator = (Psignal + Pnoise)**2 #2.*(Psignal + Pnoise)**2
+        Numerator = (2. * G * dGdB*(1+z)**2 * Pdelta)**2
+        Denominator = (Psignal + Pnoise)**2 
 
-        res = k_Mpc**2*np.sin(thetak)* Vpatch * Numerator/Denominator/(2.*np.pi)**3 * (1+z)**4
+        res = k_Mpc**2*np.sin(thetak)* Vpatch * Numerator/Denominator/(2.*np.pi)**3 
 
     if mode=='xi':
         G_Bzero = pt.calc_G_Bzero(thetak=thetak, phik=phik, 
@@ -263,10 +263,10 @@ def integrand(x, mode='B0',
                             Ts=Ts, Tg=Tg, z=z, 
                             verbose=False, 
                             xalpha=xalpha, xc=xc, 
-                            xBcoeff=xBcoeff, x1s=1.) / (1.+z)**2  #!!! VG: check
+                            xBcoeff=xBcoeff, x1s=1.) #/ (1.+z)**2  #!!! VG: check
 
         Psignal = Pdelta*G**2
-        Numerator = (2.*G*dGdB*Pdelta)**2
+        Numerator = (2. * G * dGdB*(1+z)**2 * Pdelta)**2
         Denominator = 2.*(Psignal + Pnoise)**2
 
         res = k_Mpc**2*np.sin(thetak)* Numerator/Denominator
@@ -402,10 +402,10 @@ def integrand_PBi(x,
                         Ts=Ts, Tg=Tg, z=z, 
                         verbose=False, 
                         xalpha=xalpha, xc=xc, 
-                        xBcoeff=xBcoeff, x1s=1.)/(1.+z)**2 #!!! VG: check
+                        xBcoeff=xBcoeff, x1s=1.)#/(1.+z)**2 #!!! VG: check
 
     Psignal = Pdelta*G**2
-    Numerator = (2.*G*dGdB*Pdelta)**2   
+    Numerator = (2. * G * dGdB*(1.+z)**2 * Pdelta)**2   
     Denominator = 2.*(Psignal + Pnoise)**2  
 
     res = k_Mpc**2*np.sin(thetak)* Numerator/Denominator ###IS THERE A FACTOR of 1/2???
@@ -517,7 +517,7 @@ def rand_integrator(neval=1000, DeltaL_km=1.,
 def rand_k_integrator(neval=100, DeltaL_km=2.,
                     t_yr=1.,nzs=100,
                     kminmin=0.01,kmaxmax=1.,
-                    zmax=35,zmin=15,
+                    zmax=25,zmin=15,
                     Omega_survey=1.,
                     Omega_patch=1.,
                     thetan=np.pi/2.,phin=0.):
@@ -704,7 +704,7 @@ def calc_SNR(zmin=10,zmax=35,
         H_z = cf.H( z )
         dV = Vpatch_factor(z, dA=dA, H_z=H_z, Omega_patch=Omega_survey)
         lambda_z = lambda21 * ( 1. + z ) * 1e-5 #converting lambda to km
-        samples[i] = dV / PBi**2 * (1. - (lambda_z / DeltaL_km)**3 ) / (2.*np.pi/(dA/Mpc_in_cm))**3 * (1 + z)**8
+        samples[i] = dV / PBi**2 * (1. - (lambda_z / DeltaL_km)**3 ) / (2.*np.pi/(dA/Mpc_in_cm))**3 #* (1 + z)**8
         if debug:
             print(z,samples[i],lambda_z,(1. - (DeltaL_km / lambda_z)**3))
 

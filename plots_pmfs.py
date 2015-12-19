@@ -95,7 +95,7 @@ def sigma_z(zmin=10,zmax=25,
                       thetan=thetan,phin=phin,
                       plotter_calling=True)
         if mode=='B0':
-            zs, sigma = f.rand_k_integrator(neval=100, nzs=100, DeltaL_km=DeltaL_km,
+            zs, sigma = f.rand_k_integrator(neval=1000, nzs=100, DeltaL_km=DeltaL_km,
                                           t_yr=t_yr,
                                           kminmin=kminmin,kmaxmax=kmaxmax,
                                           zmax=zmax,zmin=zmin,
@@ -174,14 +174,19 @@ def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
 @jit
 def arb_xT(zmin=15,zmax=35, nzs=100,
            fontsize=24,root=RESULTS_PATH,
-           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop2_300_200Mpc___default',#'21cmfast_teja_nov2014.txt',
-           label=''):
+           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop2_300_200Mpc_loFSTAR',
+           filename2='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_hiFSTAR',#'21cmfast_teja_nov2014.txt',
+           label='',B0=1e-18):
 
     file_21cmfast = np.loadtxt(INPUTS_PATH+filename)
+    file2_21cmfast = np.loadtxt(INPUTS_PATH+filename2)
     Tks_21cmfast = file_21cmfast[:,2][::-1]
+    Tks2_21cmfast = file2_21cmfast[:,2][::-1]
     Tgs_21cmfast = file_21cmfast[:,5][::-1]
     Tss_21cmfast = file_21cmfast[:,4][::-1]
+    Tss2_21cmfast = file2_21cmfast[:,4][::-1]
     Jlyas_21cmfast = file_21cmfast[:,6][::-1]
+    Jlyas2_21cmfast = file2_21cmfast[:,6][::-1]
     zs_21cmfast = file_21cmfast[:,0][::-1]
     xH_21cmfast = file_21cmfast[:,1][::-1]
 
@@ -190,7 +195,7 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
     #Ts_21cmfast_interp = interpolate(zs_21cmfast, Tss_21cmfast, s=0)
     #Jlya_21cmfast_interp = interpolate(zs_21cmfast, Jlyas_21cmfast, s=0)
 
-    B0=1e-16
+    
     
     #zs = np.linspace(zmin,zmax,nzs)
     #Ts = []; Tg = []; Tk = []; Jlya = []; 
@@ -199,7 +204,7 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
     fout = open(RESULTS_PATH + 'xs_table.txt', 'w')
     fout.write('z  x_alpha x_c xBcoeff\n')
     for i,z in enumerate(zs_21cmfast):
-        B = B0/(1+z)**2
+        B = B0*(1+z)**2
         #Ts.append(Ts_21cmfast_interp( z ))
         #Tg.append(Tg_21cmfast_interp( z ))
         #Tk.append(Tk_21cmfast_interp( z ))
@@ -231,8 +236,8 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
     ylabel = ax.set_ylabel('')
     plt.semilogy(zs_21cmfast,xc,lw=4,color='g',label='$x_c$')
     plt.semilogy(zs_21cmfast,xalpha,lw=4,color='b',label=r'$x_{\alpha}$')
-    plt.semilogy(zs_21cmfast,xB,lw=4,color='k',label=r'$x_B$ ($10^{-16}$ G)')
-    plt.legend(fontsize=fontsize,frameon=False,loc='upper right')
+    plt.semilogy(zs_21cmfast,xB,lw=4,color='k',label=r'$x_B$ ($10^{{{:.0f}}}$ G)'.format(np.log10(B0)))
+    plt.legend(fontsize=fontsize,frameon=False,loc='lower right')
     plt.xlim(xmin=zmin,xmax=zmax)
     plt.savefig(RESULTS_PATH+'xs{}.pdf'.format(label), 
                 bbox_extra_artists=[xlabel, ylabel], 
@@ -244,7 +249,7 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
     ylabel = ax.set_ylabel('T [K]',fontsize=fontsize)
     plt.plot(zs_21cmfast,Tss_21cmfast,lw=4,color='k',label='$T_S$')
     plt.plot(zs_21cmfast,Tgs_21cmfast,'--',lw=4,color='b',label='$T_{CMB}$')
-    plt.plot(zs_21cmfast,Tks_21cmfast,'-',lw=4,color='g',label='$T_K$')
+    plt.plot(zs_21cmfast,Tks_21cmfast,'-.',lw=4,color='g',label='$T_K$')
     plt.legend(fontsize=fontsize,frameon=False,loc='upper left')
     plt.xlim(xmin=zmin,xmax=zmax)
     plt.ylim(ymax=100)
@@ -339,7 +344,8 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
                 s=3,binned=True,nbins=20,
                 plot_grid=True,
                 debug=False,
-                ymax=1e-22):
+                ymax=1e-21,
+                ylabel=None):
 
     """Master plotter"""
     if folder is not None:
@@ -350,10 +356,13 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
     ax = plt.gca()
     fig = plt.gcf()
     xlabel = ax.set_xlabel(r'$\Delta$ L [km]',fontsize=fontsize)
-    if len(modes) > 1:
+    if (ylabel is None) and (len(modes) > 1):
         ylabel = ax.set_ylabel('[Gauss]',fontsize=fontsize)
     else:
-        ylabel = ax.set_ylabel(r'$\xi$',fontsize=fontsize)
+        if (ylabel is None):
+            ylabel = ax.set_ylabel(r'$\xi$',fontsize=fontsize)
+        else:
+            ylabel = ax.set_ylabel(ylabel, fontsize=fontsize)
   
     if plot_grid:
         plt.grid(b=True,which='both')
@@ -405,9 +414,10 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
     ax.set_ylim(ymax=ymax)
 
     if save:
-        fname = root + 'sigma_vs_deltas.pdf'
-        if len(modes) < 2:
+        fname = root + 'B_vs_deltas.pdf'
+        if modes[0]=='xi':
             fname = root + 'xi_vs_deltas.pdf'
+
         plt.savefig(fname, 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')

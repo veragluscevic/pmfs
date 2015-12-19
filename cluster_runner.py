@@ -56,7 +56,7 @@ for i in range(NGROUPS):
 
 fout = open('runs_pmfs/go_{}_{}.sh'.format(args.mode,args.folder), 'w')
 fout.write('#! /bin/bash\n')
-fout.write('#$ -l h_rt=12:00:00\n')
+fout.write('#$ -l h_rt=1:00:00\n')
 fout.write('#$ -cwd\n')
 fout.write('#$ -t 1-{}\n'.format(NGROUPS))
 fout.write('#$ -V\n')
