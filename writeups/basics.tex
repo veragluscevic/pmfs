@@ -20,8 +20,8 @@ where $\nu_{21}$ is the 21-cm frequency in the rest frame of emitting atoms, $H(
 The convention we use for the Fourier transforms is (note that Fourier-space functions are denoted with tilde)
 \beq
 \bga
-I(\vec{r}) = \frac{1}{(2\pi)^3}\int\widetilde{I}(\vec{k})e^{i\vec{k} \cdot \vec{r}}d^3\vec{k},\\
-\widetilde{I}(\vec{k}) = \int{I}(\vec{r})e^{-i\vec{k} \cdot \vec{r}}d^3\vec{r},
+I(\vec{r}) = \frac{1}{(2\pi)^3}\int\widetilde{I}(\vec{k})e^{i\vec{k} \cdot \vec{r}}d\vec{k},\\
+\widetilde{I}(\vec{k}) = \int{I}(\vec{r})e^{-i\vec{k} \cdot \vec{r}}d\vec{r},
 \ega
 \label{eq:tildeI_I}
 \eeq
@@ -120,23 +120,23 @@ n(u,v) = (\frac{\Delta L}{\lambda} - u)(\frac{\Delta L}{\lambda} - v).
 The relation between $\vec k=(k,\theta_k,\phi_k)$ and $(u,v)$ is
 \beq
 \bga
-u_\perp \equiv \frac{D_A(z)}{2\pi}k\sin\theta_k,\\
+u_\perp \equiv \frac{\chi(z)}{2\pi}k\sin\theta_k,\\
 u = u_\perp \cos\phi_k,\\
 v = u_\perp \sin\phi_k,
 \ega
 \label{eq:k_uv}
 \eeq
-where subscript $\perp$ denotes components perpendicular to the LOS direction ${\bf{\widehat n}}$, and $D_A$ is the angular diameter distance. From this, the corresponsing number of baselines observing a given $\vec k$ is
+where subscript $\perp$ denotes components perpendicular to the LOS direction ${\bf{\widehat n}}$. From this, the corresponsing number of baselines observing a given $\vec k$ is
 \beq
 \bga
-n_\text{base}(\vec k) = (\frac{\Delta L}{\lambda} - \frac{D_A(z)}{2\pi}k\sin\theta_k\cos\phi_k)\\\times (\frac{\Delta L}{\lambda} - \frac{D_A(z)}{2\pi}k\sin\theta_k\sin\phi_k).
+n_\text{base}(\vec k) = (\frac{\Delta L}{\lambda} - \frac{\chi(z)}{2\pi}k\sin\theta_k\cos\phi_k)\\\times (\frac{\Delta L}{\lambda} - \frac{\chi(z)}{2\pi}k\sin\theta_k\sin\phi_k).
 \ega
 \label{eq:nk_fftt}
 \eeq
 In \S\ref{sec:results}, we use a $\phi_k$-averaged version of this quantity (between $0$ and $\pi/2$ only, due to the four-fold symmetry of the experimental setup of a square of dipoles), to account for the rotation of the baselines with respect to the modes,
 \beq
 \bga
-\langle n_\text{base}(\vec k) \rangle_{\phi_k}= \left(\frac{\Delta L}{\lambda}\right)^2 -\frac{4}{\pi}\frac{\Delta L}{\lambda}\frac{D_A(z)}{2\pi}k\sin\theta_k \\+ \left(\frac{D_A(z)}{2\pi}k\sin\theta_k\right)^2.
+\langle n_\text{base}(\vec k) \rangle_{\phi_k}= \left(\frac{\Delta L}{\lambda}\right)^2 -\frac{4}{\pi}\frac{\Delta L}{\lambda}\frac{\chi(z)}{2\pi}k\sin\theta_k \\+ \left(\frac{\chi(z)}{2\pi}k\sin\theta_k\right)^2.
 \ega
 \label{eq:nk_fftt_mean}
 \eeq

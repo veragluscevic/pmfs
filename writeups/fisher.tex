@@ -7,21 +7,16 @@ We now use the key results of \S\ref{sec:estimators} to evaluate expressions for
 \label{subsec:uniform_fisher}
 
 For a measurement of the redshifted 21-cm brightness temperature signal at a given z, the sensitivity $\sigma_{\widehat B_0}$ to recovering a uniform field $B_0$ in unsaturated limit is given by Eq.~(\ref{eq:B_estimator_var}). The total sensitivity of a tomorgraphy survey over a range of redshifts is given by
-%\begin{widetext}
 \beq
 \bga
 \sigma_{B_0}^{-2} = 
-%\int dV_\mathrm{patch}(z)
-%\frac{d\vec k}{(2\pi)^3}\left(  \frac{\frac{\partial P^S}{\partial B_0}(\vec k)}{P^N (\vec k)+ P_0^S(\vec k) }\right)^2 
-%\\
 \int dV_\mathrm{}(z)
 \frac{k^2dk d\phi_k\sin \theta_kd\theta_k}{(2\pi)^3}\\
-\times\left( \frac{2P_\delta(k,z)G_0(\theta_k,\phi_k,z)\frac{\partial G_0}{\partial B}(\theta_k, \phi_k,z)}{P^N(k,\theta_k,z) + P_\delta(k,z)G_0^2(\theta_k,\phi_k,z)} \right)^2,
+\times\left( \frac{2P_\delta(k,z)G_0(\theta_k,\phi_k,z)\frac{\partial G_0}{\partial B_0}(\theta_k, \phi_k,z)}{P^N(k,\theta_k,z) + P_\delta(k,z)G_0^2(\theta_k,\phi_k,z)} \right)^2,
 \ega
 \label{eq:fisher_patch}
 \eeq
-%\end{widetext}
-where we transitioned from a sum over $\vec k$ modes to an integral, using $\sum_{\vec k} \to V\int d\vec k /(2\pi)^3$. %Note that we made dependence on the redshift explicit. F
+where we transitioned from a sum over $\vec k$ modes to an integral, using $\sum_{\vec k} \to V\int d\vec k /(2\pi)^3$. 
 The integral is performed over the (comoving) volume of the survey of angular size $\Omega_\mathrm{survey}$ (in steradians) at a given redshift, 
 \beq
 dV_\mathrm{} = \frac{c}{H(z)}\chi^2(z)\Omega_\mathrm{survey}dz,
@@ -60,69 +55,69 @@ In this case, we interpret $\sigma_\xi$ as a 1$\sigma$ sensitivity to \textit{de
 \subsection{Stochastic field case}
 \label{subsec:stochastic_fisher}
 
-Let us now discuss the case of a stochastic field. Using \eq{\ref{eq:NK}}, with a procedure analogous to the case of a uniform field, we get
-\begin{widetext}
+Using \eq{\ref{eq:NK}} and a procedure analogous to the case of a uniform field, we get the following integral expression for the noise power spectrum of a plane-of-the-sky component of the magnetic field 
+%\begin{widetext}
 \beq
 \bga
-P^N_{B_i}(\vec K) = \left(\frac{1}{2}\int k^2d{k}\sin \theta_kd\theta_kd\phi_k \frac{\left|P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k'}}) - P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k}})\right|^2}{\left(G^2_0({\bf{\widehat k}})P_\delta(k) + P^N(\vec k)\right)\left(G^2_0({\bf{\widehat k'}})P_\delta(k') + P^N(\vec k')\right) } \right)^{-1},
+\left(P^N_{B_{0,i}}(\vec K)\right)^{-1} = \int k^2d{k}\sin \theta_kd\theta_kd\phi_k \\
+\times\frac{\left(P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k'}}) + P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k}})\right)^2}{2(2\pi)^3P_\text{null}(\vec k) P_\text{null}(\vec k') } ,
 \ega
 \label{eq:NK2}
 \eeq
-\end{widetext}
-with the condition $\vec k'=\vec K -\vec k$.
+%\end{widetext}
+where $\vec k'=\vec K -\vec k$.
 
-To simplify the calculation, in the following, we only focus on signal-to-noise ratio (SNR) for detecting a particular model of magnetic field power spectrum. Namely, we consider the case where most of the signal comes from the largest modes (smallest $\vec K$'s). In this (squeezed) limit, $\vec K \ll \vec k$ and thus $\vec k \approx \vec k'$, such that the noise power spectrum of \eq{\ref{eq:NK2}} becomes white noise (independent on $\vec K$). If we further denote pixels with Greek indicies, and, as before, retain Roman indicies for components of $\vec B$, then the pixel-noise variance for measuring a single mode $\vec K$ of $B_i$ component is $\sigma_{B_i}^2 \equiv P^N_{B_i}(z)/V_\text{voxel}$, where $V_\text{voxel}$ is volume of a survey voxel (3d pixel). The model for the power spectrum is defined through
-\beq
-(2\pi)^3\delta_D(\vec K - \vec K') P_{B_iB_j}(\vec K) = \left<B_i^*(\vec K) B_j(\vec K')\right>,
-\label{eq:Pbb}
-\eeq
-which relates to the variance in the transverse component $P_B(\vec K)$ as
-\beq
-P_{B_iB_j}(\vec K) = (\delta_{ij} - \widehat K_i \widehat K_j) P_B(\vec K),
-\label{eq:Pbb_Pb}
-\eeq
-where $\widehat K_{i/j}$ is a unit vector along the direction of a $B_{i/j}$ component.
-In this discussion, as a model example, we consider a scale-independent (SI) power spectrum, were
-\beq
-P_{B}(\vec K) = A_0^2/K^3,
-\label{eq:SI}
-\eeq
-and the amplitude $A_0$ is a free parameter in units of Gauss.
-
-To compute SNR for measuring the amplitude of an arbitrary power-spectrum model in a given redshift slice $z$, we have to perform a sum over all voxels in the survey volume at that $z$. The general expression for SNR is
+To compute signal-to-noise ratio (SNR) for measuring the amplitude of an arbitrary stochastic-field power spectrum in a given redshift slice $z$ we need to perform a sum over all voxels (3d pixels) in the survey volume at that redshift. A general expression for SNR is 
 \beq
 \text{SNR}^2 = \frac{1}{2} Tr \left( N^{-1}SN^{-1}S\right),
 \label{eq:snr_general}
 \eeq
-where S is the signal matrix, N is the noise matrix. In our case, these matrices are $3N_\text{voxels}\times 3N_\text{voxels}$ (assuming there are $N_\text{voxels}$ voxels in the entire survey, and that there are 3 components of $\vec B$). In the null case, voxels are independent, and so the noise matrix is diagonal, and the signal is the 3d power spectrum of the vector field $\vec B$. For a single redshift slice, this evaluates to 
+where S and N are the signal and noise matrices. In our case, these are $3N_\text{voxels}\times 3N_\text{voxels}$ matrices (there are $N_\text{voxels}$ voxels in the entire survey, and 3 components of the magnetic field). In the null case, voxels are independent, and so the noise matrix is diagonal, and the signal is captured by the 3d power spectrum of the magnetic field. The voxel-noise  variance for measuring a single mode is given by $P^N_{B_{0,i}}(\vec K, z)/V_\text{voxel} (z)$, where $V_\text{voxel}$ is volume of a given voxel. Summing over voxels and components of the magnetic field with inverse-variance weights, for a single redshift slice, we get SNR as
 \beq
 \bga
-\text{SNR}^2 (z)= \frac{1}{2} \sum_{i\alpha, j\beta} \frac{S_{i\alpha , j\beta}^2}{P^N_{B_i}(\vec K, z)P^N_{B_j}(\vec K, z)} V_\text{voxel}^2\\=
-\frac{1}{2} \sum_{ij} \int d\vec r_\alpha \int d\vec r_\beta \frac{\left< B_i(\vec r_\alpha) B_j(\vec r_\beta)\right>^2}{P^N_{B_i}(\vec K, z)P^N_{B_j}(\vec K, z)},
+\text{SNR}^2 (z)= \frac{1}{2} \sum_{i\alpha, j\beta} \frac{S_{i\alpha , j\beta}^2}{P^N_{B_{0,i}}(\vec K, z)P^N_{B_{0,j}}(\vec K, z)} V_\text{voxel}^2\\=
+\frac{1}{2} \sum_{ij} \int d\vec r_\alpha \int d\vec r_\beta \frac{\left< B_{0,i}(\vec r_\alpha) B_{0,j}(\vec r_\beta)\right>^2}{P^N_{B_{0,i}}(\vec K, z)P^N_{B_{0,j}}(\vec K, z)},
 \ega
 \label{eq:snr_z_step1}
 \eeq
-where $\vec r_{\alpha/\beta}$ represents spatial position of a given voxel, and the expectation value on the rhs of the above equation relates to the model power spectrum. If homogeneity and isotropy are satisfied, the integrand should only depend on the separation vector $\vec s \equiv \vec r_\beta -\vec r_\alpha$, which gives\footnote{Note that in the last step we used $\int d\vec s |f(\vec s)|^2 = \int \frac{d\vec K}{(2\pi)^3}|\widetilde f(\vec K)|^2$, for an arbitrary function $f$ and its Fourier transform $\widetilde f$.}
+where we label voxels with Greek indicies, and, as before, retain Roman indicies for the field components; $\vec r_{\alpha/\beta}$ represents the spatial position of a given voxel. 
+
+To simplify further calculations, we now only focus on a particular class of magnetic-field models, where most of the power is on largest scales (small $\vec K$). In this (squeezed) limit, $\vec K \ll \vec k$ and thus $\vec k \approx \vec k'$, such that \eq{\ref{eq:NK2}} reduces to the white noise (independent on $\vec K$). The model for the power spectrum is defined through
+\beq
+(2\pi)^3\delta_D(\vec K - \vec K') P_{B_{0,i}B_{0,j}}(\vec K) = \left<B_{0,i}^*(\vec K) B_{0,j}(\vec K')\right>,
+\label{eq:Pbb}
+\eeq
+which relates to the variance in the transverse component $P_{B_\bot}(\vec K)$ as
+\beq
+P_{B_{0,i}B_{0,j}}(\vec K) = (\delta_{ij} - \widehat K_i \widehat K_j) P_{B_\bot}(\vec K),
+\label{eq:Pbb_Pb}
+\eeq
+where $\widehat K_{i/j}$ is a unit vector along the direction of ${i/j}$ component.
+In this discussion, as a concrete model example, we consider a scale--independent (SI) power spectrum, 
+\beq
+P_{{B_\bot}}(\vec K) = A_0^2/K^3,
+\label{eq:SI}
+\eeq
+where the amplitude $A_0$ is a free parameter (in units of Gauss). Furthermore, if homogeneity and isotropy are satisfied, the integrand in Eq.~(\ref{eq:snr_z_step1}) only depends on the separation vector $\vec s \equiv \vec r_\beta -\vec r_\alpha$. Using this and the squeezed limit assumption gives\footnote{Note that in the last step we used $\int d\vec s |f(\vec s)|^2 = \int \frac{d\vec K}{(2\pi)^3}|\widetilde f(\vec K)|^2$, which holds for an arbitrary function $f$ and its Fourier transform $\widetilde f$.}
 \beq  
 \bga
 \text{SNR}^2 (z) = 
-\frac{1}{2} \sum_{ij}  \frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}\int d\vec s \left< B_i(\vec r_\beta - \vec s) B_j(\vec r_\beta)\right>^2
+\frac{1}{2} \sum_{ij}  \frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}}\int d\vec s \left< B_{0,}i(\vec r_\beta - \vec s) B_{0,j}(\vec r_\beta)\right>^2
 \\=
-\frac{1}{2(2\pi)^3} \sum_{ij}  \frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}} \int d\vec K\left(P_{B_iB_j}(\vec K)\right)^2,
+\frac{1}{2(2\pi)^3} \sum_{ij}  \frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}} \int d\vec K\left(P_{B_{0,i}B_{0,j}}(\vec K)\right)^2,
 \ega
 \label{eq:snr_z}
 \eeq
-where $dV_\text{patch}$ is the volume of a redshift-slice patch at $z$, given by \eq{\ref{eq:dVpatch}}. %Note that we use the power spectrum of a comoving field $B$, such that the redshift evolution factors out in the usual way, described in the uniform-field case. 
-Substituting \eq{\ref{eq:SI}}, and integrating over all $z$'s available in the survey, 
+where $dV_\text{patch}$ is the volume of a redshift--slice patch of \eq{\ref{eq:dVpatch}}. Substituting \eq{\ref{eq:SI}}, and integrating over all $z$'s available in the survey, total SNR reads
 \beq
 \bga
-\text{SNR}^2 =  \frac{A_0^4}{2(2\pi)^3}  \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}}
+\text{SNR}^2 =  \frac{A_0^4}{2(2\pi)^3}  \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}}
 \int_0^{\pi} \sin\theta d\theta \\
 \int_0^{2\pi} d\phi\int_{K_\text{min}(z,\theta,\phi)}^{K_\text{max}(z,\theta,\phi)} \frac{d K}{K^4}\sum_{ij\in \{xx, xy, yx, yy\}}(\delta_{ij} - \widehat K_i\widehat K_j)^2,
 \ega
 \label{eq:snr_intK}
 \eeq
-where 
+where $x$ and $y$ denote components in the plane of the sky, and
 \beq
 \widehat K_x = \sin\theta\sin\phi, \text{     }
 \widehat K_y = \sin\theta\cos\phi.
@@ -130,20 +125,16 @@ where
 \eeq
 The sum in the above expression reduces to
 \beq
-\sum_{ij\in \{xx, xy, yx, yy\}}(\delta_{ij} - \widehat K_i\widehat K_j)^2 = 2 - \sin^2\theta(1+\sin^2\phi\cos^2\phi).
+\sum_{ij\in \{xx, xy, yx, yy\}}(\delta_{ij} - \widehat K_i\widehat K_j)^2 = 2\cos^2\theta+\sin^4\theta.
 \label{eq:sumij}
 \eeq
-Substituting this into \eq{\ref{eq:snr_intK}}, we get 
+Substituting this into \eq{\ref{eq:snr_intK}}, and integrating over $K,\theta,\phi$ gives
 \beq
-\bga
-\text{SNR}^2 =  \frac{A_0^4}{2(2\pi)^3} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}} \int_0^{\pi} d\theta\\
-\int_0^{2\pi} d\phi(2-\sin^2\theta(1+\sin^2\phi\cos^2\phi)) \int_{K_\text{min}(z,\theta,\phi)}^{K_\text{max}(z,\theta,\phi)} \frac{d K}{K^4}.
-\ega
+\text{SNR}^2 =  \frac{A_0^4}{10\pi^2} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}} \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right).
 \label{eq:snr_ints}
 \eeq
-Finally, performing the integration over $K,\theta,\phi$ analitically, for the FFTT case gives
+From this expression, $1\sigma$ sensitivity to measuring $A_0^2$ is
 \beq
-\text{SNR}^2 =  \frac{7A_0^4}{36\pi} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_i}(z))^2}} \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right),
-\label{eq:snr_ints}
+\sigma_{A_0^2} =  \left[\frac{1}{10\pi^2} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}} \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right)\right]^{-\frac{1}{2}}.
+\label{eq:sigma_A0}
 \eeq
-where $P^N_{B_i}$ is given by \eq{\ref{eq:NK2}}; as before, $K_\text{min}$ is taken to correspond to the largest mode that fits a given survey volume, $K_\text{min}=2\pi/d_A$, and $K_\text{max}=\Delta L/\lambda(z)$ (note that the numerical value of $K_\text{max}$ makes very little difference in the total value of this integral). When the last expression is evaluated at $A_0=1$, it provides the inverse of a value of $A_0$ detectable at $1\sigma$ sensitivity with a given experiment.
