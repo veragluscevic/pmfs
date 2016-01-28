@@ -402,13 +402,13 @@ def integrand_PBi(x,
                         Ts=Ts, Tg=Tg, z=z, 
                         verbose=False, 
                         xalpha=xalpha, xc=xc, 
-                        xBcoeff=xBcoeff, x1s=1.)#/(1.+z)**2 #!!! VG: check
+                        xBcoeff=xBcoeff, x1s=1.)
 
     Psignal = Pdelta*G**2
     Numerator = (2. * G * dGdB*(1.+z)**2 * Pdelta)**2   
-    Denominator = 2.*(Psignal + Pnoise)**2  
+    Denominator = 2.*(2.*np.pi)**3 * (Psignal + Pnoise)**2  ###is 2pi factor right? check!
 
-    res = k_Mpc**2*np.sin(thetak)* Numerator/Denominator ###IS THERE A FACTOR of 1/2???
+    res = k_Mpc**2*np.sin(thetak)* Numerator/Denominator 
 
 
     if debug:
@@ -638,9 +638,9 @@ def calc_SNR(zmin=10,zmax=35,
               debug=False,
               plotter_calling=False):
     
-    """This is a master function for calculating SNR for detecting amplitude A0[Gauss^2] = 1/SNR at 1 sigma.
+    """This is a master function for calculating SNR for detecting amplitude A0^2[Gauss^2] = 1/SNR at 1 sigma.
 
-    This function only works for FFTT setup. It takes the stuff described below, returns 1/sqrt(SNR) in Gauss.
+    This function only works for FFTT setup. It takes the stuff described below, returns sigma_A0 in Gauss.
 
     :param zmin:
       The minimum inegration redshift
@@ -709,9 +709,9 @@ def calc_SNR(zmin=10,zmax=35,
             print(z,samples[i],lambda_z,(1. - (DeltaL_km / lambda_z)**3))
 
     if plotter_calling:
-        return zs, 1/(7.*np.pi**2/4. * samples)**0.25
+        return zs, 1/(1./(10.*np.pi**2) * samples)**0.25 / np.pi
 
-    res = 7./36./np.pi * samples.mean() * (zmax - zmin) 
+    res = 1./(10.*np.pi**2) * samples.mean() * (zmax - zmin) #check coefficients?
     return 1./res**0.25
 
 

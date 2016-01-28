@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--mode',default='B0')
 parser.add_argument('--zmin', type=int, default=15)
 parser.add_argument('--zmax', type=int, default=25)
-parser.add_argument('--folder',default='default') # 'default', 'noheat', 'hiheat', loFSTAR
+parser.add_argument('--folder',default='midFSTAR') # 'default', 'noheat', 'hiheat', loFSTAR
 parser.add_argument('--tyr', type=float, default=1.) # duration of the survey, in years.
 parser.add_argument('--DeltaLmin', type=float, default=1) # min side of a square-shaped FFTT in km.
 parser.add_argument('--DeltaLmax', type=float, default=10) # max side of a square-shaped FFTT in km.

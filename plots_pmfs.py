@@ -69,9 +69,9 @@ def sigma_z(zmin=10,zmax=25,
             Omega_survey=1.,
             thetan=np.pi/2.,phin=0.,
             fontsize=24, smooth=True, binned=True, 
-            nbins=20,s=4,ymax=1e-18, xmax=None):
+            nbins=20,s=4,ymax=1e-18, xmax=None, label=''):
 
-    """Integrand of SNR for SI, as a function of z"""
+    """Integrand of SNR for SI, and integrand of sigma for B0, as a function of z"""
 
     
     colors = ['DarkCyan','DarkBlue','blue','cyan']
@@ -124,7 +124,7 @@ def sigma_z(zmin=10,zmax=25,
         xmax = zmax
     ax.set_ylim(ymax=ymax)
     ax.set_xlim(xmax=xmax,xmin=zmin)
-    fname = RESULTS_PATH + 'sigma{}_vs_z.pdf'.format(mode)
+    fname = RESULTS_PATH + 'sigma{}_vs_z{}.pdf'.format(mode,label)
     plt.savefig(fname, 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
@@ -176,7 +176,8 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
            fontsize=24,root=RESULTS_PATH,
            filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop2_300_200Mpc_loFSTAR',
            filename2='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_hiFSTAR',#'21cmfast_teja_nov2014.txt',
-           label='',B0=1e-18):
+           label='',B0=1e-18,
+           ymax_T=100,ymin_x=None):
 
     file_21cmfast = np.loadtxt(INPUTS_PATH+filename)
     file2_21cmfast = np.loadtxt(INPUTS_PATH+filename2)
@@ -239,6 +240,7 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
     plt.semilogy(zs_21cmfast,xB,lw=4,color='k',label=r'$x_B$ ($10^{{{:.0f}}}$ G)'.format(np.log10(B0)))
     plt.legend(fontsize=fontsize,frameon=False,loc='lower right')
     plt.xlim(xmin=zmin,xmax=zmax)
+    plt.ylim(ymin=ymin_x)
     plt.savefig(RESULTS_PATH+'xs{}.pdf'.format(label), 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
@@ -252,7 +254,7 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
     plt.plot(zs_21cmfast,Tks_21cmfast,'-.',lw=4,color='g',label='$T_K$')
     plt.legend(fontsize=fontsize,frameon=False,loc='upper left')
     plt.xlim(xmin=zmin,xmax=zmax)
-    plt.ylim(ymax=100)
+    plt.ylim(ymax=ymax_T)
     plt.savefig(RESULTS_PATH+'Ts{}.pdf'.format(label), 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
