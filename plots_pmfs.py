@@ -123,7 +123,7 @@ def sigma_z(zmin=10,zmax=25,
     if xmax is None:
         xmax = zmax
     ax.set_ylim(ymax=ymax)
-    ax.set_xlim(xmax=xmax)
+    ax.set_xlim(xmax=xmax,xmin=zmin)
     fname = RESULTS_PATH + 'sigma{}_vs_z.pdf'.format(mode)
     plt.savefig(fname, 
                 bbox_extra_artists=[xlabel, ylabel], 

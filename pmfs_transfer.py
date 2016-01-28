@@ -124,10 +124,10 @@ def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
 
     summ = 0.
     ####if np.isclose(thetan, np.pi/2.) and np.isclose(phin, 0.): #---->causes jit issues
-    if (thetan==np.pi/2.) and (phin==0.):
-        summ = 0.25*(15./(2.*np.pi)) * np.sin(thetak)**2 * np.sin(2.*phik)
-    else:
-        for i,m in enumerate( np.array([-2,-1,0,1,2]) ):
+    #if (thetan==np.pi/2.) and (phin==0.):
+    #    summ = 0.25*(15./(2.*np.pi)) * np.sin(thetak)**2 * np.sin(2.*phik)
+    #else:
+    for i,m in enumerate( np.array([-2,-1,0,1,2]) ):
             summand =  1j * m * Y2( m,thetak,phik ) * np.conjugate( Y2(m,thetan,phin) ) 
             summ += summand.real
 
@@ -145,7 +145,9 @@ def calc_G_Bzero(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
             Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, x1s=1.):
     
-    """In the limit B->0 calculates the transfer function, which is the total derivative dTb/ddelta evaluated at delta=0, 
+    """
+    NOT USED in fisher. not double-checked.
+    In the limit B->0 calculates the transfer function, which is the total derivative dTb/ddelta evaluated at delta=0, 
     from analytic derivative of eq 138 of Teja's draft v3.
     Result is in [K]. It takes x's (all unitless), temperatures in [K], and angles in [rad].
     B is along z!"""

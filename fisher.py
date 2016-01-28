@@ -230,12 +230,12 @@ def integrand(x, mode='B0',
         res = k_Mpc**2*np.sin(thetak)* Vpatch * Numerator/Denominator/(2.*np.pi)**3 
 
     if mode=='xi':
-        G_Bzero = pt.calc_G_Bzero(thetak=thetak, phik=phik, 
+        G_Bzero = pt.calc_G(thetak=thetak, phik=phik, 
                                   thetan=thetan, phin=phin,
                                   Ts=Ts, Tg=Tg, z=z, 
                                   verbose=False, 
                                   xalpha=xalpha, xc=xc, 
-                                  x1s=1.)
+                                  x1s=1.,xB=0.)
         G_Binfinity = pt.calc_G_Binfinity(thetak=thetak, phik=phik, 
                                           thetan=thetan, phin=phin,
                                           Ts=Ts, Tg=Tg, z=z, 
