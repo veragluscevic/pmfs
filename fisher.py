@@ -63,7 +63,7 @@ def Vpatch_factor(z, dA=3.1695653382881036e+28, H_z=1.1905643664441961e-16, Omeg
 @jit(nopython=True)
 def FFTT_nk(k, Ntot=0, lambda_z=443.1, dA=3.1695653382881032e+28,
             sin_thetak_n=0.7, Lmax=0, Lmin=0,
-            DeltaL=100000,Omega_beam=1.):
+            DeltaL=100000):
     """ This gives the UV coverage density in 
     baselines per k mode, for uniform tiling by dipoles of a square
     on the ground with surface area (\DeltaL)^2; 
@@ -177,8 +177,7 @@ def integrand(x, mode='B0',
                 dA=dA, 
                 sin_thetak_n=sint,
                 Lmax=DeltaL_cm, Lmin=lambda_z, 
-                DeltaL=DeltaL_cm,
-                Omega_beam=1.)
+                DeltaL=DeltaL_cm)
 
     t1 = t_sec
     if Omega_patch > 1.:
@@ -361,8 +360,7 @@ def integrand_PBi(x,
                 dA=dA, 
                 sin_thetak_n=sint,
                 Lmax=DeltaL_cm, Lmin=lambda_z, 
-                DeltaL=DeltaL_cm,
-                Omega_beam=1.)
+                DeltaL=DeltaL_cm)
 
     t1 = t_sec
     if Omega_survey > 1.:
