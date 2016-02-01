@@ -59,7 +59,7 @@ In this Section, we derive the noise power spectrum for the brightness temperatu
 where $\delta_D$ is the Dirac delta function. The observable we wish to relate this power spectrum to is the visibility function---a complex Gaussian variable with a zero mean, whose noise-induced variance (derived in Appendix \ref{app:Vrms}) reads
 \beq\bga
 \langle V({u},v,\theta_\nu)V({u'},v',\theta_\nu')^*\rangle \\
-= \left(\frac{2k_BT_\text{sky}}{A_e\sqrt{\Delta\nu t_1}}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta_{\theta_\nu\theta_{\nu}'},
+= \frac{1}{\Omega_\text{beam}}\left(\frac{2k_BT_\text{sky}}{A_e\sqrt{\Delta\nu t_1}}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta_{\theta_\nu\theta_{\nu}'},
 \ega
 \label{eq_Vrms}
 \eeq 
@@ -69,7 +69,7 @@ The next step is to combine Eqs.~(\ref{eq:visibility}) and (\ref{eq_Vrms}), and 
 \beq
 \bga
 \langle\widetilde{\mathcal{I}}(u,v,\eta) \widetilde{\mathcal{I}}^*(u',v',\eta')\rangle \\
- = \frac{1}{t_1}\left(\frac{2k_BT_\text{sky}}{A_e}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta(\eta-\eta'),
+ = \frac{1}{t_1\Omega_\text{beam}}\left(\frac{2k_BT_\text{sky}}{A_e}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta(\eta-\eta'),
 \ega
 \label{eq:mathcal_power_Vrms}
 \eeq 
@@ -79,7 +79,7 @@ where
 \eeq
 is the periodic delta-function on the $t_1$ interval.  Taking into account the scaling relation of \eq{\ref{eq_tilde_I_vs_Ik_scaling}}, introducing the power spectrum of \eq{\ref{eq_tildeI_power}}, and keeping in mind the scaling property of the delta function, we arrive at
 \beq
-P_1^N(\vec k) = \frac{1}{t_1(2\pi)^3}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\left(\frac{2k_BT_\text{sky}}{A_e}\right)^2 ,
+P_1^N(\vec k) = \frac{c(1+z)^2\chi^2(z)}{(2\pi)^3\Omega_\text{beam}t_1H(z)\nu_{21}}\left(\frac{2k_BT_\text{sky}}{A_e}\right)^2 ,
 \label{eq:Pnoise_1mode}
 \eeq
 for the noise per $\vec k$ mode, per baseline.
@@ -88,12 +88,12 @@ Computation of $t_1$ from the total duration of the survey  $t_\text{obs}$ depen
 
 The last step is to get from \eq{\ref{eq:Pnoise_1mode}} to the expression for the noise power spectrum that corresponds to the observation with all the available baselines. To do that, we need to incorporate the knowledge about the array configuration and the coverage of the $uv$ plane. In other words, we need to divide the expression in \eq{\ref{eq:Pnoise_1mode}} by the number of baselines that see a given mode $\vec k$ at any given time $n_\text{base}(\vec k)$ (for a discussion of the $uv$ coverage, see the following section). The final result for the noise power spectrum per mode $\vec k$ in the intensity units is then
 \beq
-P^N(\vec k) = \frac{1}{t_\text{1}(2\pi)^3}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\frac{\left(2k_BT_\text{sky}\right)^2}{A_e^2n_\text{base}(\vec k)},
+P^N(\vec k) = \frac{c(1+z)^2\chi^2(z)}{(2\pi)^3\Omega_\text{beam}t_1H(z)\nu_{21}}\frac{\left(2k_BT_\text{sky}\right)^2}{A_e^2n_\text{base}(\vec k)},
 \label{eq:Pnoise_Jy}
 \eeq
 and in temperature units
 \beq
-P^N(\vec k) = \frac{\lambda^4}{t_\text{1}(2\pi)^3}\frac{c(1+z)^2\chi^2(z)}{H(z)\nu_{21}}\frac{T_\text{sky}^2}{A_e^2n_\text{base}(\vec k)}.
+P^N(\vec k) =\frac{\lambda^4c(1+z)^2\chi^2(z)}{(2\pi)^3\Omega_\text{beam}t_1H(z)\nu_{21}}\frac{T_\text{sky}^2}{A_e^2n_\text{base}(\vec k)}.
 \label{eq:Pnoise_K}
 \eeq
 %%%%%%%%%%%%

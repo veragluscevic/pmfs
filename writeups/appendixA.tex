@@ -23,9 +23,10 @@ Let us now assume that
 In the following, for clarity, we will omit writing the explicit dependence on $\nu$.  The real (or imaginary) part of $\rho$ has the following variance
 \beq
 \bga
-var(Re[\rho_{ij}]) \\
-= \frac{1}{(2\sigma^2)^2}var(\langle Re[\widetilde{E}_i]Re[\widetilde{E}_j] + Im[\widetilde{E}_i]Im[\widetilde{E}_j]]\rangle) \\
-= \frac{2\sigma^2\sigma^2}{(2\sigma^2)^2} = \frac{1}{2N_\nu} = \frac{1}{2t_1\Delta \nu}.
+var(Re[\rho_{ij}]) 
+%= \frac{1}{(2\sigma^2)^2}var(\langle Re[\widetilde{E}_i]Re[\widetilde{E}_j] + Im[\widetilde{E}_i]Im[\widetilde{E}_j]]\rangle) \\
+%= \frac{2\sigma^2\sigma^2}{(2\sigma^2)^2} = 
+\frac{1}{2N_\nu} = \frac{1}{2t_1\Delta \nu}.
 \ega
 \label{eq:var_Rerho}
 \eeq
@@ -62,18 +63,18 @@ The final step in this derivation requires the relation between intensity in the
 \eeq
 where $R(\theta_x,\theta_y)$ is the antenna response function (the shape of the beam in the sky), which we will assume to be unity. Furthermore, $\frac{2\pi\nu}{c}(b_x\theta_x + b_y\theta_y)\equiv {2\pi}(u\theta_x + v\theta_y)$ is the phase delay between two antennae (position in the $uv$ plane measures the phase lag between the two dishes in wavelenghts). The coefficient of proportionallity in the above equation is set by various instrumental parameters, and is not relevant for our purposes. From \eq{\ref{eq:rho_ij}}, it follows
 \beq
-\rho_{ij}(\nu) = \frac{\int_{\Omega_b}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu)e^{2\pi i(u\theta_x+v\theta_y)}}{\int_{\Omega_b}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu)},
+\rho_{ij}(\nu) = \frac{\int_{\Omega_\text{beam}}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu)e^{2\pi i(u\theta_x+v\theta_y)}}{\int_{\Omega_\text{beam}}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu)},
 \label{eq:rho_mathcalI}
 \eeq
 where the denominator in the above formula approximately integrates to (for a small beam)
 \beq
-\int_{\Omega_b}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu) \approx
-\Omega_b \mathcal{I}(\theta_x,\theta_y,\theta_\nu).
+\int_{\Omega_\text{beam}}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu) \approx
+\Omega_\text{beam} \mathcal{I}(\theta_x,\theta_y,\theta_\nu).
 \label{eq:rho_denominator}
 \eeq
 We can now use the approximate expression for the resolution of a single dish,
 \beq
-\Omega_b = \frac{\lambda^2}{A_e},
+\Omega_\text{beam} = \frac{\lambda^2}{A_e},
 \label{eq:Omegab}
 \eeq
 the Reyliegh-Jeans law (or the definition of the brightness temperature),
@@ -88,9 +89,13 @@ and note that the numerator in \eq{\ref{eq:rho_mathcalI}} matches the definition
 \eeq
 Combining the above expression and \eq{\ref{eq:var_rho}}, we get the final result of this derivation,
 \beq
-\langle|V(u,v,\theta_\nu)|^2\rangle = \left(\frac{2k_BT_\text{sky}}{A_e\sqrt{t_1\Delta \nu}}\right)^2\delta(u-u')\delta(v-v')\delta_{\theta_\nu\theta_{\nu'}},
+\bga
+\langle|V(u,v,\theta_\nu)|^2\rangle 
+=\frac{1}{\Omega_\text{beam}}\left(\frac{2k_BT_\text{sky}}{A_e\sqrt{t_1\Delta \nu}}\right)^2\\
+\times\delta_D(u-u')\delta_D(v-v')\delta_{\theta_\nu\theta_{\nu'}},
+\ega
 \label{eq:Vrms_final}
 \eeq
-where $V$ is a complex Gaussian variable, centered at zero, and uncorrelated for different values of its arguments.
+where $V$ is a complex Gaussian variable, centered at zero, and uncorrelated for different values of its arguments, and the factor of $\Omega_\text{beam}$ came from converting from Kroneker to Dirac deltas.
 
 It should be noted at the end that we were calculating the contribution to the visibility from the noise only (the system + the foregrounds in the absence of a signal), so we used system temperature for brightness temperature (this could contain the signal from foregrounds and from the instrument). In case we want to repeat the computation in the presence of a signal, $T_\text{sky}$ should instead be the sum of the signal and the noise temperatures.
