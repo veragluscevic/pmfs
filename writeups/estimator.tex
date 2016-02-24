@@ -125,11 +125,11 @@ The final expression for the minimum-variance quadratic estimator computed from 
 with variance given by
 \beq
 \bga
-\sigma^{-2}_{\widehat B_0} = \sum_{\vec k}\left(\frac{2P_{\delta}(k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})}{G^2_0({\bf{\widehat k}})P_\delta(k)+P^N(\vec k)}\right)^{2},
+\sigma^{-2}_{\widehat B_0} = \frac{1}{2}\sum_{\vec k}\left(\frac{2P_{\delta}(k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})}{P_\text{null}(\vec k)}\right)^{2},
 \ega
 \label{eq:B_estimator_var}
 \eeq
-where the sums are over the whole $\vec k$-plane, and thus the factor of 2 coming from Kronecker deltas is removed to avoid double-counting modes. This is because $\widehat B_0^{\vec k}=\widehat B_0^{-\vec k}$, following from the reality condition on the temperature field, $T(\vec k)=T^*(\vec k)$, and the isotropy of space in the null-assumption case, $G({\bf{\widehat k}})=G(-{\bf{\widehat k}})$.
+where the sums are over the whole $\vec k$-plane.\footnote{Note that $\widehat B_0^{\vec k}=\widehat B_0^{-\vec k}$, following from the reality condition on the temperature field, $T(\vec k)=T^*(-\vec k)$, and the isotropy of space in the null-assumption case, $G({\bf{\widehat k}})=G(-{\bf{\widehat k}})$, which is why the factor of $1/2$ appears in order to avoid double-counting of modes.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

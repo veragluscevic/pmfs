@@ -10,7 +10,7 @@ For a measurement of the redshifted 21-cm brightness temperature signal at a giv
 \beq
 \bga
 \sigma_{B_0}^{-2} = 
-\int dV_\mathrm{}(z)
+\frac{1}{2}\int dV_\mathrm{}(z)
 \frac{k^2dk d\phi_k\sin \theta_kd\theta_k}{(2\pi)^3}\\
 \times\left( \frac{2P_\delta(k,z)G_0(\theta_k,\phi_k,z)\frac{\partial G_0}{\partial B_0}(\theta_k, \phi_k,z)}{P^N(k,\theta_k,z) + P_\delta(k,z)G_0^2(\theta_k,\phi_k,z)} \right)^2,
 \ega
@@ -84,7 +84,7 @@ where we label voxels with Greek indicies, and, as before, retain Roman indicies
 
 To simplify further calculations, we now only focus on a particular class of magnetic-field models, where most of the power is on largest scales (small $\vec K$). In this (squeezed) limit, $\vec K \ll \vec k$ and thus $\vec k \approx \vec k'$, such that \eq{\ref{eq:NK2}} reduces to the white noise (independent on $\vec K$). The model for the power spectrum is defined through
 \beq
-(2\pi)^3\delta_D(\vec K - \vec K') P_{B_{0,i}B_{0,j}}(\vec K) = \left<B_{0,i}^*(\vec K) B_{0,j}(\vec K')\right>,
+(2\pi)^3\delta_D(\vec K - \vec K') P_{B_{0,i}B_{0,j}}(\vec K) \equiv \left<B_{0,i}^*(\vec K) B_{0,j}(\vec K')\right>,
 \label{eq:Pbb}
 \eeq
 which relates to the variance in the transverse component $P_{B_\bot}(\vec K)$ as
@@ -135,6 +135,6 @@ Substituting this into \eq{\ref{eq:snr_intK}}, and integrating over $K,\theta,\p
 \eeq
 From this expression, $1\sigma$ sensitivity to measuring $A_0^2$ is
 \beq
-\sigma_{A_0^2} =  \left[\frac{1}{10\pi^2} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}} \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right)\right]^{-\frac{1}{2}}.
+\sigma^2_{A_0^2} =  \left[\frac{1}{10\pi^2} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}} \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right)\right]^{-1}.
 \label{eq:sigma_A0}
 \eeq
