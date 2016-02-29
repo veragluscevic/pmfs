@@ -172,45 +172,55 @@ def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
     
 
 @jit
-def arb_xT(zmin=15,zmax=35, nzs=100,
+def arb_xT(zmin=15,zmax=33, nzs=100,
            fontsize=24,root=RESULTS_PATH,
-           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop2_300_200Mpc_loFSTAR',
-           filename2='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_hiFSTAR',#'21cmfast_teja_nov2014.txt',
-           label='',B0=1e-18,
-           ymax_T=100,ymin_x=None):
+           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_midFSTAR',
+           filenames_uncertainty=['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_hiFSTAR'],
+           label='',B0=1e-22,
+           ymax_T=100,ymin_x=1e-6):
+    """Takes filenames_uncertainty as a list of 2 filenames, no root,
+    e.g. ['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_hiFSTAR']
+
+    """
 
     file_21cmfast = np.loadtxt(INPUTS_PATH+filename)
-    file2_21cmfast = np.loadtxt(INPUTS_PATH+filename2)
     Tks_21cmfast = file_21cmfast[:,2][::-1]
-    Tks2_21cmfast = file2_21cmfast[:,2][::-1]
     Tgs_21cmfast = file_21cmfast[:,5][::-1]
     Tss_21cmfast = file_21cmfast[:,4][::-1]
-    Tss2_21cmfast = file2_21cmfast[:,4][::-1]
     Jlyas_21cmfast = file_21cmfast[:,6][::-1]
-    Jlyas2_21cmfast = file2_21cmfast[:,6][::-1]
     zs_21cmfast = file_21cmfast[:,0][::-1]
     xH_21cmfast = file_21cmfast[:,1][::-1]
 
-    #Tk_21cmfast_interp = interpolate(zs_21cmfast, Tks_21cmfast, s=0)
-    #Tg_21cmfast_interp = interpolate(zs_21cmfast, Tgs_21cmfast, s=0)
-    #Ts_21cmfast_interp = interpolate(zs_21cmfast, Tss_21cmfast, s=0)
-    #Jlya_21cmfast_interp = interpolate(zs_21cmfast, Jlyas_21cmfast, s=0)
+    # plot J_Lya 
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel(r'$J_{Ly\alpha}$ [$cm^{-2} sec^{-1} Hz^{-1}sr^{-1}$]',fontsize=fontsize)
+    ax.semilogy(zs_21cmfast,Jlyas_21cmfast,lw=4,color='Black')
+    ax.set_xlim(xmin=zmin,xmax=zmax)
+    
+    # if uncertainty files given, plot band around Jlya
+    if filenames_uncertainty is not None:
+        file_21cmfast_lo = np.loadtxt(INPUTS_PATH+filenames_uncertainty[0])
+        Jlyas_21cmfast_lo = file_21cmfast_lo[:,6][::-1]
+        
+        file_21cmfast_hi = np.loadtxt(INPUTS_PATH+filenames_uncertainty[1])
+        Jlyas_21cmfast_hi = file_21cmfast_hi[:,6][::-1]
 
-    
-    
-    #zs = np.linspace(zmin,zmax,nzs)
-    #Ts = []; Tg = []; Tk = []; Jlya = []; 
+        ax.fill_between(zs_21cmfast, Jlyas_21cmfast_lo, Jlyas_21cmfast_hi, 
+                        facecolor='gray', interpolate=True, alpha=0.4, lw=0)
+    plt.savefig(RESULTS_PATH+'Jlya{}.pdf'.format(label), 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
+
+
+    # compute x's and write to file, then plot
     xc = []; xB = []; xalpha = []
-    #for i,z in enumerate(zs):
     fout = open(RESULTS_PATH + 'xs_table.txt', 'w')
     fout.write('z  x_alpha x_c xBcoeff\n')
     for i,z in enumerate(zs_21cmfast):
         B = B0*(1+z)**2
-        #Ts.append(Ts_21cmfast_interp( z ))
-        #Tg.append(Tg_21cmfast_interp( z ))
-        #Tk.append(Tk_21cmfast_interp( z ))
-        #Jlya.append(Jlya_21cmfast_interp( z ))
-       
+
         Salpha = cf.val_Salpha(Tss_21cmfast[i], Tks_21cmfast[i], z, xH_21cmfast[i], 0) 
         xalpha.append(rf.val_xalpha( Salpha=Salpha, Jlya=Jlyas_21cmfast[i], Tg=Tgs_21cmfast[i] ))
         xc.append(rf.val_xc(z, Tk=Tks_21cmfast[i], Tg=Tgs_21cmfast[i]))
@@ -219,18 +229,6 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
         fout.write('{}  {}  {} {}\n'.format(z, xalpha[i], xc[i], xBcoeff ))
     fout.close()
         
-
-    plt.figure()
-    ax = plt.gca()
-    xlabel = ax.set_xlabel('z',fontsize=fontsize)
-    ylabel = ax.set_ylabel('$x_H$',fontsize=fontsize)
-    plt.plot(zs_21cmfast,xH_21cmfast,lw=4,color='red')
-    #plt.legend(fontsize=fontsize,frameon=False,loc='upper right')
-    #plt.xlim(xmin=zmin,xmax=zmax)
-    plt.savefig(RESULTS_PATH+'xion{}.pdf'.format(label), 
-                bbox_extra_artists=[xlabel, ylabel], 
-                bbox_inches='tight')
-
     plt.figure()
     ax = plt.gca()
     xlabel = ax.set_xlabel('z',fontsize=fontsize)
@@ -245,6 +243,19 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
 
+
+    
+    # plot ionization history
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel('$x_H$',fontsize=fontsize)
+    plt.plot(zs_21cmfast,xH_21cmfast,lw=4,color='red')
+    plt.savefig(RESULTS_PATH+'xion{}.pdf'.format(label), 
+                bbox_extra_artists=[xlabel, ylabel], 
+                bbox_inches='tight')
+
+    # plot T's
     plt.figure()
     ax = plt.gca()
     xlabel = ax.set_xlabel('z',fontsize=fontsize)
@@ -259,16 +270,7 @@ def arb_xT(zmin=15,zmax=35, nzs=100,
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
 
-    plt.figure()
-    ax = plt.gca()
-    xlabel = ax.set_xlabel('z',fontsize=fontsize)
-    ylabel = ax.set_ylabel(r'$J_{Ly\alpha}$ [$cm^{-2} sec^{-1} Hz^{-1}sr^{-1}$]',fontsize=fontsize)
-    plt.semilogy(zs_21cmfast,Jlyas_21cmfast,lw=4,color='Gray')
 
-    plt.xlim(xmin=zmin,xmax=zmax)
-    plt.savefig(RESULTS_PATH+'Jlya{}.pdf'.format(label), 
-                bbox_extra_artists=[xlabel, ylabel], 
-                bbox_inches='tight')
 
 
 
@@ -336,7 +338,9 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
 
 
 def grid_DeltaL(modes=['B0','SI'],t_yr=1., 
-                folder='default',Omega=1.,
+                folder='midFSTAR',
+                folders_uncertainty=['loFSTAR', 'hiFSTAR'],                
+                Omega=1.,
                 fontsize=24,
                 xlabel='\Delta L [km]',
                 root=RESULTS_PATH,
@@ -350,8 +354,6 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
                 ylabel=None):
 
     """Master plotter"""
-    if folder is not None:
-        root += folder + '/'
 
     latexmode = {'SI':'stochastic (SI)', 'B0':'uniform', 'xi': r'$\xi$'}
     plt.figure()
@@ -370,17 +372,14 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
         plt.grid(b=True,which='both')
 
     for i,mode in enumerate(modes):
-        #if mode=='SI':
-        #    t_yr =2.
-        #else:
-        #    t_yr=1.
-        DeltaLs = np.load(root + 'DeltaLs_{}_tyr_{:.2f}_Omega_{:.2f}.npy'.format(mode,t_yr,Omega))
+        Dfile = root + folder + '/' + 'DeltaLs_{}_tyr_{:.2f}_Omega_{:.2f}.npy'.format(mode,t_yr,Omega)
+        DeltaLs = np.load(Dfile)
 
 
         sigmas = []
         ds = []
         for j,d in enumerate(DeltaLs):
-            infile = root + '{}_tyr_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}.txt'.format(mode,
+            infile = root + folder + '/' + '{}_tyr_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}.txt'.format(mode,
                                                                         t_yr,
                                                                         d,Omega)
 
@@ -412,7 +411,7 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
 
     if len(modes) > 1:
         plt.legend(fontsize=fontsize)
-        #else:
+
     ax.set_ylim(ymax=ymax)
 
     if save:
