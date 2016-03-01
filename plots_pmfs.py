@@ -174,12 +174,12 @@ def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
 @jit
 def arb_xT(zmin=15,zmax=33, nzs=100,
            fontsize=24,root=RESULTS_PATH,
-           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_midFSTAR',
-           filenames_uncertainty=['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_hiFSTAR'],
+           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__midFSTAR',
+           filenames_uncertainty=['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__hiFSTAR'],
            label='',B0=1e-22,
            ymax_T=100,ymin_x=1e-6):
     """Takes filenames_uncertainty as a list of 2 filenames, no root,
-    e.g. ['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc_hiFSTAR']
+    e.g. ['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__hiFSTAR']
 
     """
 
@@ -338,8 +338,8 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
 
 
 def grid_DeltaL(modes=['B0','SI'],t_yr=1., 
-                folder='midFSTAR',
-                folders_uncertainty=['loFSTAR', 'hiFSTAR'],                
+                folder='loFSTAR',
+                folders_uncertainty=None,                
                 Omega=1.,
                 fontsize=24,
                 xlabel='\Delta L [km]',
@@ -353,9 +353,14 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
                 ymax=1e-21,
                 ylabel=None):
 
-    """Master plotter"""
+    """Master plotter
+    modes= ['B0', 'SI'] or ['xi'] 
+    folders_uncertainty: this is a list of 2 filenames, for xi only, eg folders_uncertainty=['loFSTAR', 'hiFSTAR']
+    """
 
     latexmode = {'SI':'stochastic (SI)', 'B0':'uniform', 'xi': r'$\xi$'}
+
+    # set up figure
     plt.figure()
     ax = plt.gca()
     fig = plt.gcf()
@@ -371,11 +376,11 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
     if plot_grid:
         plt.grid(b=True,which='both')
 
+
+    # mode by mode: read, then plot data
     for i,mode in enumerate(modes):
         Dfile = root + folder + '/' + 'DeltaLs_{}_tyr_{:.2f}_Omega_{:.2f}.npy'.format(mode,t_yr,Omega)
         DeltaLs = np.load(Dfile)
-
-
         sigmas = []
         ds = []
         for j,d in enumerate(DeltaLs):
@@ -409,6 +414,52 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
 
         plt.semilogy(x, y, lw=4, color=colors[i],label=latexmode[mode])
 
+    # add uncertainty band
+    if folders_uncertainty is not None:
+        x = {}
+        y = {}
+        for fu in folders_uncertainty:
+            Dfile = root + fu + '/' + 'DeltaLs_{}_tyr_{:.2f}_Omega_{:.2f}.npy'.format(mode,t_yr,Omega)
+            DeltaLs = np.load(Dfile)
+            sigmas = []
+            ds = []
+            for j,d in enumerate(DeltaLs):
+                infile = root + fu + '/' + '{}_tyr_{:.2f}_DeltaL_{:.2f}_Omega_{:.2f}.txt'.format(mode,
+                                                                        t_yr,
+                                                                        d,Omega)
+                
+
+                if os.path.exists(infile):
+                    data = np.loadtxt(infile, skiprows=1, usecols=(0,))
+                    sigmas.append(data)
+                    ds.append(d)
+                else:
+                    print('Did not find: {}'.format(infile))
+
+
+            ds = np.array(ds)
+            sigmas = np.array(sigmas)
+            if 'SI' in modes:
+                sigmas = sigmas / np.pi
+
+            
+
+            if smooth:
+                x[fu] = gaussian_filter1d(ds, s)
+                y[fu] = gaussian_filter1d(sigmas, s)
+            else:
+                x[fu] = ds
+                y[fu] = sigmas
+
+            if binned:
+                npts = len(x[fu]) / nbins
+                x[fu], y[fu] = bin_data(ds, sigmas, npts)
+
+        ax.fill_between(x[folders_uncertainty[0]], y[folders_uncertainty[0]], y[folders_uncertainty[1]], alpha=0.5, 
+                    facecolor='red', interpolate=True, lw=0)
+        
+
+    # more global plot set up and save
     if len(modes) > 1:
         plt.legend(fontsize=fontsize)
 
@@ -416,7 +467,7 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
 
     if save:
         fname = root + 'B_vs_deltas.pdf'
-        if modes[0]=='xi':
+        if (modes[0]=='xi') and (len(modes)==1):
             fname = root + 'xi_vs_deltas.pdf'
 
         plt.savefig(fname, 
