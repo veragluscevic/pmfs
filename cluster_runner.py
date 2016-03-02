@@ -9,17 +9,22 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--mode',default='B0')
 parser.add_argument('--zmin', type=int, default=15)
 parser.add_argument('--zmax', type=int, default=25)
-parser.add_argument('--folder',default='midFSTAR') # 'default', 'noheat', 'hiheat', loFSTAR
+parser.add_argument('--folder',default='midFSTAR') # midFSTAR, loFSTAR, or hiFSTAR
 parser.add_argument('--tyr', type=float, default=1.) # duration of the survey, in years.
 parser.add_argument('--DeltaLmin', type=float, default=1) # min side of a square-shaped FFTT in km.
 parser.add_argument('--DeltaLmax', type=float, default=10) # max side of a square-shaped FFTT in km.
 parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in sr.
-parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations; should be 100 for mode=='SI'
+#parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations; should be 100 for mode=='SI' #this choice is just causing trouble
 parser.add_argument('--nevalPBi', type=int, default=5000) # number of integrand evaluations
 
 parser.add_argument('--NDeltaL', type=int, default=256) # DeltaL sample points.
 parser.add_argument('--ngroups', type=int, default=512)
 args = parser.parse_args()
+
+if args.mode=='B0' or args.mode=='xi':
+    neval = 100000
+if args.mode=='SI':
+    neval = 100
 
 Omegasurvey = args.Omegasurvey
 
@@ -40,7 +45,7 @@ for DeltaL in DeltaLs:
                                                                 Omegasurvey)
 
 
-    cmd = '../runner.py --mode {} --folder {} --zmin {} --zmax {} --tyr {} --DeltaL {} --Omegasurvey {} --resfile {} --neval {} --nevalPBi {}'.format(args.mode,args.folder,args.zmin,args.zmax,args.tyr,DeltaL,Omegasurvey,resfile,args.neval,args.nevalPBi)
+    cmd = '../runner.py --mode {} --folder {} --zmin {} --zmax {} --tyr {} --DeltaL {} --Omegasurvey {} --resfile {} --neval {} --nevalPBi {}'.format(args.mode,args.folder,args.zmin,args.zmax,args.tyr,DeltaL,Omegasurvey,resfile,neval,args.nevalPBi)
     cmds.append(cmd)
     count += 1
 

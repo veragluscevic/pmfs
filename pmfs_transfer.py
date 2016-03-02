@@ -165,7 +165,7 @@ def calc_G_Bzero(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     return res/1000. #this is to make it to K from mK.
 
 
-@jit#(nopython=True)
+#@jit#(nopython=True)
 def calc_G_Binfinity(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
             Ts=11.1, Tg=57.23508, z=20, verbose=False,
             xalpha=34.247221, xc=0.004176, x1s=1.):
@@ -178,8 +178,8 @@ def calc_G_Binfinity(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     k_dot_n = np.cos(thetan)*np.cos(thetak) + np.sin(thetan)*np.sin(thetak)*np.cos(phin)*np.cos(phik) + np.sin(thetan)*np.sin(thetak)*np.sin(phin)*np.sin(phik)
 
 
-    summ = 0.5*(3.*(np.cos(thetak))**2 + 3.*(np.cos(thetan))**2 - 2.)/ ( 1. + xalpha + xc )
-        
+    #summ = 0.25 * ( 1. - 3.*np.cos(thetak)**2 ) / ( 1. + xalpha + xc )
+    summ=0.   
     first_term = 1 + k_dot_n**2
     second_term = 2. + 2.*k_dot_n**2 - 1./15.*summ
 

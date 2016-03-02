@@ -60,7 +60,7 @@ def plot_dA(zmin=15,zmax=35,nz=100):
         
 
 
-def sigma_z(zmin=10,zmax=25,
+def sigma_z(zmin=15,zmax=28,
             mode='B0',
             t_yr=1.,
             baselines=[1.,2.,4.,10.],
@@ -69,7 +69,7 @@ def sigma_z(zmin=10,zmax=25,
             Omega_survey=1.,
             thetan=np.pi/2.,phin=0.,
             fontsize=24, smooth=True, binned=True, 
-            nbins=20,s=4,ymax=1e-18, xmax=None, label=''):
+            nbins=20,s=4,ymax=5e-18, xmax=None, label=''):
 
     """Integrand of SNR for SI, and integrand of sigma for B0, as a function of z"""
 
@@ -137,7 +137,7 @@ def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
                  nside=64, npix=None,
                 fileroot=RESULTS_PATH, z=30,
                 fontsize=24):
-    """This produces healpy visualization of the quadrupole patter,
+    """This produces healpy visualization of the quadrupole pattern,
     in the frame of the atom.
     """
     Bs = np.array([0.,1e-18,1e-17, 1e-16])
@@ -203,11 +203,13 @@ def arb_xT(zmin=15,zmax=33, nzs=100,
     if filenames_uncertainty is not None:
         file_21cmfast_lo = np.loadtxt(INPUTS_PATH+filenames_uncertainty[0])
         Jlyas_21cmfast_lo = file_21cmfast_lo[:,6][::-1]
+        zs_21cmfast_lo = file_21cmfast_lo[:,0][::-1]
         
         file_21cmfast_hi = np.loadtxt(INPUTS_PATH+filenames_uncertainty[1])
         Jlyas_21cmfast_hi = file_21cmfast_hi[:,6][::-1]
+        zs_21cmfast_hi = file_21cmfast_hi[:,0][::-1]
 
-        ax.fill_between(zs_21cmfast, Jlyas_21cmfast_lo, Jlyas_21cmfast_hi, 
+        ax.fill_between(zs_21cmfast_lo, Jlyas_21cmfast_lo, Jlyas_21cmfast_hi, 
                         facecolor='gray', interpolate=True, alpha=0.4, lw=0)
     plt.savefig(RESULTS_PATH+'Jlya{}.pdf'.format(label), 
                 bbox_extra_artists=[xlabel, ylabel], 
@@ -338,7 +340,7 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
 
 
 def grid_DeltaL(modes=['B0','SI'],t_yr=1., 
-                folder='loFSTAR',
+                folder='midFSTAR',
                 folders_uncertainty=None,                
                 Omega=1.,
                 fontsize=24,
@@ -350,7 +352,7 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
                 s=3,binned=False,nbins=20,
                 plot_grid=True,
                 debug=False,
-                ymax=1e-21,
+                ymax=1e-20,
                 ylabel=None):
 
     """Master plotter
@@ -455,7 +457,7 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
                 npts = len(x[fu]) / nbins
                 x[fu], y[fu] = bin_data(ds, sigmas, npts)
 
-        ax.fill_between(x[folders_uncertainty[0]], y[folders_uncertainty[0]], y[folders_uncertainty[1]], alpha=0.5, 
+        ax.fill_between(x[folders_uncertainty[0]], y[folders_uncertainty[0]], y[folders_uncertainty[1]], alpha=0.3, 
                     facecolor='red', interpolate=True, lw=0)
         
 

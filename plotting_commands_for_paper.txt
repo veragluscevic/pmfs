@@ -1,0 +1,11 @@
+the following command line commands produce all the plots that appear in Paper II:
+
+import pylab as pl
+pl.ion()
+import plots_pmfs as pp
+
+pp.visualize_hp()
+pp.arb_xT()
+pp.sigma_z()
+pp.grid_DeltaL(modes=['xi'],ymax=1,folder='midFSTAR',folders_uncertainty=['loFSTAR','hiFSTAR'])
+pp.grid_DeltaL(modes=['B0', 'SI'],folder='midFSTAR')
