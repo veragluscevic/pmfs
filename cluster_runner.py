@@ -17,7 +17,7 @@ parser.add_argument('--Omegasurvey', type=float, default=1.) # Omega_survey in s
 parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations; should be 100 for mode=='SI'
 parser.add_argument('--nevalPBi', type=int, default=5000) # number of integrand evaluations
 
-parser.add_argument('--NDeltaL', type=int, default=300) # DeltaL sample points.
+parser.add_argument('--NDeltaL', type=int, default=256) # DeltaL sample points.
 parser.add_argument('--ngroups', type=int, default=512)
 args = parser.parse_args()
 
