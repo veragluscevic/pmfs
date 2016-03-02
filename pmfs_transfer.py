@@ -171,7 +171,7 @@ def calc_G_Binfinity(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
             xalpha=34.247221, xc=0.004176, x1s=1.):
     
     """In the limit B->infinity calculates the transfer function, which is the total derivative dTb/ddelta evaluated at delta=0, 
-    from analytic derivative of eq 138 of Teja's draft v3.
+    from analytic derivative of eq 1 of Paper II.
     Result is in [K]. It takes x's (all unitless), temperatures in [K], and angles in [rad].
     B is along z!"""
     
