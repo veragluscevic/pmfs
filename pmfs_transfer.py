@@ -100,7 +100,7 @@ def calc_G(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     #for i,m in enumerate( np.array([-2,-1,0,1,2]) ):#---->causes jit issues
     for m in [-2,-1,0,1,2]:
         summand = Y2( m,thetak,phik ) * np.conjugate( Y2( m,thetan,phin ) ) / ( 1. + xalpha + xc - 1j*m*xB )
-        summ += summand#.real
+        summ += summand.real
     #if np.isclose(summ, 0.):#---->causes jit issues
     #    summ = 0.#---->causes jit issues
     first_term = 1 + k_dot_n**2
