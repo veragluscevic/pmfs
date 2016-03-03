@@ -1,4 +1,5 @@
 the following command line commands produce all the plots that appear in Paper II:
+(make sure reion_functions.py has 21cmfile set to "mid", i.e. the fiducial model!)
 
 import pylab as pl
 pl.ion()
