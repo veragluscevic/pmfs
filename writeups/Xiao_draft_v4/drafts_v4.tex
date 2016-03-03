@@ -142,7 +142,7 @@ This transverse power spectrum does not depend on the components but the magnitu
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.45]{pt_2.eps}
+\includegraphics[scale=0.45]{pt_2.pdf}
 \caption{The transverse power spectra for sources at redshifts $z=10$(bottom), $20$ and $30$(top), predicted for the WMAP 7-year best fit cosmology ($\Omega_m=0.265,\sigma_8=0.8,H_0=71.9\ \mathrm{km\ s^{-1}Mpc^{-1}}$).}
 \label{Pt}
 \end{figure}
@@ -184,6 +184,7 @@ To see that, let's first define our coordinate system as shown in Fig.\ref{fig:c
 \label{eq:Tbtsf_simplified}
 \end{equation}
 \begin{figure}
+\centering
 \includegraphics[scale=0.3]{coordinate.png}
 \caption{The coordinate system}
 \label{fig:coordinate}
@@ -248,7 +249,7 @@ Finally, we find the power spectrum of the comoving lensing magnetic field
 \begin{equation}
 P_B^{\rm lensing,13}(l)=\left\vert\frac{\partial B_{\rm lensing,13}}{\partial\gamma_{13}}\right\vert^2 P_{\gamma_{13}}(l)=\alpha^2 P_{\gamma_{13}}(l).
 \end{equation}
-Note that this power spectrum is only the contribution from $\gamma_{13}$ component because we assume $\hat{k}$ to sit on the "1-3" plane. For any position on the sky, one has the choice to rotate his coordinate system to maximize or minimize $P_{\gamma_{13}}$. However, randomly, the total power spectrum of comoving lensing magnetic field picks up an average value, \ie the half maximum,
+Note that this power spectrum is only the contribution from $\gamma_{13}$ component because we assume $\hat{k}$ to sit on the "1-3" plane. For any position on the sky, one has the choice to rotate his coordinate system to maximize or minimize $P_{13}$. However, randomly, the total power spectrum of comoving lensing magnetic field picks up an average value, \ie the half maximum,
 \begin{equation}
 P_B^{\rm lensing}(l)=\frac{\alpha^2}{2} P_t(l),
 \end{equation}
@@ -321,12 +322,12 @@ After de-lensing, the posterior convariance matrix of $\mathbf{P}^{13}$ becomes
 \end{equation}
 where $(\cdots)^{NN}$ means taking the upper left $N\times N$ submatrix. Note that this time we need to do the average over the choices of coordinate for the posterior power spectra instead of the prior ones. That means we set $l_1=l$ at first, after calculating the posteriors, we average them over the choices of coordinate, which turns out to just introduce a factor of $1/2$ as previous.
 
-The result is shown in Figure.\ref{fig:ps_B}. The de-lensing procedure slightly decreases the transverse shear power spectra, hence reducing the their contamination on the stochastic magnetic field signals.
-
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.35]{delensingB.eps}
+\includegraphics[scale=0.4]{delensingB.pdf}
 \caption{The $1\sigma$ comoving lensing magnetic field before and after de-lensing, as produced by the transverse shearing effect of weak lensing, compared to the saturation limit of our method.}
 \label{fig:ps_B}
 \end{figure}
 \end{document}
+The result is shown in Figure.\ref{fig:ps_B}. The de-lensing procedure slightly decreases the transverse shear power spectra, hence reducing the their contamination on the stochastic magnetic field signals.
+
