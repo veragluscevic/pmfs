@@ -178,8 +178,8 @@ def calc_G_Binfinity(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     k_dot_n = np.cos(thetan)*np.cos(thetak) + np.sin(thetan)*np.sin(thetak)*np.cos(phin)*np.cos(phik) + np.sin(thetan)*np.sin(thetak)*np.sin(phin)*np.sin(phik)
 
 
-    #summ = 0.25 * ( 1. - 3.*np.cos(thetak)**2 ) / ( 1. + xalpha + xc )
-    summ=0.   
+    summ = 0.25 * ( 1. - 3.*np.cos(thetak)**2 ) / ( 1. + xalpha + xc )
+       
     first_term = 1 + k_dot_n**2
     second_term = 2. + 2.*k_dot_n**2 - 1./15.*summ
 

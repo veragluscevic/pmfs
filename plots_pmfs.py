@@ -353,6 +353,7 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
                 plot_grid=True,
                 debug=False,
                 ymax=1e-20,
+                ymin=None,
                 ylabel=None):
 
     """Master plotter
@@ -465,7 +466,7 @@ def grid_DeltaL(modes=['B0','SI'],t_yr=1.,
     if len(modes) > 1:
         plt.legend(fontsize=fontsize)
 
-    ax.set_ylim(ymax=ymax)
+    ax.set_ylim(ymin=ymin,ymax=ymax)
 
     if save:
         fname = root + 'B_vs_deltas.pdf'
