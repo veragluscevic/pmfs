@@ -22,7 +22,7 @@ The integral is performed over the (comoving) volume of the survey of angular si
 dV_\mathrm{} = \frac{c}{H(z)}\chi^2(z)\Omega_\mathrm{survey}dz,
 \label{eq:dVpatch}
 \eeq
-and the integration limits are: $\phi_k\in[0,2\pi]$; $\theta_k\in [0,\pi]$; and $k\in[2\pi u_\mathrm{min}/(d_A\sin\theta_k),2\pi u_\mathrm{max}/(d_A\sin\theta_k)]$, where $u_\mathrm{min, max}=\frac{L_\text{min, max}}{\lambda}$ correspond to the maximum and minimum baseline $L_\text{min}$ and $L_\text{max}$, respectively. If the survey area is big enough that the flat-sky approximation breaks down, $\sigma_{B_0}^{-2} $ can be computed on small (approximately flat) patch $\Omega_\text{patch}$, and corrected in the following way to account for the total survey volume
+and the integration limits are: $\phi_k\in[0,2\pi]$; $\theta_k\in [0,\pi]$; and $k\in[2\pi u_\mathrm{min}/(d_A\sin\theta_k),2\pi u_\mathrm{max}/(d_A\sin\theta_k)]$, where $u_\mathrm{min, max}=\frac{L_\text{min, max}}{\lambda}$ correspond to the maximum and minimum baseline $L_\text{min}$ and $L_\text{max}$, respectively. If the survey area is big enough that the flat-sky approximation breaks down, $\sigma_{B_0}^{-2} $ can be computed on small (approximately flat) patch of the size $\Omega_\text{patch}$, centered on the line of sight, and corrected in the following way to account for the total survey volume
 \footnote{This accounts for the change in the angle that a uniform magnetic field makes with a line of sight, as the line of sight moves through a large survey area.}
 \beq
 \bga
@@ -45,11 +45,28 @@ and perform the standard Fisher analysis to evaluate sensitivity to recovering p
 \bga
 \sigma_{\xi}^{-2} = 
 \int dV_\mathrm{}(z)
-\frac{d\vec k}{(2\pi)^3}\left(  \frac{\frac{\partial P^S}{\partial \xi}(\vec k)}{P^N (\vec k)+ P_0^S(\vec k,\xi=0) }\right)^2. 
+\frac{d\vec k}{(2\pi)^3}\left(  \frac{\frac{\partial P^S}{\partial \xi}(\vec k)}{P^N (\vec k)+ P_0^S(\vec k,\xi=0) }\right)^2,
 \ega
 \label{eq:sigma_xi}
 \eeq
-In this case, we interpret $\sigma_\xi$ as a 1$\sigma$ sensitivity to \textit{detecting} presence of a strong magnetic field.
+where
+\beq
+\frac{\partial P^S}{\partial \xi}(\vec k) = P^S(\vec k, B\to \infty)-P^S(\vec k, B=0)
+\eeq
+involves the following limit of the transfer function, derived from Eq.~(\ref{eq:G_def}),
+\beq
+\bga
+G({\bf{\widehat k}}, B\to \infty)
+=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2} \\
+\times \biggl[ 26.4 \ {\rm mK}  \left(1 + ({\bf{\widehat k}} \cdot {\bf{\widehat n}})^2 \right)  
+- 0.128 \ {\rm mK} \left( \frac{T_\gamma}{T_{\rm s}} \right)\\
+\times x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2}  
+ \Bigl\{ 2 + 2({\bf{\widehat k}} \cdot {\bf{\widehat n}})^2 
+- \frac{1}{60} \frac{1-3\cos ^2\theta_k}{1+x_{\alpha,(2)}+x_{c,(2)} }\Bigr\} \biggr] ,
+\label{eq:G_Binf}
+\ega
+\eeq
+in the reference frame where the magnetic field is along the $z$ axis, and the line-of-sight direction is perpendicular to is; when using this expression to derive numerical results in the following Section, we are only interested in this configuration, since we only evaluate detectability of the components of $B$ in the plane of the sky. We interpret $\sigma_\xi$ as a 1$\sigma$ sensitivity to \textit{detecting} presence of a strong magnetic field. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Stochastic field case}

@@ -19,10 +19,11 @@ T^S(\vec k) = T^S_0(\vec k) + B_0\frac{\partial T^S_0}{\partial B_0}(\vec k),%\b
 \ega
 \label{eq:Ttot}
 \eeq
-where $B$ is a small expansion parameter (we adopt the linear-theory approach throught this work). We use the subscript ``0'' to denote functions evaluated at $B=0$. Temperature is proportional to is the density fluctuation $\delta$, with the transfer funtion $G({\bf{\widehat k}})$ as the proportionality factor, such that
+where $B$ is a small expansion parameter (we adopt the linear-theory approach throught this work). We use the subscript ``0'' to denote functions evaluated at $B=0$. Temperature is proportional to the density fluctuation $\delta$, with the transfer funtion $G({\bf{\widehat k}})$ as the proportionality factor, such that
 \beq
-G \equiv \frac{dT}{d\delta}(\delta=0),
-\label{eq:G_def}
+\bga
+G({\bf{\widehat k}}) \equiv \frac{\partial T}{\partial\delta}({\bf{\widehat k}},\delta=0)
+\ega
 \eeq
 and
 \beq
@@ -32,7 +33,21 @@ T^S_0(\vec k) = G_0({\bf{\widehat k}})\delta(k),
 \ega
 \label{eq:def_G}
 \eeq
-where ${\bf{\widehat k}}=(\theta_k,\phi_k)$ is a unit vector in the direction of $\vec k$. Note that while $G$ is a function of the direction vector ${\bf{\widehat k}}$ only, the power spectrum $P_\delta$ is a function of the magnitude $k$, in an isotropic universe. For simplicity of the expressions, we adopt the following notation
+where ${\bf{\widehat k}}=(\theta_k,\phi_k)$ is a unit vector in the direction of $\vec k$. Note that we do not write explicitly dependence of $G$ on $z$ and the cosmological parameters; furthermore, note that $G$ is a function of the direction vector ${\bf{\widehat k}}$, while the power spectrum $P_\delta$ is a function of the magnitude $k$, in an isotropic universe. 
+For a magnetic field along the $z$ axis, the explicit expression for the transfer function is derived from Eq.~(\ref{eq:tbsoln}) and reads
+\beq
+\bga
+G({\bf{\widehat k}})=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2} \\
+\times \biggl[ 26.4 \ {\rm mK}  \left(1 + ({\bf{\widehat k}} \cdot {\bf{\widehat n}})^2 \right)  
+- 0.128 \ {\rm mK} \left( \frac{T_\gamma}{T_{\rm s}} \right)\\
+\times x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2}  
+ \Bigl\{ 2 \left(1 + ({\bf{\widehat k}} \cdot {\bf{\widehat n}})^2 \right) \\
+- \sum_m \frac{4\pi}{75} \frac{Y_{2 m}({\bf{\widehat k}}) \left[ Y_{2 m} ({\bf{\widehat n}}) \right]^* }{1 + x_{ \alpha, (2) } + x_{{\rm c}, (2)} - i m x_{\rm B}} \Bigr\} \biggr] ,
+\label{eq:G_def}
+\ega
+\eeq
+
+For simplicity of the expressions, we adopt the following notation
 \beq
 \bga
 \frac{\partial T_0^S}{\partial B_0}(\vec k)\equiv  \delta(k)\frac{\partial G}{\partial B_0}({\bf{\widehat k}},B_0=0),\\
