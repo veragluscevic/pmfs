@@ -1,17 +1,21 @@
 \section{Quadratic estimator formalism}
 \label{sec:estimators}
 
-We now derive an unbiased minimum-variance quadratic estimator for a cosmic magnetic field $\vec B$, following a formalism similar to what is used in CMB studies \cite{2003PhRvD..67h3002O}. In the following, we assume that the field only evolves with redshift due to the expansion of the universe (adiabatically) as 
+We now derive an unbiased minimum--variance quadratic estimator for a cosmic magnetic field $\vec B$, following a formalism similar to what is used in CMB studies \cite{2003PhRvD..67h3002O}. In the following, we assume that the field only evolves (adiabatically) due to the expansion of the universe, 
 \beq
 B(z) = B_0(1+z)^2,
 \label{eq:B0}
 \eeq
-where $B_0$ represents its present-day value (or equivalently, its value in comoving units), where the relevant estimator is denoted with a hat sign, $\widehat B_0$. We first consider the case of a field uniform in the entire survey volume, described by a single parameter, $B_0$. Then we move on to the case of a stochastic magnetic field, with a given power spectrum $P_B(\vec K)$ where $\vec K$ denotes the wavevector for the mode of the field; in this case, the relevant estimator is of its amplitude, $\widehat A_0^2$. In both cases, the presented formalism is only valid if there the following separation is scales is saticefied: density-field modes in consideration must have much smaller wavelengths than the coherence scale of the magnetic field (or a given mode of a stochastic magnetic field), and both must be smaller than the size of the tomography survey at hand.
+where $B_0$ is its present--day value (its value in comoving units). The corresponding estimator is denoted with a hat sign, $\widehat B_0$. 
+
+
+
+We first consider the case of a field uniform in the entire survey volume; this case is described by a single parameter, $B_0$. Then we move on to the case of a stochastic magnetic field, with a given power spectrum $P_B(\vec K)$ (where $\vec K$ stands for the wavevector of a given the mode of the field); in this case, the relevant parameter is the amplitude of this power spectrum, $ A_0^2$. In both cases, we assume a separation of scales: density--field modes in consideration must have much smaller wavelength than the coherence scale of the magnetic field (or a given mode wavelength for the case of a stochastic magnetic field), and both length scales must be shorter than the size of the tomography survey at hand.
 
 \subsection{Uniform field}
 \label{subsec:uniform}
 
-We first derive an unbiased minimum-variance quadratic estimator $\widehat B_0$ for a comoving uniform magnetic field. We start by noting that the redshifted 21-cm brightness temperature Fourier modes $T(\vec k)$ contain contribution from the noise $T^N(\vec k)$ and the signal $T^S(\vec k)$, where the signal is contains contributions from the 21-cm signal with no magnetic field (null-case signal $T^S_0(\vec k)$), and with the magnetic field, 
+In this Section, we derive an estimator $\widehat B_0$ for a comoving uniform magnetic field. We start by noting that the redshifted 21-cm brightness temperature $T(\vec k)$ contains contributions from the noise $T^N(\vec k)$ (coming from the instrumental noise plus foregrounds), and the signal $T^S(\vec k)$ (receiving contributions from the magnetic field, and from the null--case 21-cm signal with no magnetic field, $T^S_0(\vec k)$), 
 \beq
 \bga
 T(\vec k) = T^N(\vec k) + T^S(\vec k),\\
@@ -158,13 +162,13 @@ where the sums are over the whole $\vec k$-plane.\footnote{Note that $\widehat B
 
 We now derive a minimum-variance quadratic estimator for Fourier modes of a stochastic magnetic field. Note that in this Section we do \textit{not} assume a particular model for its power spectrum. We use $B_0$ to denote a component of the magnetic field along one of the three Cartesian-system axes, and $\vec r$ to denote a position vector in physical space. We start with 
 \beq
-T(\vec r) = T_0(\vec r) + B_0(\vec r)\frac{\partial T^S_0}{\partial B_0}(\vec r),
+T(\vec r) = T^S_0(\vec r) + B_0(\vec r)\frac{\partial T^S_0}{\partial B_0}(\vec r),
 \eeq
 where the subscripts and superscripts have the same meaning as before. Note that the distinction from the uniform field case is that the components of the magnetic field are now functions of $\vec r$. In Fourier space, we have
 \beq
 \bga
-T(\vec k) = T_0(\vec k) + \int d\vec r e^{-i\vec k \cdot \vec r} B_0(\vec r) \frac{\partial T^S_0}{\partial B_0}(\vec r)\\
-= T_0(\vec k) + \frac{1}{(2\pi)^3}\int d\vec k_1B_0(\vec k_1) \frac{\partial T^S_0}{\partial B_0}(\vec k-\vec k_1),
+T(\vec k) = T^S_0(\vec k) + \int d\vec r e^{-i\vec k \cdot \vec r} B_0(\vec r) \frac{\partial T^S_0}{\partial B_0}(\vec r)\\
+= T^S_0(\vec k) + \frac{1}{(2\pi)^3}\int d\vec k_1B_0(\vec k_1) \frac{\partial T^S_0}{\partial B_0}(\vec k-\vec k_1),
 \ega
 \eeq
 where the last step used the convolution theorem.
