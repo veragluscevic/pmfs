@@ -1,15 +1,15 @@
 \section{Fisher analysis}
 \label{sec:fisher}
 
-We now use the key results of \S\ref{sec:estimators} to evaluate expressions for sensitivity of future observations. We first derive the expression for sensitivity to a field uniform in the entire survey volume. We start with the unsatured case, and consider the limit where the field (in the classical picture) produces less than 1 radian of precession at all redshifts of interest, and then move on to the saturated (strong field) limit. Secondly, we derive the expression for sensitivity to detecting a stochastic magnetic field with a scale-independent power spectrum.
+We now use the key results of \S\ref{sec:estimators} to evaluate sensitivity of future tomographic 21--cm surveys to detecting presence of magnetic fields in high---redshift IGM. In \S\ref{subsec:uniform_fisher}, we derive the expression for sensitivity to a field uniform in the entire survey volume. We start with the unsatured case, and consider the limit where the field (in the classical picture) produces less than 1 radian of precession at all redshifts of interest, and then move on to the saturated (strong field) limit. In \S\ref{subsec:SI_fisher}, we derive the expression for sensitivity to detecting a stochastic magnetic field described by a specific, scale--invariant, power spectrum.
 
 \subsection{Uniform field case}
 \label{subsec:uniform_fisher}
 
-For a measurement of the redshifted 21-cm brightness temperature signal at a given z, the sensitivity $\sigma_{\widehat B_0}$ to recovering a uniform field $B_0$ in unsaturated limit is given by Eq.~(\ref{eq:B_estimator_var}). The total sensitivity of a tomorgraphy survey over a range of redshifts is given by
+Eq.~(\ref{eq:B_estimator_var}) provides an expression for evaluating $1\sigma$ sensitivity to measuring a uniform $B_0$ at a given redshift. The total sensitivity of a tomorgraphy survey over a range of redshifts is given by integrating over the available redshift range,
 \beq
 \bga
-\sigma_{B_0}^{-2} = 
+\sigma_{ B_0,\text{tot}}^{-2} = 
 \frac{1}{2}\int dV_\mathrm{}(z)
 \frac{k^2dk d\phi_k\sin \theta_kd\theta_k}{(2\pi)^3}\\
 \times\left( \frac{2P_\delta(k,z)G_0(\theta_k,\phi_k,z)\frac{\partial G_0}{\partial B_0}(\theta_k, \phi_k,z)}{P^N(k,\theta_k,z) + P_\delta(k,z)G_0^2(\theta_k,\phi_k,z)} \right)^2,
@@ -17,25 +17,24 @@ For a measurement of the redshifted 21-cm brightness temperature signal at a giv
 \label{eq:fisher_patch}
 \eeq
 where we transitioned from a sum over $\vec k$ modes to an integral, using $\sum_{\vec k} \to V\int d\vec k /(2\pi)^3$. 
-The integral is performed over the (comoving) volume of the survey of angular size $\Omega_\mathrm{survey}$ (in steradians) at a given redshift, 
+The integral is performed over the (comoving) volume of the survey of angular size $\Omega_\mathrm{survey}$ (in steradians) at a given redshift, such that the volume element reads
 \beq
-dV_\mathrm{} = \frac{c}{H(z)}\chi^2(z)\Omega_\mathrm{survey}dz,
+dV_\mathrm{} = \frac{c}{H(z)}\chi^2(z)\Omega_\mathrm{survey}dz.
 \label{eq:dVpatch}
 \eeq
-and the integration limits are: $\phi_k\in[0,2\pi]$; $\theta_k\in [0,\pi]$; and $k\in[2\pi u_\mathrm{min}/(d_A\sin\theta_k),2\pi u_\mathrm{max}/(d_A\sin\theta_k)]$, where $u_\mathrm{min, max}=\frac{L_\text{min, max}}{\lambda}$ correspond to the maximum and minimum baseline $L_\text{min}$ and $L_\text{max}$, respectively. If the survey area is big enough that the flat-sky approximation breaks down, $\sigma_{B_0}^{-2} $ can be computed on small (approximately flat) patch of the size $\Omega_\text{patch}$, centered on the line of sight, and corrected in the following way to account for the total survey volume
-\footnote{This accounts for the change in the angle that a uniform magnetic field makes with a line of sight, as the line of sight moves through a large survey area.}
+The integration limits are: $\phi_k\in[0,2\pi]$; $\theta_k\in [0,\pi]$; and $k\in[2\pi u_\mathrm{min}/(d_A\sin\theta_k),2\pi u_\mathrm{max}/(d_A\sin\theta_k)]$, where $u_\mathrm{min, max}=\frac{L_\text{min, max}}{\lambda}$ correspond to the maximum and minimum baseline, $L_\text{min}$ and $L_\text{max}$, respectively. If the survey area is big enough that the flat--sky approximation breaks down, $\sigma_{B_0}^{-2} $ can be computed on small (approximately flat) patch of  size $\Omega_\text{patch}$ and centered on the line of sight, and then corrected to account for the total survey volume
+\footnote{This accounts for the change in the angle that a uniform magnetic field makes with a line of sight, as the line of sight ``scans'' through the survey area.}. The corrected sensitivity can be evaluated as
 \beq
 \bga
-\sigma^{-2}_{\widehat B_0,\text{ tot}} = \frac{\sigma^{-2}_{\widehat B_0}}{\Omega_\text{patch}} \int_0^{\theta_\text{survey}}\int_{0}^{2\pi} \cos^2 \theta d\theta d\phi \\
-= \frac{\sigma^{-2}_{\widehat B_0}\pi}{\Omega_\text{patch}} \left(\theta_\text{survey} + \cos \theta_\text{survey} \sin \theta_\text{survey}\right).
+\sigma^{-2}_{ B_0,\text{corr}} = \frac{\sigma^{-2}_{ B_0,\text{patch}}}{\Omega_\text{patch}} \int_0^{\theta_\text{survey}}\int_{0}^{2\pi} \cos^2 \theta d\theta d\phi \\
+= \frac{\pi\sigma^{-2}_{ B_0,\text{patch}}}{\Omega_\text{patch}} \left(\theta_\text{survey} + \cos \theta_\text{survey} \sin \theta_\text{survey}\right).
 \ega
 \label{eq:sigma_sum_survey}
 \eeq
 
-%%%   MORE HERE!!!
-Let us now consider a field that is strong enough to produce precession by more than a radian in a lifetime of the excited state of the 21-cm transition; this is the saturated-signal case. The brightness-temperature 2-point correlation functions still capture the presence of the field in this case (as illustrated in Figure \ref{fig:hp}), but it loses sensitivity to recovering its exact magnitude. Ability to distinguish staturated case from zero magnetic field becomes a relevant measure of sensitivity in this case. 
+So far, we have only focused on the regime of the weak magnetic field. Let us now consider the case where the field is strong enough that the precession period is comarable or shorter than the lifetime of the excited atomic state---saturated regime. In this case, the brightness--temperature 2--point correlation functions still capture the presence of the field (as illustrated in Figure \ref{fig:hp}), but they lose information about its magnitude and may only be used to determine the lower limit of the field strength. Ability to distinguish staturated case from zero magnetic field becomes a relevant measure of survey sensitivity in this scenario. 
 
-To evaluate the sensitivity, we can write the signal power spectrum as a sum of contributions from $B_0=0$ and $B_0\to\infty$ cases, 
+We now write the signal power spectrum as a sum of contributions from $B_0=0$ and $B_0\to\infty$ scenarios, 
 \beq
 P^S(\vec k) = (1-\xi)P^S(\vec k, B=0) + \xi P^S(\vec k, B\to \infty),
 \label{eq:saturated_P}
@@ -66,13 +65,13 @@ G({\bf{\widehat k}}, B\to \infty)
 \label{eq:G_Binf}
 \ega
 \eeq
-in the reference frame where the magnetic field is along the $z$ axis, and the line-of-sight direction is perpendicular to is; when using this expression to derive numerical results in the following Section, we are only interested in this configuration, since we only evaluate detectability of the components of $B$ in the plane of the sky. We interpret $\sigma_\xi$ as a 1$\sigma$ sensitivity to \textit{detecting} presence of a strong magnetic field. 
+in the reference frame where the magnetic field is along the $z$ axis, and the line-of-sight direction is perpendicular to it; when using this expression to derive numerical results in the following Section, we are only interested in this configuration, since we only evaluate detectability of the components of $\vec B$ in the plane of the sky. We interpret $\sigma_\xi$ as 1$\sigma$ sensitivity to \textit{detecting} presence of a strong magnetic field. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Stochastic field case}
-\label{subsec:stochastic_fisher}
+\label{subsec:SI_fisher}
 
-Using \eq{\ref{eq:NK}} and a procedure analogous to the case of a uniform field, we get the following integral expression for the noise power spectrum of a plane-of-the-sky component of the magnetic field 
+Using \eq{\ref{eq:NK}} and transitioning from a sum to the integral (like in \S\ref{subsec:uniform_fisher}), we get the following expression for the noise power spectrum of one of the components $B_{0,i}$ of the magnetic field in the plane of the sky,
 %\begin{widetext}
 \beq
 \bga
@@ -82,14 +81,13 @@ Using \eq{\ref{eq:NK}} and a procedure analogous to the case of a uniform field,
 \label{eq:NK2}
 \eeq
 %\end{widetext}
-where $\vec k'=\vec K -\vec k$.
-
-To compute signal-to-noise ratio (SNR) for measuring the amplitude of an arbitrary stochastic-field power spectrum in a given redshift slice $z$ we need to perform a sum over all voxels (3d pixels) in the survey volume at that redshift. A general expression for SNR is 
+where $\vec k'=\vec K -\vec k$ and the above expression is evaluated at a particular redshift.
+To compute signal--to--noise ratio (SNR) for measuring the amplitude of a stochastic--field power spectrum, at a given redshift, we start with the general expression  
 \beq
-\text{SNR}^2 = \frac{1}{2} Tr \left( N^{-1}SN^{-1}S\right),
+\text{SNR}^2 = \frac{1}{2} \text{Tr} \left( N^{-1}SN^{-1}S\right),
 \label{eq:snr_general}
 \eeq
-where S and N are the signal and noise matrices. In our case, these are $3N_\text{voxels}\times 3N_\text{voxels}$ matrices (there are $N_\text{voxels}$ voxels in the entire survey, and 3 components of the magnetic field). In the null case, voxels are independent, and so the noise matrix is diagonal, and the signal is captured by the 3d power spectrum of the magnetic field. The voxel-noise  variance for measuring a single mode is given by $P^N_{B_{0,i}}(\vec K, z)/V_\text{voxel} (z)$, where $V_\text{voxel}$ is volume of a given voxel. Summing over voxels and components of the magnetic field with inverse-variance weights, for a single redshift slice, we get SNR as
+where $S$ and $N$ stand for the signal and noise matrices, respectively, and Tr is the trace of the matrix. In our case, these are $3N_\text{voxels}\times 3N_\text{voxels}$ matrices (there are 3 components of the magnetic field and $N_\text{voxels}$ voxels). In the null case, voxels are independent and the noise matrix is diagonal. Voxel--noise  variance for measuring a single mode is given by $P^N_{B_{0,i}}(\vec K, z)/V_\text{voxel} (z)$, where $V_\text{voxel}$ is voxel volume. Summing over all voxels and components of the magnetic field with inverse--variance weights gives
 \beq
 \bga
 \text{SNR}^2 (z)= \frac{1}{2} \sum_{i\alpha, j\beta} \frac{S_{i\alpha , j\beta}^2}{P^N_{B_{0,i}}(\vec K, z)P^N_{B_{0,j}}(\vec K, z)} V_\text{voxel}^2\\=
@@ -97,9 +95,9 @@ where S and N are the signal and noise matrices. In our case, these are $3N_\tex
 \ega
 \label{eq:snr_z_step1}
 \eeq
-where we label voxels with Greek indicies, and, as before, retain Roman indicies for the field components; $\vec r_{\alpha/\beta}$ represents the spatial position of a given voxel. 
+at a given redshift. Greek indicies label individual voxels and, as before, Roman indicies denote field components; $\vec r_{\alpha/\beta}$ represents spatial position of a given voxel. 
 
-To simplify further calculations, we now only focus on a particular class of magnetic-field models, where most of the power is on largest scales (small $\vec K$). In this (squeezed) limit, $\vec K \ll \vec k$ and thus $\vec k \approx \vec k'$, such that \eq{\ref{eq:NK2}} reduces to the white noise (independent on $\vec K$). The model for the power spectrum is defined through
+To simplify further calculations, we now focus on a particular class of magnetic--field models where most of the power is on largest scales (small $\vec K$). In this (squeezed) limit, $\vec K \ll \vec k$ and thus $\vec k \approx \vec k'$, such that \eq{\ref{eq:NK2}} reduces to the white noise (becomes independent on $\vec K$). A model for the power spectrum is defined through
 \beq
 (2\pi)^3\delta_D(\vec K - \vec K') P_{B_{0,i}B_{0,j}}(\vec K) \equiv \left<B_{0,i}^*(\vec K) B_{0,j}(\vec K')\right>,
 \label{eq:Pbb}
@@ -110,12 +108,12 @@ P_{B_{0,i}B_{0,j}}(\vec K) = (\delta_{ij} - \widehat K_i \widehat K_j) P_{B_\bot
 \label{eq:Pbb_Pb}
 \eeq
 where $\widehat K_{i/j}$ is a unit vector along the direction of ${i/j}$ component.
-In this discussion, as a concrete model example, we consider a scale--independent (SI) power spectrum, 
+In the rest of this discussion, for concreteness, we consider a scale--invariant (SI) power spectrum, 
 \beq
-P_{{B_\bot}}(\vec K) = A_0^2/K^3,
+P_{{B_\bot}}(\vec K) = A_0^2/K^3.
 \label{eq:SI}
 \eeq
-where the amplitude $A_0$ is a free parameter (in units of Gauss). Furthermore, if homogeneity and isotropy are satisfied, the integrand in Eq.~(\ref{eq:snr_z_step1}) only depends on the separation vector $\vec s \equiv \vec r_\beta -\vec r_\alpha$. Using this and the squeezed limit assumption gives\footnote{Note that in the last step we used $\int d\vec s |f(\vec s)|^2 = \int \frac{d\vec K}{(2\pi)^3}|\widetilde f(\vec K)|^2$, which holds for an arbitrary function $f$ and its Fourier transform $\widetilde f$.}
+Here, the amplitude $A_0$ is a free parameter of the model (in units of Gauss). Furthermore, if homogeneity and isotropy are satisfied, the integrand in Eq.~(\ref{eq:snr_z_step1}) only depends on the separation vector $\vec s \equiv \vec r_\beta -\vec r_\alpha$. Using this, and the squeezed limit assumption, gives\footnote{In the last step, we used $\int d\vec s |f(\vec s)|^2 = \int \frac{d\vec K}{(2\pi)^3}|\widetilde f(\vec K)|^2$, which holds for an arbitrary function $f$ and its Fourier transform $\widetilde f$.}
 \beq  
 \bga
 \text{SNR}^2 (z) = 
@@ -125,7 +123,7 @@ where the amplitude $A_0$ is a free parameter (in units of Gauss). Furthermore, 
 \ega
 \label{eq:snr_z}
 \eeq
-where $dV_\text{patch}$ is the volume of a redshift--slice patch of \eq{\ref{eq:dVpatch}}. Substituting \eq{\ref{eq:SI}}, and integrating over all $z$'s available in the survey, total SNR reads
+where $dV_\text{patch}$ is the volume of a redshift--slice patch defined in \eq{\ref{eq:dVpatch}}. Substituting \eq{\ref{eq:SI}}, and integrating over redshifts, total SNR is given by
 \beq
 \bga
 \text{SNR}^2 =  \frac{A_0^4}{2(2\pi)^3}  \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}}
@@ -145,13 +143,14 @@ The sum in the above expression reduces to
 \sum_{ij\in \{xx, xy, yx, yy\}}(\delta_{ij} - \widehat K_i\widehat K_j)^2 = 2\cos^2\theta+\sin^4\theta.
 \label{eq:sumij}
 \eeq
-Substituting this into \eq{\ref{eq:snr_intK}}, and integrating over $K,\theta,\phi$ gives
+Substituting this into Eq.~(\ref{eq:snr_intK}) and integrating over $K,\theta,\phi$ gives
 \beq
 \text{SNR}^2 =  \frac{A_0^4}{10\pi^2} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}} \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right).
 \label{eq:snr_ints}
 \eeq
-From this expression, $1\sigma$ sensitivity to measuring $A_0^2$ is
+Finally, from the above expression, $1\sigma$ sensitivity to measuring $A_0^2$ is given by
 \beq
 \sigma^2_{A_0^2} =  \left[\frac{1}{10\pi^2} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}} \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right)\right]^{-1}.
 \label{eq:sigma_A0}
 \eeq
+Note at the end that, for our choice of the SI power spectrum, the choice of $K_\text{max}$ does not matter, while we choose $K_\text{min}$ to match the survey size at a given redshift. 

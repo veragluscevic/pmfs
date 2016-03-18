@@ -1,29 +1,21 @@
 \section{Quadratic estimator formalism}
 \label{sec:estimators}
 
-We now derive an unbiased minimum--variance quadratic estimator for a cosmic magnetic field $\vec B$, following a formalism similar to what is used in CMB studies \cite{2003PhRvD..67h3002O}. In the following, we assume that the field only evolves (adiabatically) due to the expansion of the universe, 
+In this Section, we derive an unbiased minimum--variance quadratic estimator for a cosmic magnetic field $\vec B$ present in the IGM during the pre-reionization epoch. This formalism is applicable to tomographic data from future 21--cm surveys, and it is similar to that used in CMB analyses \cite{2003PhRvD..67h3002O}. We assume that the field only evolves adiabatically, due to Hubble expansion, 
 \beq
 B(z) = B_0(1+z)^2,
 \label{eq:B0}
 \eeq
-where $B_0$ is its present--day value (its value in comoving units). The corresponding estimator is denoted with a hat sign, $\widehat B_0$. 
+where $B_0$ is its present--day value (its value in comoving units), and the corresponding estimator is denoted with a hat sign, $\widehat B_0$. 
 
-
-
-We first consider the case of a field uniform in the entire survey volume; this case is described by a single parameter, $B_0$. Then we move on to the case of a stochastic magnetic field, with a given power spectrum $P_B(\vec K)$ (where $\vec K$ stands for the wavevector of a given the mode of the field); in this case, the relevant parameter is the amplitude of this power spectrum, $ A_0^2$. In both cases, we assume a separation of scales: density--field modes in consideration must have much smaller wavelength than the coherence scale of the magnetic field (or a given mode wavelength for the case of a stochastic magnetic field), and both length scales must be shorter than the size of the tomography survey at hand.
-
-\subsection{Uniform field}
-\label{subsec:uniform}
-
-In this Section, we derive an estimator $\widehat B_0$ for a comoving uniform magnetic field. We start by noting that the redshifted 21-cm brightness temperature $T(\vec k)$ contains contributions from the noise $T^N(\vec k)$ (coming from the instrumental noise plus foregrounds), and the signal $T^S(\vec k)$ (receiving contributions from the magnetic field, and from the null--case 21-cm signal with no magnetic field, $T^S_0(\vec k)$), 
+We start by noting that the observed brightness temperature $T(\vec k)$ contains contributions from the noise $T^N(\vec k)$ (from the instrumental noise plus Galactic foreground emission) and the signal $T^S(\vec k)$, 
 \beq
 \bga
-T(\vec k) = T^N(\vec k) + T^S(\vec k),\\
-T^S(\vec k) = T^S_0(\vec k) + B_0\frac{\partial T^S_0}{\partial B_0}(\vec k),%\bigg|_{B=0},
+T(\vec k) = T^N(\vec k) + T^S(\vec k),
 \ega
 \label{eq:Ttot}
 \eeq
-where $B$ is a small expansion parameter (we adopt the linear-theory approach throught this work). We use the subscript ``0'' to denote functions evaluated at $B=0$. Temperature is proportional to the density fluctuation $\delta$, with the transfer funtion $G({\bf{\widehat k}})$ as the proportionality factor, such that
+where the ``signal'' may have contributions from previously discussed magnetic--field effects, as well as the null--case 21--cm emission (with no magnetic field present), $T^S_0(\vec k)$. Note that we use the subscript ``0'' for functions evaluated at $B_0=0$. Signal temperature is proportional to the density fluctuation $\delta$, with transfer funtion $G({\bf{\widehat k}})$ as the proportionality factor, 
 \beq
 \bga
 G({\bf{\widehat k}}) \equiv \frac{\partial T}{\partial\delta}({\bf{\widehat k}},\delta=0)
@@ -37,8 +29,8 @@ T^S_0(\vec k) = G_0({\bf{\widehat k}})\delta(k),
 \ega
 \label{eq:def_G}
 \eeq
-where ${\bf{\widehat k}}=(\theta_k,\phi_k)$ is a unit vector in the direction of $\vec k$. Note that we do not write explicitly dependence of $G$ on $z$ and the cosmological parameters; furthermore, note that $G$ is a function of the direction vector ${\bf{\widehat k}}$, while the power spectrum $P_\delta$ is a function of the magnitude $k$, in an isotropic universe. 
-For a magnetic field along the $z$ axis, the explicit expression for the transfer function is derived from Eq.~(\ref{eq:tbsoln}) and reads
+where ${\bf{\widehat k}}=(\theta_k,\phi_k)$ is a unit vector in the direction of $\vec k$. Note that we do not write explicitly dependence of $G$ on $z$ and on cosmological parameters; furthermore, note that $G$ is a function of the direction vector ${\bf{\widehat k}}$, while the power spectrum $P_\delta$ is a function of the magnitude $k$, in an isotropic universe. 
+The explicit expression for the transfer function is derived from Eq.~(\ref{eq:tbsoln}),
 \beq
 \bga
 G({\bf{\widehat k}})=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2} \\
@@ -50,20 +42,17 @@ G({\bf{\widehat k}})=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} 
 \label{eq:G_def}
 \ega
 \eeq
-
+for a reference fraim where the magnetic field is along the $z$--axis.
 For simplicity of the expressions, we adopt the following notation
 \beq
 \bga
 \frac{\partial T_0^S}{\partial B_0}(\vec k)\equiv  \delta(k)\frac{\partial G}{\partial B_0}({\bf{\widehat k}},B_0=0),\\
-\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})\equiv\frac{\partial G}{\partial B_0}({\bf{\widehat k}},B_0=0).
+\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})\equiv\frac{\partial G}{\partial B_0}({\bf{\widehat k}},B_0=0),
 \ega
 \label{eq:dTdB_dGdB}
 \eeq
-Since in the rest of this work we assume adiabatic evolution of the magnetic field, it is worth noting that $\frac{\partial G_0}{\partial B_0}=\frac{\partial G_0}{\partial B} (1+z)^2$. Furthermore, we denote the power spectrum in the null case as
-\beq
-P_\text{null}(\vec k) \equiv P^N(\vec k) + P_0^S(\vec k).
-\label{eq:Pnull}
-\eeq
+where $\frac{\partial G_0}{\partial B_0}=\frac{\partial G_0}{\partial B} (1+z)^2$ for adiabatic evolution of the magnetic field. 
+
 The signal power spectrum in the absence of a magnetic fields is given as
 \beq
 \bga
@@ -78,41 +67,56 @@ where
 \ega
 \label{eq:Pdelta_definition}
 \eeq
+The total measured null power spectrum is
+\beq
+P_\text{null}(\vec k) \equiv P^N(\vec k) + P_0^S(\vec k).
+\label{eq:Pnull}
+\eeq
 
-The observable 2-point correlation function in Fourier space is
+In \S\ref{subsec:uniform}, we first consider the case of a field uniform in the entire survey volume; this case is described by a single parameter, $B_0$. In \S\ref{subsec:SI}, we move on to the case of a stochastic magnetic field, with a given power spectrum $P_B(\vec K)$ (where $\vec K$ is the wavevector of a given mode of the field); in this case, the relevant parameter is the amplitude of this power spectrum, $ A_0^2$. In both cases, we assume that there is a valid separation of scales: density--field modes in consideration must have much smaller wavelengths than the coherence scale of the magnetic field (or a given mode wavelength for the case of a stochastic magnetic field), and both length scales must be shorter than the size of the tomography survey.
+
+\subsection{Uniform field}
+\label{subsec:uniform}
+
+In this Section, we derive an estimator $\widehat B_0$ for a comoving uniform magnetic field. We adopt the linear-theory approach and start with
+\beq
+\bga
+T^S(\vec k) = T^S_0(\vec k) + B_0\frac{\partial T^S_0}{\partial B_0}(\vec k),%\bigg|_{B=0},
+\ega
+\label{eq:TS_uniform}
+\eeq
+where $B_0$ is a small expansion parameter. The observable 2--point correlation function in Fourier space is then
 \beq
 \bga
 \langle T(\vec k)T^*(\vec k')\rangle = P_\text{null}(\vec k)(2\pi)^3\delta_D(\vec k-\vec k') \\
 + \langle T^S_0(\vec k)B_0\frac{\partial T_0^{S,*}}{\partial B_0}(\vec k')\rangle + \langle T_0^{S,*}(\vec k')B_0\frac{\partial T_0^S}{\partial B_0}(\vec k)\rangle\\
 =\left(P_\text{null}(\vec k)
- + 2B_0P_{\delta}( k)G_0({\bf{\widehat k}})\frac{\partial G}{\partial B_0}({\bf{\widehat k}}) \right) \\\times(2\pi)^3\delta_D(\vec k-\vec k'),
+ + 2B_0P_{\delta}( k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}}) \right) \\\times(2\pi)^3\delta_D(\vec k-\vec k'),
 \ega
 \label{eq:TT_step2}
 \eeq
-where we assume that the signal and the noise are uncorrelated and keep only terms linear in $B_0$, and used the reality of $G_0$ and $\frac{\partial G}{\partial B_0}$.
+where we use the reality of $G_0$ and $\frac{\partial G_0}{\partial B_0}$, assume that the signal and the noise are uncorrelated, and keep only terms linear in $B_0$.
 %Notice here that, unlike the case of a uniform magnetic field, a stochastic field introduces cross correlations between otherwise independent Fourier modes in the brightness temperature signal. This produces the characteristic statistical-anisotropy signal that is a telltale signatrure of the magnetic fields \text{in situ} at high redshift.
-
-Since we observe only one universe, the measured proxy for the ensamble average in \eq{\ref{eq:TT_step2}} is the product $T(\vec k)T^*(\vec k)$. Using \eq{\ref{eq:TT_step2}}, each $T(\vec k)$ gives an estimate for $B_0$,
+Since we observe only one universe, a proxy for the ensamble average in \eq{\ref{eq:TT_step2}} is measurement of the product $T(\vec k)T^*(\vec k)$. Thus, using \eq{\ref{eq:TT_step2}}, we get an estimate of $B_0$ from a single temperature mode $\vec k$,
 \beq
 \widehat B_0^{\vec k} = \frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{2P_{\delta}( k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})},
 \label{eq:hatBk}
 \eeq 
-where we use the following property of the Dirac delta function on a finite volume of the survey $V$
+where we use the following properties of the Dirac delta function defined on a finite volume $V$ of the survey
 \beq
-\delta_D(\vec k-\vec k') = \frac{V}{(2\pi)^3},\hspace{0.2in} \text{for }\vec k = \vec k',
+\bga
+\delta_D(\vec k-\vec k') = \frac{V}{(2\pi)^3},\hspace{0.2in} \text{for }\vec k = \vec k',\\
+(2\pi)^3\delta_D(\vec k - \vec k') \equiv \int e^{-i\vec r \cdot (\vec k-\vec k')}d\vec r,
+\ega
 \label{eq:delta_kk}
 \eeq
-related to the Kroneker delta,
+related to the Kroneker delta as
 \beq
-\delta_{\vec k\vec k'} = \frac{(2\pi)^3}{V}\delta_D(\vec k-\vec k'),
+\delta_{\vec k\vec k'} = \frac{(2\pi)^3}{V}\delta_D(\vec k-\vec k').
 \label{eq:deltas}
 \eeq
-and the following normalization convention
-\beq
-(2\pi)^3\delta_D(\vec k - \vec k') \equiv \int d\vec r e^{-i\vec r \cdot (\vec k-\vec k')}. 
-\label{eqn:dirac_definition}
-\eeq
-The estimator of \eq{\ref{eq:hatBk}} is unbiased, $\langle \widehat B_0^{\vec k}\rangle=0$. The covariance of the estimates from all available temperature-field modes $\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle $ involves temperature-field 4-point correlation with three Wick constractions; its numerator reads
+
+The estimator of \eq{\ref{eq:hatBk}} is unbiased, such that $\langle \widehat B_0^{\vec k}\rangle=0$. The covariance $\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle $ of estimators derived from all measured temperature modes involves temperature--field 4--point correlation function with three Wick constractions, whose numerator reads
 \beq
 \bga
 \frac{1}{V^2}\langle T(\vec k)T^*(\vec k)T(\vec k')T^*(\vec k') \rangle + P_\text{null}(\vec k)P_\text{null}(\vec k')\\
@@ -126,54 +130,52 @@ The estimator of \eq{\ref{eq:hatBk}} is unbiased, $\langle \widehat B_0^{\vec k}
 \ega
 \label{eq:TTTT_expansion}
 \eeq
-where every ensamble average yielded one factor of $V$. Finally, we get the following expression 
+where every ensamble average yielded one factor of $V$. Using the final expression in the above equation, we get  
 \beq
-\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle = \frac{P_\text{null}^2(\vec k)\left(\delta_{\vec k,\vec k'}  + \delta_{\vec k,-\vec k'} \right)}{4P_{\delta}( k)^2\left[G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})\right]^2},
+\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle = \frac{P_\text{null}^2(\vec k)\left(\delta_{\vec k,\vec k'}  + \delta_{\vec k,-\vec k'} \right)}{4P_{\delta}( k)^2\left[G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})\right]^2}.
 \label{eq:B_covariance}
 \eeq
-Estimates coming from different $\vec k$-modes can be combined with inverse-variance weights in the usual way to form a minimum-variance estimator,
+Estimators from all $\vec k$--modes can be combined with inverse--variance weighting to get
 \beq
 \bga
 \widehat B_0 = \frac{\sum_{\vec k}\frac{\widehat B_0^{\vec k}}{\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k},*}\rangle}}{\sum_{\vec k}\frac{1}{\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k},*}\rangle}}.
 \ega
 \label{eq:B_mve}
 \eeq 
-The final expression for the minimum-variance quadratic estimator computed from temperature measurements at a given redshift is 
+Expanding this expression, we get the minimum--variance quadratic estimator for $B_0$ obtained from all temperature--field modes  observed at a given redshift, 
 \beq
 \bga
-\widehat B_0 = \sigma^{2}_{\widehat B_0}\sum_{\vec k}\frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{P_\text{null}^2(\vec k)}\\
-\times 2P_{\delta}( k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}}),
+\widehat B_0 = \sigma^{2}_{ B_0}\sum_{\vec k}\frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{P_\text{null}^2(\vec k)}\\
+\times 2P_{\delta}( k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}}).
 \ega
 \label{eq:B_estimator}
 \eeq
-with variance given by
+Its variance is given by
 \beq
 \bga
-\sigma^{-2}_{\widehat B_0} = \frac{1}{2}\sum_{\vec k}\left(\frac{2P_{\delta}(k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})}{P_\text{null}(\vec k)}\right)^{2},
+\sigma^{-2}_{ B_0} = \frac{1}{2}\sum_{\vec k}\left(\frac{2P_{\delta}(k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})}{P_\text{null}(\vec k)}\right)^{2},
 \ega
 \label{eq:B_estimator_var}
 \eeq
-where the sums are over the whole $\vec k$-plane.\footnote{Note that $\widehat B_0^{\vec k}=\widehat B_0^{-\vec k}$, following from the reality condition on the temperature field, $T(\vec k)=T^*(-\vec k)$, and the isotropy of space in the null-assumption case, $G({\bf{\widehat k}})=G(-{\bf{\widehat k}})$, which is why the factor of $1/2$ appears in order to avoid double-counting of modes.}
+where the sums are unrestricted. Note that $\widehat B_0^{\vec k}=\widehat B_0^{-\vec k}$; this follows from the reality condition on the temperature field, $T(\vec k)=T^*(-\vec k)$, and from the isotropy of space in the null--assumption case, $G_0({\bf{\widehat k}})=G_0(-{\bf{\widehat k}})$. Thus, in order to avoid double--counting of modes, factor of $1/2$ appears at the RHS of Eq.~(\ref{eq:B_estimator_var}).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Stochastic field}
 \label{subsec:SI}
 
-We now derive a minimum-variance quadratic estimator for Fourier modes of a stochastic magnetic field. Note that in this Section we do \textit{not} assume a particular model for its power spectrum. We use $B_0$ to denote a component of the magnetic field along one of the three Cartesian-system axes, and $\vec r$ to denote a position vector in physical space. We start with 
+We now examine the case where both the magnitude and the direction of the magnetic field are stochastic random variables, with spatial variation. Note that in this Section we do \textit{not} assume a particular model for their power spectra. We use $B_0$ to denote a component of the magnetic field along one of the three Cartesian--system axes, and $\vec r$ to denote position vector in physical space, as before, and start with 
 \beq
 T(\vec r) = T^S_0(\vec r) + B_0(\vec r)\frac{\partial T^S_0}{\partial B_0}(\vec r),
 \eeq
-where the subscripts and superscripts have the same meaning as before. Note that the distinction from the uniform field case is that the components of the magnetic field are now functions of $\vec r$. In Fourier space, we have
+where the subscripts and superscripts have the same meaning as before. In Fourier space, we now get
 \beq
 \bga
 T(\vec k) = T^S_0(\vec k) + \int d\vec r e^{-i\vec k \cdot \vec r} B_0(\vec r) \frac{\partial T^S_0}{\partial B_0}(\vec r)\\
 = T^S_0(\vec k) + \frac{1}{(2\pi)^3}\int d\vec k_1B_0(\vec k_1) \frac{\partial T^S_0}{\partial B_0}(\vec k-\vec k_1),
 \ega
 \eeq
-where the last step used the convolution theorem.
-
-In this case, the observable 2-point correlation function in Fourier space becomes
+where the last step uses the convolution theorem. The observable 2--point correlation function in Fourier space then becomes
 \beq
 \bga
 \left < T(\vec k)T^*(\vec k')\right > = (2\pi)^3\delta_D(\vec k-\vec k')P_\text{null}(\vec k)\\
@@ -181,20 +183,20 @@ In this case, the observable 2-point correlation function in Fourier space becom
 + \left <T^S_0(\vec k)\frac{1}{(2\pi)^3}\int d\vec k_1 B_0^*(\vec k_1) \left(\frac{\partial T^S_0}{\partial B_0}(\vec k'-\vec k_1)\right)^*\right >, 
 \ega
 \eeq
-to first order in $B_0$. Using Eqs.~(\ref{eq:def_G}), (\ref{eq:dTdB_dGdB}), and (\ref{eq:Pdelta_definition}), we further get
+to first order in $B_0$. Note that, in this case, there is cross--mixing of different modes of the temperature field. From Eqs.~(\ref{eq:def_G}), (\ref{eq:dTdB_dGdB}), and (\ref{eq:Pdelta_definition}), we get
 \beq
 \bga
 \left< T(\vec k)T^*(\vec k')\right> = (2\pi)^3\delta_D(\vec k - \vec k')  P_\text{null}(\vec k)+B_0(\vec k - \vec k')\\
 \times\left[ P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) + P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k}})\right],
 \ega
 \eeq
-where we also used the reality of the $B_0$ field that warrants $B_0^*(-\vec K) = B_0(\vec K)$. Now, using a procedure analogous to that presented in \S\ref{subsec:uniform}, we can estimate $B_0(\vec K\equiv\vec k-\vec k')$ from $\vec k\vec k'$ pair of mode measurements in the temperature field as
+where we also use the reality condition $B_0^*(-\vec K) = B_0(\vec K)$. In analogy to the procedure of \S\ref{subsec:uniform}, we estimate $B_0(\vec K)$ from $\vec k\vec k'$ pair of modes that saticefy $\vec K=\vec k-\vec k'$ as
 \beq
 \widehat B_0^{\vec k\vec k'}(\vec K) = \frac{T(\vec k)T^*(\vec k')}{P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) + P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k}})},
 \label{eq:Bkkp_estimator}
 \eeq
 where we only focus on terms $\vec K\ne0$ ($\vec k \ne\vec k'$).
-The variance $\left< \widehat B_0^{\vec k\vec k'}(\vec K)\left(\widehat B_0^{\vec k\vec k'}(\vec K')\right)^*\right>$ of this estimator under the null assumption can we evaluated trivially from the above expression.
+The variance $\left< \widehat B_0^{\vec k\vec k'}(\vec K)\left(\widehat B_0^{\vec k\vec k'}(\vec K')\right)^*\right>$ of this estimator (under the null assumption) can we evaluated using the above expression.
 %\begin{widetext}
 %\begin{equation}
 %\left< \widehat B_0^{\vec k\vec k'}(\vec K)\left(\widehat B_0^{\vec k\vec k'}(\vec K')\right)^*\right> = 
@@ -202,7 +204,7 @@ The variance $\left< \widehat B_0^{\vec k\vec k'}(\vec K)\left(\widehat B_0^{\ve
 %\label{eq:Bkkp_var}
 %\end{equation}
 %\end{widetext}
-Finally, from Eq.~(\ref{eq:Bkkp_estimator}), we can derive the full estimator for the mode $B_0(\vec K)$, in the usual way---by combining the individual $\widehat B_0^{\vec k\vec k'}(\vec K)$ estimates with inverse-variance weights, and normalizing appropriately. However, for the purpose of detectability analysis, we are only interested in the variance of that estimator, or equivalently, the noise power spectrum of $\widehat B_0$, given by
+Furthermore, the full estimator for $B_0(\vec K)$ from all available temperature modes is obtained by combining individual $\widehat B_0^{\vec k\vec k'}(\vec K)$ estimates with inverse--variance weights, and with appropriate normalization, in complete analogy to the uniform--field case. For the purpose of detectability analysis, we are interested in the variance of the minimum--variance estimator, or equivalently, the noise power spectrum of $\widehat B_0$, which reads
 %\begin{widetext}
 \beq
 \bga
@@ -212,14 +214,15 @@ Finally, from Eq.~(\ref{eq:Bkkp_estimator}), we can derive the full estimator fo
 \label{eq:NK1}
 \eeq
 %\end{widetext}
-with the restriction $\vec K=\vec k-\vec k'$. Factor of $2$ in the denominator corrects for double-counting mode pairs since $\widehat B_0^{\vec k\vec k'}(\vec K)=\left(\widehat B_0^{-\vec k-\vec k'}(\vec K)\right)^*$, and the sum in the above expression is unconstrained. If we only consider diagonal terms $\vec K=\vec K'$, then the LHS of the above expression becomes equal to $V P^N_{B_0}(\vec K)$. The explicit expression for the noise power spectrum is then
+with the restriction $\vec K=\vec k-\vec k'$. Factor of $2$ in the denominator corrects for double--counting mode pairs since $\widehat B_0^{\vec k\vec k'}(\vec K)=\left(\widehat B_0^{-\vec k-\vec k'}(\vec K)\right)^*$, and the sum is unconstrained. If we only consider diagonal terms $\vec K=\vec K'$, then the LHS becomes equal to $V P^N_{B_0}(\vec K)$. The explicit expression for the noise power spectrum is then
 %\begin{widetext}
 \beq
 \bga
 P^N_{B_0}(\vec K) = \\
-\left(\sum_{\vec k} \frac{\left(P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) + P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k}})\right)^2}{2VP_\text{null}(\vec k) P_\text{null}(\vec k')  } \right)^{-1},
+\left(\sum_{\vec k} \frac{\left(P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) + P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k}})\right)^2}{2VP_\text{null}(\vec k) P_\text{null}(\vec k')  } \right)^{-1}.
 \label{eq:NK}
 \ega
 \eeq
 %\end{widetext}
-Note that only the components of the magnetic field in the plane of the sky have an effect of the observed brightness temperature, and so the above expression represents the noise power spectrum for either one of those two (uncorrelated) components. The noise in the direction along the line of sight can be considered infinite. Finally, note that a similar type of estimator can be written down for the direction of the magnetic field in a given patch of the sky. However, in this work we only focus on the magnitude of the field.
+
+Only the components of the magnetic field in the plane of the sky have an effect of the observed brightness temperature, and so Eq.~(\ref{eq:NK}) can be used to evaluate the noise power spectrum for either one of those two (uncorrelated) components. The noise in the direction along the line of sight can be considered infinite. Finally, note that we can construct a similar estimator for the direction of the magnetic field, in a given patch of the sky. However, in this work we only focus on the magnitude of the field and ignore considerations with regard to its direction.
