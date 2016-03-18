@@ -1,12 +1,12 @@
 \section{Fisher analysis}
 \label{sec:fisher}
 
-We now use the key results of \S\ref{sec:estimators} to evaluate sensitivity of future tomographic 21--cm surveys to detecting presence of magnetic fields in high---redshift IGM. In \S\ref{subsec:uniform_fisher}, we derive the expression for sensitivity to a field uniform in the entire survey volume. We start with the unsatured case, and consider the limit where the field (in the classical picture) produces less than 1 radian of precession at all redshifts of interest, and then move on to the saturated (strong field) limit. In \S\ref{subsec:SI_fisher}, we derive the expression for sensitivity to detecting a stochastic magnetic field described by a specific, scale--invariant, power spectrum.
+We now use the key results of \S\ref{sec:estimators} to evaluate sensitivity of future tomographic 21--cm surveys to detecting presence of magnetic fields in high---redshift IGM. In \S\ref{subsec:uniform_fisher}, we derive the expression for sensitivity to a field uniform in the entire survey volume. We start with the unsaturated case, and consider the limit where the field (in the classical picture) produces less than 1 radian of precession at all redshifts of interest, and then move on to the saturated (strong field) limit. In \S\ref{subsec:SI_fisher}, we derive the expression for sensitivity to detecting a stochastic magnetic field described by a specific, scale--invariant, power spectrum.
 
 \subsection{Uniform field case}
 \label{subsec:uniform_fisher}
 
-Eq.~(\ref{eq:B_estimator_var}) provides an expression for evaluating $1\sigma$ sensitivity to measuring a uniform $B_0$ at a given redshift. The total sensitivity of a tomorgraphy survey over a range of redshifts is given by integrating over the available redshift range,
+Eq.~(\ref{eq:B_estimator_var}) provides an expression for evaluating $1\sigma$ sensitivity to measuring a uniform $B_0$ at a given redshift. The total sensitivity of a tomography survey over a range of redshifts is given by integrating over the available redshift range,
 \beq
 \bga
 \sigma_{ B_0,\text{tot}}^{-2} = 
@@ -32,7 +32,7 @@ The integration limits are: $\phi_k\in[0,2\pi]$; $\theta_k\in [0,\pi]$; and $k\i
 \label{eq:sigma_sum_survey}
 \eeq
 
-So far, we have only focused on the regime of the weak magnetic field. Let us now consider the case where the field is strong enough that the precession period is comarable or shorter than the lifetime of the excited atomic state---saturated regime. In this case, the brightness--temperature 2--point correlation functions still capture the presence of the field (as illustrated in Figure \ref{fig:hp}), but they lose information about its magnitude and may only be used to determine the lower limit of the field strength. Ability to distinguish staturated case from zero magnetic field becomes a relevant measure of survey sensitivity in this scenario. 
+So far, we have only focused on the regime of the weak magnetic field. Let us now consider the case where the field is strong enough that the precession period is comparable or shorter than the lifetime of the excited atomic state---saturated regime. In this case, the brightness--temperature 2--point correlation functions still capture the presence of the field (as illustrated in Figure \ref{fig:hp}), but they lose information about its magnitude and may only be used to determine the lower limit of the field strength. Ability to distinguish saturated case from zero magnetic field becomes a relevant measure of survey sensitivity in this scenario. 
 
 We now write the signal power spectrum as a sum of contributions from $B_0=0$ and $B_0\to\infty$ scenarios, 
 \beq
@@ -95,7 +95,7 @@ where $S$ and $N$ stand for the signal and noise matrices, respectively, and Tr 
 \ega
 \label{eq:snr_z_step1}
 \eeq
-at a given redshift. Greek indicies label individual voxels and, as before, Roman indicies denote field components; $\vec r_{\alpha/\beta}$ represents spatial position of a given voxel. 
+at a given redshift. Greek indices label individual voxels and, as before, Roman indices denote field components; $\vec r_{\alpha/\beta}$ represents spatial position of a given voxel. 
 
 To simplify further calculations, we now focus on a particular class of magnetic--field models where most of the power is on largest scales (small $\vec K$). In this (squeezed) limit, $\vec K \ll \vec k$ and thus $\vec k \approx \vec k'$, such that \eq{\ref{eq:NK2}} reduces to the white noise (becomes independent on $\vec K$). A model for the power spectrum is defined through
 \beq

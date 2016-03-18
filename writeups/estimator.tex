@@ -15,7 +15,7 @@ T(\vec k) = T^N(\vec k) + T^S(\vec k),
 \ega
 \label{eq:Ttot}
 \eeq
-where the ``signal'' may have contributions from previously discussed magnetic--field effects, as well as the null--case 21--cm emission (with no magnetic field present), $T^S_0(\vec k)$. Note that we use the subscript ``0'' for functions evaluated at $B_0=0$. Signal temperature is proportional to the density fluctuation $\delta$, with transfer funtion $G({\bf{\widehat k}})$ as the proportionality factor, 
+where the ``signal'' may have contributions from previously discussed magnetic--field effects, as well as the null--case 21--cm emission (with no magnetic field present), $T^S_0(\vec k)$. Note that we use the subscript ``0'' for functions evaluated at $B_0=0$. Signal temperature is proportional to the density fluctuation $\delta$, with transfer function $G({\bf{\widehat k}})$ as the proportionality factor, 
 \beq
 \bga
 G({\bf{\widehat k}}) \equiv \frac{\partial T}{\partial\delta}({\bf{\widehat k}},\delta=0)
@@ -42,7 +42,7 @@ G({\bf{\widehat k}})=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} 
 \label{eq:G_def}
 \ega
 \eeq
-for a reference fraim where the magnetic field is along the $z$--axis.
+for a reference frame where the magnetic field is along the $z$--axis.
 For simplicity of the expressions, we adopt the following notation
 \beq
 \bga
@@ -95,9 +95,7 @@ where $B_0$ is a small expansion parameter. The observable 2--point correlation 
 \ega
 \label{eq:TT_step2}
 \eeq
-where we use the reality of $G_0$ and $\frac{\partial G_0}{\partial B_0}$, assume that the signal and the noise are uncorrelated, and keep only terms linear in $B_0$.
-%Notice here that, unlike the case of a uniform magnetic field, a stochastic field introduces cross correlations between otherwise independent Fourier modes in the brightness temperature signal. This produces the characteristic statistical-anisotropy signal that is a telltale signatrure of the magnetic fields \text{in situ} at high redshift.
-Since we observe only one universe, a proxy for the ensamble average in \eq{\ref{eq:TT_step2}} is measurement of the product $T(\vec k)T^*(\vec k)$. Thus, using \eq{\ref{eq:TT_step2}}, we get an estimate of $B_0$ from a single temperature mode $\vec k$,
+where we use the reality of $G_0$ and $\frac{\partial G_0}{\partial B_0}$, assume that the signal and the noise are uncorrelated, and keep only terms linear in $B_0$. Since we observe only one universe, a proxy for the ensemble average in \eq{\ref{eq:TT_step2}} is measurement of the product $T(\vec k)T^*(\vec k)$. Thus, using \eq{\ref{eq:TT_step2}}, we get an estimate of $B_0$ from a single temperature mode $\vec k$,
 \beq
 \widehat B_0^{\vec k} = \frac{\frac{1}{V}T(\vec k)T^*(\vec k) - P_\text{null}(\vec k)}{2P_{\delta}( k)G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})},
 \label{eq:hatBk}
@@ -110,13 +108,13 @@ where we use the following properties of the Dirac delta function defined on a f
 \ega
 \label{eq:delta_kk}
 \eeq
-related to the Kroneker delta as
+related to the Kronecker delta as
 \beq
 \delta_{\vec k\vec k'} = \frac{(2\pi)^3}{V}\delta_D(\vec k-\vec k').
 \label{eq:deltas}
 \eeq
 
-The estimator of \eq{\ref{eq:hatBk}} is unbiased, such that $\langle \widehat B_0^{\vec k}\rangle=0$. The covariance $\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle $ of estimators derived from all measured temperature modes involves temperature--field 4--point correlation function with three Wick constractions, whose numerator reads
+The estimator of \eq{\ref{eq:hatBk}} is unbiased, such that $\langle \widehat B_0^{\vec k}\rangle=0$. The covariance $\langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle $ of estimators derived from all measured temperature modes involves temperature--field 4--point correlation function with three Wick contractions, whose numerator reads
 \beq
 \bga
 \frac{1}{V^2}\langle T(\vec k)T^*(\vec k)T(\vec k')T^*(\vec k') \rangle + P_\text{null}(\vec k)P_\text{null}(\vec k')\\
@@ -130,7 +128,7 @@ The estimator of \eq{\ref{eq:hatBk}} is unbiased, such that $\langle \widehat B_
 \ega
 \label{eq:TTTT_expansion}
 \eeq
-where every ensamble average yielded one factor of $V$. Using the final expression in the above equation, we get  
+where every ensemble average yielded one factor of $V$. Using the final expression in the above equation, we get  
 \beq
 \langle \widehat B_0^{\vec k}\widehat B_0^{{\vec k'},*}\rangle = \frac{P_\text{null}^2(\vec k)\left(\delta_{\vec k,\vec k'}  + \delta_{\vec k,-\vec k'} \right)}{4P_{\delta}( k)^2\left[G_0({\bf{\widehat k}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k}})\right]^2}.
 \label{eq:B_covariance}
@@ -157,7 +155,7 @@ Its variance is given by
 \ega
 \label{eq:B_estimator_var}
 \eeq
-where the sums are unrestricted. Note that $\widehat B_0^{\vec k}=\widehat B_0^{-\vec k}$; this follows from the reality condition on the temperature field, $T(\vec k)=T^*(-\vec k)$, and from the isotropy of space in the null--assumption case, $G_0({\bf{\widehat k}})=G_0(-{\bf{\widehat k}})$. Thus, in order to avoid double--counting of modes, factor of $1/2$ appears at the RHS of Eq.~(\ref{eq:B_estimator_var}).
+where the sums are unrestricted. Note that $\widehat B_0^{\vec k}=\widehat B_0^{-\vec k}$; this follows from the reality condition on the temperature field, $T(\vec k)=T^*(-\vec k)$, and from the isotropy of space in the null--assumption case, $G_0({\bf{\widehat k}})=G_0(-{\bf{\widehat k}})$. Thus, in order to avoid double--counting of modes, factor of $1/2$ appears at the right--hand--side of Eq.~(\ref{eq:B_estimator_var}).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -190,7 +188,7 @@ to first order in $B_0$. Note that, in this case, there is cross--mixing of diff
 \times\left[ P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) + P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k}})\right],
 \ega
 \eeq
-where we also use the reality condition $B_0^*(-\vec K) = B_0(\vec K)$. In analogy to the procedure of \S\ref{subsec:uniform}, we estimate $B_0(\vec K)$ from $\vec k\vec k'$ pair of modes that saticefy $\vec K=\vec k-\vec k'$ as
+where we also use the reality condition $B_0^*(-\vec K) = B_0(\vec K)$. In analogy to the procedure of \S\ref{subsec:uniform}, we estimate $B_0(\vec K)$ from $\vec k\vec k'$ pair of modes that satisfy $\vec K=\vec k-\vec k'$ as
 \beq
 \widehat B_0^{\vec k\vec k'}(\vec K) = \frac{T(\vec k)T^*(\vec k')}{P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_0}({\bf{\widehat k'}}) + P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_0}({\bf{\widehat k}})},
 \label{eq:Bkkp_estimator}
@@ -214,7 +212,7 @@ Furthermore, the full estimator for $B_0(\vec K)$ from all available temperature
 \label{eq:NK1}
 \eeq
 %\end{widetext}
-with the restriction $\vec K=\vec k-\vec k'$. Factor of $2$ in the denominator corrects for double--counting mode pairs since $\widehat B_0^{\vec k\vec k'}(\vec K)=\left(\widehat B_0^{-\vec k-\vec k'}(\vec K)\right)^*$, and the sum is unconstrained. If we only consider diagonal terms $\vec K=\vec K'$, then the LHS becomes equal to $V P^N_{B_0}(\vec K)$. The explicit expression for the noise power spectrum is then
+with the restriction $\vec K=\vec k-\vec k'$. Factor of $2$ in the denominator corrects for double--counting mode pairs since $\widehat B_0^{\vec k\vec k'}(\vec K)=\left(\widehat B_0^{-\vec k-\vec k'}(\vec K)\right)^*$, and the sum is unconstrained. If we only consider diagonal terms $\vec K=\vec K'$, then the left--hand--side becomes equal to $V P^N_{B_0}(\vec K)$. The explicit expression for the noise power spectrum is then
 %\begin{widetext}
 \beq
 \bga

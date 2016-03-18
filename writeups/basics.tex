@@ -29,18 +29,18 @@ where Fourier-space functions are denoted with tilde. Similarly,
 \mathcal{I}(\theta_x,\theta_y,\theta_\nu) = \int\widetilde{\mathcal{I}}(u,v,\eta)e^{2\pi i(u\theta_x + v\theta_y+\eta \theta_\nu)}dudvd\eta,\\
 \widetilde{\mathcal{I}}(u,v,\eta) = \int{\mathcal{I}}(\theta_x,\theta_y,\theta_\nu)e^{-2\pi i(u\theta_x + v\theta_y+\eta\theta_\nu)}d\theta_xd\theta_yd\theta_\nu.
 \ega
-\label{eq:mathcal_tildeI_I}
+\label{eq:mathcal_tilde_I}
 \eeq
-From Eqs.~(\ref{eq:fourier_duals})--(\ref{eq:mathcal_tildeI_I}), we can see that the following scaling relation is saticefied
+From Eqs.~(\ref{eq:fourier_duals})--(\ref{eq:mathcal_tilde_I}), we can see that the following scaling relation is satisfied
 \beq
 \widetilde{I}(\vec{k}) = \frac{c(1+z)^2\chi(z)^2}{H(z)\nu_{21}}\widetilde{\mathcal{I}}(u,v,\eta),
 \label{eq_tilde_I_vs_Ik_scaling}
 \eeq
-where the proportionallity factor contains the transformation Jacobian $\frac{dr_xdr_ydr_z}{d\theta_xd\theta_yd\theta_\nu}$. Finally, the relationship between the specific intensity in the $uv$-plane and the visibility function $V(u,v,\theta_\nu)$ is given by the Fourier transform of the frequency coordinate,
+where the proportionality factor contains the transformation Jacobian $\frac{dr_xdr_ydr_z}{d\theta_xd\theta_yd\theta_\nu}$. Finally, the relationship between the specific intensity in the $uv$-plane and the visibility function $V(u,v,\theta_\nu)$ is given by the Fourier transform of the frequency coordinate,
 \beq
 \bga
- V(u,v,\theta_\nu)= \int \mathcal{\widetilde{I}}(u,v,\eta)e^{2\pi i \theta_\nu\eta}d\eta,\\
-\mathcal{\widetilde{I}}(u,v,\eta) = \int V(u,v,\theta_\nu)e^{-2\pi i \theta_\nu\eta}d\theta_\nu.
+ \mathcal{V}(u,v,\theta_\nu)= \int \mathcal{\widetilde{I}}(u,v,\eta)e^{2\pi i \theta_\nu\eta}d\eta,\\
+\mathcal{\widetilde{I}}(u,v,\eta) = \int \mathcal{V}(u,v,\theta_\nu)e^{-2\pi i \theta_\nu\eta}d\theta_\nu.
 \ega
 \label{eq:visibility}
 \eeq
@@ -56,14 +56,14 @@ In this Section, we derive the noise power spectrum for the brightness temperatu
 \eeq
 where $\delta_D$ is Dirac delta function. The observable quantity of the interferometric arrays is the visibility function---a complex Gaussian variable with a zero mean and the following variance (derived in Appendix \ref{app:Vrms}) 
 \beq\bga
-\langle V({u},v,\theta_\nu)V({u'},v',\theta_\nu')^*\rangle \\
+\langle \mathcal{V}({u},v,\theta_\nu)\mathcal{V}({u'},v',\theta_\nu')^*\rangle \\
 = \frac{1}{\Omega_\text{beam}}\left(\frac{2k_BT_\text{sky}}{A_e\sqrt{\Delta\nu t_1}}\right)^2 \delta_D({u}-{u}')\delta_D({v}-{v}')\delta_{\theta_\nu\theta_{\nu}'},
 \ega
 \label{eq_Vrms}
 \eeq 
 where $T_\text{sky}$ is the sky temperature (that in principle includes both the foreground signal from the Galaxy, and the instrument noise, where we take the latter to be subdominant in \S\ref{sec:results}); $t_1$ is the total time a single baseline observes element $(u,v)$ in the $uv$ plane; $A_e$ is the collecting area of a single dish; $k_B$ is the Boltzmann constant; $\Delta\nu$ is the bandwidth of a single observation centered on $z$; and the last $\delta$ in this expression denotes the Kronecker delta.
 
-In the next step, we to combine Eqs.~(\ref{eq:visibility}) and (\ref{eq_Vrms}), and take the ensamble average,
+In the next step, we to combine Eqs.~(\ref{eq:visibility}) and (\ref{eq_Vrms}), and take the ensemble average,
 \beq
 \bga
 \langle\widetilde{\mathcal{I}}(u,v,\eta) \widetilde{\mathcal{I}}^*(u',v',\eta')\rangle \\
@@ -110,7 +110,7 @@ N_\text{base}=\frac{1}{2}N_\text{ant}(N_\text{ant}+1) = \int_\text{half} n(u,v)d
 \eeq
 where $N_\text{ant}$ is the number of antennas in the array, and the integration is done on the half of the $uv$ plane (because the visibility has the following property $V(u,v,\theta_\nu)=V^*(-u,-v,\theta_\nu)$, and only half the plane contains independent samples). We assume that the array consists of many antennas, so that time-dependence of $n(u,v)$ is negligible; if this is not the case, time average of this quantity should be computed to account for Earth's rotation.
 
-In this work, we focus on a specific array configuration that is of particualr interest to cosmology---a compact grid of dipole antennas, with a total collecting area $(\Delta L)^2$. This has been proposed for the Fast Fourier Transform Telescope (FFTT) \cite{2009PhRvD..79h3530T} and is being implemented for Hydrogen Epoch of Reionization Array (HERA) \cite{2015AAS...22532803D}, for example. In this case, the beam solid angle is 1 sr, the affective area of a single dipole is $A_e = \lambda^2$, and the effective number of antennas is $N_\text{ant} = \frac{(\Delta L)^2}{\lambda^2}$. For such configuration, the number density of baselines entering calculation of the noise power spectrum reads
+In this work, we focus on a specific array configuration that is of particular interest to cosmology---a compact grid of dipole antennas, with a total collecting area $(\Delta L)^2$. This has been proposed for the Fast Fourier Transform Telescope (FFTT) \cite{2009PhRvD..79h3530T} and is being implemented for Hydrogen Epoch of Reionization Array (HERA) \cite{2015AAS...22532803D}, for example. In this case, the beam solid angle is 1 sr, the affective area of a single dipole is $A_e = \lambda^2$, and the effective number of antennas is $N_\text{ant} = \frac{(\Delta L)^2}{\lambda^2}$. For such configuration, the number density of baselines entering calculation of the noise power spectrum reads
 \beq
 n(u,v) = (\frac{\Delta L}{\lambda} - u)(\frac{\Delta L}{\lambda} - v).
 \label{eq:nuv_fftt}
@@ -124,7 +124,7 @@ v = u_\perp \sin\phi_k,
 \ega
 \label{eq:k_uv}
 \eeq
-where subscript $\perp$ denotes components perpendicular to the line-of-sight direction ${\bf{\widehat n}}$, which, in this case, is along the $z$ axis. From this, the corresponsing number of baselines observing a given $\vec k$ is
+where subscript $\perp$ denotes components perpendicular to the line-of-sight direction ${\bf{\widehat n}}$, which, in this case, is along the $z$ axis. From this, the corresponding number of baselines observing a given $\vec k$ is
 \beq
 \bga
 n_\text{base}(\vec k) = (\frac{\Delta L}{\lambda} - \frac{\chi(z)}{2\pi}k\sin\theta_k\cos\phi_k)\\\times (\frac{\Delta L}{\lambda} - \frac{\chi(z)}{2\pi}k\sin\theta_k\sin\phi_k).

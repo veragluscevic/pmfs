@@ -1,18 +1,17 @@
 \section{Visibility variance}
 \label{app:Vrms}
 
-Here we derive the variance of the visibility for an interferometric array of two antennas separated by a baseline $\vec{b}=(b_x,b_y)$, each with an effective collecting area $A_e$, observing a single element in $uv$ plane for time duration $t_1$, in the total bandwidth $\Delta \nu = \nu_\text{max}-\nu_\text{min}$. This setup is shown in Figure \ref{fig:2antennae}. Note that modes with frequencies that differ by less than $1/t_1$ cannot be distinguished in observation time $t_1$, and modes with frequencies in each interval of size $1/t_1$ are ``collapsed'' into a discrete mode with $\nu_n = n/t_1$, where $n\in Z$. Thus, the number of measured (discrete) frequencies is $N_\nu=t_1\Delta \nu$.
-
-Electric field induced in a single antenna is
+Here we derive the variance of the visibility for an interferometric array of two antennas separated by a baseline $\vec{b}=(b_x,b_y)$, each with an effective collecting area $A_e$, observing a single element in the $uv$ plane for time duration $t_1$, with total bandwidth $\Delta \nu = \nu_\text{max}-\nu_\text{min}$. A schematic of this setup is shown in Figure \ref{fig:2antennae}. Modes with frequencies that differ by less than $1/t_1$ cannot be distinguished, and modes with frequencies in each interval $1/t_1$ are collapsed into a discrete mode with frequency $\nu_n = n/t_1$, where $n\in Z$. Thus, the number of measured (discrete) frequencies is $N_\nu=t_1\Delta \nu$. Electric field induced in a single antenna is
 \beq
 E(t) = \sum_{n}^{N_\nu}\widetilde{E}(\nu_n)e^{2\pi i\nu_nt},
 \eeq
-while the quantity an interferometer measures is the correlation coefficient between the electric field in one, $E_i$, and the electric field in the other antenna, $E_j$, as a function of frequency,
+while the quantity an interferometer measures is the correlation coefficient between the electric field $E_i$ in one and the electric field $E_j$ in the other antenna as a function of frequency,
 \beq
 \rho_{ij}(\nu) \equiv \frac{\langle \widetilde{E}^*_i(\nu)\widetilde E_j(\nu)\rangle}{\sqrt{\langle |\widetilde{E}_i(\nu)|^2\rangle\langle|\widetilde E_j(\nu)|^2\rangle}}.
 \label{eq:rho_ij}
 \eeq
 %var(Re[ \widetilde E_i(\nu)])=var(Im[\widetilde E_i(\nu)])
+
 Let us now assume that 
 \beq
 \bga
@@ -20,10 +19,10 @@ Let us now assume that
 \ega
 \label{eq:var_ReE}
 \eeq
-In the following, for clarity, we will omit writing the explicit dependence on $\nu$.  The real (or imaginary) part of $\rho$ has the following variance
+In the following, for clarity, we omit explicitly writing the dependence on $\nu$.  The real (or imaginary) part of $\rho$ has the following variance
 \beq
 \bga
-var(Re[\rho_{ij}]) 
+\text{var}(Re[\rho_{ij}]) 
 %= \frac{1}{(2\sigma^2)^2}var(\langle Re[\widetilde{E}_i]Re[\widetilde{E}_j] + Im[\widetilde{E}_i]Im[\widetilde{E}_j]]\rangle) \\
 %= \frac{2\sigma^2\sigma^2}{(2\sigma^2)^2} = 
 \frac{1}{2N_\nu} = \frac{1}{2t_1\Delta \nu}.
@@ -31,29 +30,28 @@ var(Re[\rho_{ij}])
 \label{eq:var_Rerho}
 \eeq
 
-Before continuing, let us take a brief digression to show that the above formula implicitly assumes that the electric fields in the two antennas $\widetilde E_i$ and $\widetilde E_j$ have a very weak correlation, $\rho\ll 1$. Namely, suppose $x$ and $y$ are random Gaussian variables with zero mean values, where $var(x)\equiv\langle(x-\langle x\rangle)^2\rangle = \langle x^2\rangle - \langle x \rangle^2=\langle x^2\rangle$, and similarly for $y$, and their correlation coefficient is $\rho\equiv \frac{\langle xy\rangle}{\sqrt{\langle x^2\rangle \langle y^2\rangle}}$. In this case, the following is true
+Before continuing, let us take a brief digression to show that the above formula implicitly assumes that the electric fields in the two antennas have a very weak correlation, $\rho\ll 1$. Consider two random Gaussian variables, $x$ and $y$, both with zero mean values, where $\text{var(x)}\equiv\langle(x-\langle x\rangle)^2\rangle = \langle x^2\rangle - \langle x \rangle^2=\langle x^2\rangle$, and similarly for $y$. Their correlation coefficient is $\rho\equiv \frac{\langle xy\rangle}{\sqrt{\langle x^2\rangle \langle y^2\rangle}}$. In this case, the following is true
 \beq
 \bga
-var(xy) = \langle x^2y^2\rangle -  \langle xy \rangle^2 = 
+\text{var}(xy) = \langle x^2y^2\rangle -  \langle xy \rangle^2 = 
 \langle x^2\rangle \langle y^2\rangle + \langle xy\rangle^2\\
-=\langle x^2\rangle \langle y^2\rangle+\rho^2\langle x^2\rangle\langle y^2\rangle=var(x)var(y)(1+\rho^2),
+=\langle x^2\rangle \langle y^2\rangle+\rho^2\langle x^2\rangle\langle y^2\rangle=\text{var}(x)\text{var}(y)(1+\rho^2),
 \ega
 \eeq
-so that when $\rho$ is small $var(xy)=var(x)var(y)$, which was assumed in the first equality of \eq{\ref{eq:var_Rerho}}.
+so that when $\rho$ is small, $\text{var}(xy)=\text{var}(x)\text{var}(y)$, which was assumed in the first equality of \eq{\ref{eq:var_Rerho}}.
 
 Resuming the derivation, if different frequencies are uncorrelated, the result of \eq{\ref{eq:var_Rerho}} implies
 \beq
 \langle|\rho_{ij}(\nu)|^2\rangle = \frac{1}{t_1\Delta \nu}.
 \label{eq:var_rho}
 \eeq
-
 \begin{figure}
 \centering
 \includegraphics[width=.5\textwidth,keepaspectratio=true]{2antennae.pdf}
 \caption{Schematic of a two-antenna interferometer.\label{fig:2antennae}}
 \end{figure}
 %%%%%%%%%%%%
-The final step in this derivation requires the relation between intensity in the sky $\mathcal{I}(\theta_x,\theta_y, \nu)$ (within the beam of the solid angle $\Omega_\text{beam}$, centered on the direction ${\bf{\widehat n}}=(\theta_x,\theta_y)$) and the electric fields measured in the two antennas,
+The final step requires a relation between intensity in the sky $\mathcal{I}(\theta_x,\theta_y, \nu)$ (within the beam of the solid angle $\Omega_\text{beam}$, centered on the direction ${\bf{\widehat n}}=(\theta_x,\theta_y)$) and the electric fields measured in the two antennas,
 \beq
 \bga
 \langle \widetilde{E}_i^*(\nu)\widetilde{E}_j(\nu)\rangle \propto \int_{\Omega_\text{beam}} d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu)\\
@@ -61,7 +59,7 @@ The final step in this derivation requires the relation between intensity in the
 \ega
 \label{eq:E_vs_mathcalI}
 \eeq
-where $R(\theta_x,\theta_y)$ is the antenna response function (the shape of the beam in the sky), which we will assume to be unity. Furthermore, $\frac{2\pi\nu}{c}(b_x\theta_x + b_y\theta_y)\equiv {2\pi}(u\theta_x + v\theta_y)$ is the phase delay between two antennae (position in the $uv$ plane measures the phase lag between the two dishes in wavelenghts). The coefficient of proportionallity in the above equation is set by various instrumental parameters, and is not relevant for our purposes. From \eq{\ref{eq:rho_ij}}, it follows
+where $R(\theta_x,\theta_y)$ is the antenna response function (the shape of the beam in the sky), which we will assume to be unity. Furthermore, $\frac{2\pi\nu}{c}(b_x\theta_x + b_y\theta_y)\equiv {2\pi}(u\theta_x + v\theta_y)$ is the phase delay between two antennae (position in the $uv$ plane measures the phase lag between the two dishes in wavelenghts). The coefficient of proportionality in the above equation is set by various instrumental parameters and is not relevant for our purposes. From \eq{\ref{eq:rho_ij}}, it follows that
 \beq
 \rho_{ij}(\nu) = \frac{\int_{\Omega_\text{beam}}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu)e^{2\pi i(u\theta_x+v\theta_y)}}{\int_{\Omega_\text{beam}}d\theta_xd\theta_y\mathcal{I}(\theta_x,\theta_y,\theta_\nu)},
 \label{eq:rho_mathcalI}
@@ -82,20 +80,21 @@ the Reyliegh-Jeans law (or the definition of the brightness temperature),
 \mathcal{I}(\theta_x,\theta_y,\theta_\nu) = \frac{2k_BT_\text{sky}}{\lambda^2},
 \label{eq:I_Tsky}
 \eeq
-and note that the numerator in \eq{\ref{eq:rho_mathcalI}} matches the definition of visibility from \eq{\ref{eq:visibility}} to get 
+and note that the numerator in \eq{\ref{eq:rho_mathcalI}} matches the definition of visibility from \eq{\ref{eq:visibility}}, to get 
 \beq
-\rho_{ij}(\nu) = \frac{A_e}{2k_BT_\text{sky}}V(u,v,\theta_\nu),
+\rho_{ij}(\nu) = \frac{A_e}{2k_BT_\text{sky}}\mathcal{V}(u,v,\theta_\nu),
 \label{eq:rho_V}
 \eeq
+
 Combining the above expression and \eq{\ref{eq:var_rho}}, we get the final result of this derivation,
 \beq
 \bga
-\langle|V(u,v,\theta_\nu)|^2\rangle 
+\langle|\mathcal{V}(u,v,\theta_\nu)|^2\rangle 
 =\frac{1}{\Omega_\text{beam}}\left(\frac{2k_BT_\text{sky}}{A_e\sqrt{t_1\Delta \nu}}\right)^2\\
 \times\delta_D(u-u')\delta_D(v-v')\delta_{\theta_\nu\theta_{\nu'}},
 \ega
 \label{eq:Vrms_final}
 \eeq
-where $V$ is a complex Gaussian variable, centered at zero, and uncorrelated for different values of its arguments, and the factor of $\Omega_\text{beam}$ came from converting from Kroneker to Dirac deltas.
+where the visibility $\mathcal{V}$ is a complex Gaussian variable, centered at zero, and uncorrelated for different values of its arguments, and the factor of $\Omega_\text{beam}$ came from converting from Kronecker delta to a  Dirac delta function.
 
-It should be noted at the end that we were calculating the contribution to the visibility from the noise only (the system + the foregrounds in the absence of a signal), so we used system temperature for brightness temperature (this could contain the signal from foregrounds and from the instrument). In case we want to repeat the computation in the presence of a signal, $T_\text{sky}$ should instead be the sum of the signal and the noise temperatures.
+It should be noted at the end that we were calculating the contribution to the visibility from the noise only (the system temperature + the foreground sky temperature, in the absence of a signal). In case we want to repeat the computation in the presence of a signal, $T_\text{sky}$ should instead be the sum of the signal and the noise temperatures.
