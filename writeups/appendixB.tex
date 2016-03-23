@@ -145,7 +145,7 @@ G^{(B)}=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{
 where the $\sin 2\varphi$ term represents a precession of the emission quadrupole by a small angle $\epsilon$, in the sense that $\mu_1\cos 2\varphi+\mu_2\sin 2\varphi = \sqrt{\mu_1^2+\mu_2^2}\cos[2(\varphi+\epsilon)]$, where $2\epsilon\simeq\tan(2\epsilon)=-{\mu_2}/{\mu_1}$. Similarly, lensing also gives rise to $\sin 2\varphi$ term, such that
 \beq
 \bga
-G^{(\text{lens})}=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2}\\
+G^{(\text{lens, 13})}=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2}\\
 \times \left[\mu_0+\mu_1(\cos 2\varphi+4\gamma_{13}\sin 2\varphi)\right].
 \ega
 \eeq
@@ -153,15 +153,17 @@ In addition, it affects the magnitude $k$, such that
 \begin{equation}
 k'=k(1+\kappa+\gamma_{11}\sin^2\varphi+\gamma_{33}\cos^2\varphi+2\gamma_{13}\sin\varphi\cos\varphi).
 \end{equation}
-to first order. Assuming $P_\delta(k)\propto k^{n_{\rm eff}}$, due solely to lensing (and no magnetic field), we get
+to first order. Assuming $P_\delta(k)\propto k^{n_{\rm eff}}$, due solely to the lensing--shear $13$ component (and no magnetic field), we get
 \beq
 \bga
-P^S(\vec{k}')=\left\vert G^{(\text{lens})}(1+\kappa+\gamma_{11}\sin^2\varphi+\gamma_{33}\cos^2\varphi\right.\\
-\left.+2\gamma_{13}\sin\varphi\cos\varphi)^{n_{\rm eff}/2}\right\vert^2P_\delta(k)
-\equiv \vert G^{(\text{lens})}({\bf{\widehat k}'})\vert^2P_{\delta}(k).
+P^S(\vec{k}')=\left\vert G^{(\text{lens,
+13})} \times (1+\kappa+\gamma_{11}\sin^2\varphi+\gamma_{33}\cos^2\varphi\right.\\
+\left.+2\gamma_{13}\sin\varphi\cos\varphi)^{n_{\rm
+eff}/2}\right\vert^2P_\delta(k)
+\equiv \vert G'^{(\text{lens})}({\bf{\widehat k}'})\vert^2P_{\delta}(k).
 \ega
 \eeq
-where $n_{\rm eff}$ is an effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.274$). Expanding $G^{(\text{lens})}$, we find the $\sin 2\varphi$ term produced by the transverse lensing shear component, which mimics the precession effect due to the magnetic field, such that ${\mu_2}/{\mu_1}=\left[4+{n_{\rm eff}\mu_0}/({2}\mu_1)\right]\gamma_{13}$,
+where $n_{\rm eff}$ is an effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.274$). Expanding $G'^{(\text{lens})}$, we find the $\sin 2\varphi$ term produced by the transverse lensing shear component, which mimics the precession effect due to the magnetic field, such that ${\mu_2}/{\mu_1}=\left[4+{n_{\rm eff}\mu_0}/({2}\mu_1)\right]\gamma_{13}$,
 where we can solve for the spurious ``comoving magnetic field'',
 \beq
 \bga
@@ -177,16 +179,16 @@ while the total power spectrum gets an average value, i.e.~the half maximum,
 \beq
 P_B^{\rm lensing}(\ell)=\frac{\alpha^2}{2} P_t(\ell),
 \eeq
-and %the root--mean--square of the total contamination is
+and the root--mean--square (rms) of the total contamination is
 \beq
 \Delta^{(\text{lens})}(\ell)=\sqrt{\frac{\ell(\ell+1)}{2\pi}P^{(\text{lens})}(\ell)}.
 \eeq
 %Note that we only consider magnetic--field components perpendicular to the line of sight, where the shear contamination is maximized.  
-We show numerical results in Figure \ref{fig:lensing_B}, calculated with and without the de--lensing procedure (using CMB lensing measurements), with little difference found between the two cases. Comparing this result to Figure \ref{fig:Bsat}, we can see that the contamination due to lensing shear remains below the projected sensitivities even for the case of futuristic array sizes.
+We show numerical results for the rms contamination in Figure \ref{fig:lensing_B}, calculated with and without the de--lensing procedure (using CMB lensing measurements), with little difference found between the two cases. Comparing this result to Figure \ref{fig:Bsat}, we can see that the contamination due to lensing shear remains below the projected sensitivities even for the case of futuristic array sizes.
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{delensingB.pdf}
-\caption{Shown is the $1\sigma$ lensing--shear contamination to the measurement of the magnetic field, usind the method discussed in this work. Contamination before (solid blue line) and after (dot--dashed green) the de--lensing procedure, is presented as a function of redshift. Saturation ceiling is denoted by the dashed line. Comparison with Figure \ref{fig:Bsat} reveals that lensing is below the projected sensitivity for all array sizes considered in this work.}
+\caption{Shown is the $1\sigma$ lensing--shear contamination to the measurement of the magnetic field, usind the method discussed in this work. Contamination before (solid red line) and after (dashed blue line) the de--lensing procedure, is presented as a function of redshift. Saturation ceiling is denoted by the shaded region above the thin dashed line. Comparison with Figure \ref{fig:Bsat} reveals that lensing is below the projected sensitivity for all array sizes considered in this work.}
 \label{fig:lensing_B}
 \end{figure}
 %Finally, note that a survey of size $\Omega_{\rm survey}=1{\rm sr}$ corresponds to the scale of $\ell\sim6$, while the scale of the relevant matter fluctuations is determined by the resolution of the experiment from $k\sim \frac{2\pi L}{\lambda_0(1+z)D}\sim 1$, which corresponds to $n_{\rm eff}\sim -2.274$ in our case.
