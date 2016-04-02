@@ -6,16 +6,29 @@ To follow standard lensing notation, we no longer label cartesian coordinate axe
  
 We start by generalizing the formalism for two--dimensional weak lensing \cite{Weinberg201387} to the three--dimensional case.
 In the presence of lensing, coordinate $\theta_i^S$, where $i\in\{1,2,3\}$, maps onto the observed coordinate $\theta_i$ as follows \begin{equation}
-\theta_i^S=\theta_i+\frac{\partial\psi}{\partial\theta_i},\ i=1,2,3,
+\theta_k^S=\theta_k+\frac{\partial\psi}{\partial\theta_k},\ k=1,2,\ \ \ \theta_3^S=\theta_3
 \label{eq:lensingmapping}
 \end{equation}
 where $\psi$ is the lensing potential. The full Jacobian of this coordinate transformation is
-\begin{equation}
-\frac{\partial\theta_i^S}{\partial\theta_j}=\delta_{ij}+\frac{\partial^2\psi}{\partial\theta_i\partial\theta_j}=(1+\kappa)I_{ij}+\gamma_{ij},\ \ \ i,j=1,2,3,
+\begin{align}
+\frac{\partial\theta_i^S}{\partial\theta_j}&=\delta_{ij}+\left(\begin{array}{ccc}
+\psi_{,11} & \psi_{,12} & \psi_{,13}\\
+\psi_{,21} & \psi_{,22} & \psi_{,23}\\
+0&0&0
+\end{array}\right)_{ij} \nonumber\\
+&= I_{ij} + \left(\begin{array}{ccc}
+\kappa & 0 & 0\\
+0 & \kappa & 0\\
+0&0&0
+\end{array}\right)_{ij}+\left(\begin{array}{ccc}
+\gamma_{11} & \gamma_{12} & \gamma_{13}\\
+\gamma_{12} & \gamma_{22} & \gamma_{23}\\
+0&0&0
+\end{array}\right)_{ij},\nonumber\\
+&(i,j=1,2,3),
 \label{eq:lensingtsf}
-\end{equation}
-where $I_{ij}$ represents the unity matrix. In the second step in the above Equation, we decomposed the symmetric $3\times 3$ matrix $\partial^2\psi/\partial\theta_i\partial\theta_j$ into a sum of a diagonal matrix and a symmetric traceless matrix $\bm{\gamma}$, representing magnification and shear, respectively. There are five independent shear components.
-%The $\tilde{\gamma}_{13},\tilde{\gamma}_{23}$ components are the transverse shear components that we care about. Let's calculate the power spectrum of $\gamma_{13}$ first.
+\end{align}
+where $I_{ij}$ represents the unity matrix. In the second step in Eq. (\ref{eq:lensingtsf}), we decomposed the $2\times 2$ upper-left submatrix into a sum of a diagonal matrix and a traceless symmetric matrix $\bm{\gamma}_{2\times 2}$, representing magnification and 2-dimensional shear, respectively. Along with the two transverse shear components, they form into a $3\times 3$ shear matrix $\bm{\gamma}$.
 
 We now switch to Fourier space, where the two-dimensional Fourier transform of the lensing potential reads
 \begin{equation}
@@ -113,16 +126,16 @@ Now that we have computed the transverse power spectrum $P_t$, we move on to eva
 {\bf{\widehat k}}'&=\left(\begin{array}{c}
 (1+\kappa+\gamma_{11})\sin\varphi+\gamma_{13}\cos\varphi\\
 \gamma_{12}\sin\varphi+\gamma_{23}\cos\varphi\\
-\gamma_{13}\sin\varphi+(1+\kappa+\gamma_{33})\cos\varphi
+\cos\varphi
 \end{array}\right),\nonumber\\
 {\bf{\widehat n}}'&=\left(\begin{array}{c}
 \gamma_{13}\\
 \gamma_{23}\\
-1+\kappa+\gamma_{33}
+1
 \end{array}\right),
 \label{eq:distorted_kn}
 \end{align}
-and the shear only changes $\varphi$ by $-2\gamma_{13}$, to first order.
+and the shear only changes $\varphi$ by $-\gamma_{13}$, to first order.
 %The key to relating the shear effect to the magnetic fields is that the shear produces a similar precession of the quadrupole feature in the power spectrum of the brightness temperature. Since $P^S(\vec{k})=G^2({\bf{\widehat k}})P_\delta(k)$, the quadrupole feature can arise from both the transfer function and the lensed matter power spectrum. 
 
 For conciseness, we define the coefficient $\bar{x}_{\rm B}\equiv x_{\rm B}/{B}$, and introduce the following short notation
@@ -146,28 +159,28 @@ where the $\sin 2\varphi$ term represents a precession of the emission quadrupol
 \beq
 \bga
 G^{(\text{lens, 13})}=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2}\\
-\times \left[\mu_0+\mu_1(\cos 2\varphi+4\gamma_{13}\sin 2\varphi)\right].
+\times \left[\mu_0+\mu_1(\cos 2\varphi+2\gamma_{13}\sin 2\varphi)\right].
 \ega
 \eeq
 In addition, it affects the magnitude $k$, such that
 \begin{equation}
-k'=k(1+\kappa+\gamma_{11}\sin^2\varphi+\gamma_{33}\cos^2\varphi+2\gamma_{13}\sin\varphi\cos\varphi).
+k'=k[1+2(\kappa+\gamma_{11})\sin^2\varphi+2\gamma_{13}\sin\varphi\cos\varphi].
 \end{equation}
 to first order. Assuming $P_\delta(k)\propto k^{n_{\rm eff}}$, due solely to the lensing--shear $13$ component (and no magnetic field), we get
 \beq
 \bga
 P^S(\vec{k}')=\left\vert G^{(\text{lens,
-13})} \times (1+\kappa+\gamma_{11}\sin^2\varphi+\gamma_{33}\cos^2\varphi\right.\\
-\left.+2\gamma_{13}\sin\varphi\cos\varphi)^{n_{\rm
+13})} \times [1+2(\kappa+\gamma_{11})\sin^2\varphi\right.\\
+\left.+2\gamma_{13}\sin\varphi\cos\varphi]^{n_{\rm
 eff}/2}\right\vert^2P_\delta(k)
 \equiv \vert G'^{(\text{lens})}({\bf{\widehat k}'})\vert^2P_{\delta}(k).
 \ega
 \eeq
-where $n_{\rm eff}$ is an effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.274$). Expanding $G'^{(\text{lens})}$, we find the $\sin 2\varphi$ term produced by the transverse lensing shear component, which mimics the precession effect due to the magnetic field, such that ${\mu_2}/{\mu_1}=\left[4+{n_{\rm eff}\mu_0}/({2}\mu_1)\right]\gamma_{13}$,
+where $n_{\rm eff}$ is an effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.274$). Expanding $G'^{(\text{lens})}$, we find the $\sin 2\varphi$ term produced by the transverse lensing shear component, which mimics the precession effect due to the magnetic field, such that ${\mu_2}/{\mu_1}=\left[2+{n_{\rm eff}\mu_0}/({2}\mu_1)\right]\gamma_{13}$,
 where we can solve for the spurious ``comoving magnetic field'',
 \beq
 \bga
-B^{(\text{lens, 13})}=\frac{10(1+x_{\alpha,(2)}+x_{c,(2)})^2(4\mu_1+\frac{n_{\rm eff}}{2}\mu_0)}{C\bar{x}_{\rm B}(1+z)^2}\gamma_{13}\nonumber\\
+B^{(\text{lens, 13})}=\frac{10(1+x_{\alpha,(2)}+x_{c,(2)})^2(2\mu_1+\frac{n_{\rm eff}}{2}\mu_0)}{C\bar{x}_{\rm B}(1+z)^2}\gamma_{13}\nonumber\\
 \equiv\alpha\gamma_{13}.
 \ega
 \eeq
