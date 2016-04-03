@@ -1,0 +1,42 @@
+\section{Estimating the escape fraction of ionizing photons}
+
+In this appendix, we describe our method for estimating the escape fraction of ionizing photons in semi-numerical  simulations of the high-redshift 21-cm signal, such as the publicly available 21cmFAST code \cite{2011MNRAS.411..955M}. 
+
+Typically, such codes sidestep the computationally expensive tasks of tracking individual radiation sources, and the radiative transfer of the ionizing photons that are needed to simulate HII regions in the early Universe. Instead, they use an approximate relation between the statistics of HII regions and those of collapsed structures, and estimate the latter efficiently from pure large scale structure simulations \cite{2004ApJ...613....1F}. As such, the escape fraction of ionizing photons is not a direct input to these simulations, but rather has to be indirectly estimated from their outputs and input effective parameters. 
+
+A HII region, say B, satisfies ionizing photon number-balance, i.e., 
+\begin{subequations}
+\label{eq:pbalance}
+  \begin{align}
+    N_{\rm emitted, B} & = \langle f_{\rm esc, B} \rangle f_\ast N_{\gamma/{\rm b}} f_{\rm coll, B} N_{\rm b, B} \mbox{, and} \label{eq:emission} \\
+    N_{\rm absorbed, B} & = f_{\rm H} (1 + \langle n_{\rm rec, B} \rangle) N_{\rm b, B} \label{eq:absorption} \mbox{.}
+  \end{align}
+\end{subequations}
+Here $N_{\rm emitted, B}$ and $N_{\rm absorbed, B}$ are total numbers of emitted and absorbed ionizing photons, i.e., those with energy $> 13.6$ eV. In the above equations, $f_{\rm H} = 0.924$ is the hydrogen number-fraction, $f_\ast$ is the star-formation efficiency (the fraction of galactic baryonic mass in stars), $N_{\gamma/{\rm b}}$ is the number of ionizing photons per nucleus produced by the stars, $N_{\rm b, B}$ is the total number of nuclei in B, $\langle f_{\rm esc, B} \rangle$ is the average escape fraction in B, $\langle n_{\rm rec, B} \rangle$ is the average number of recombinations per hydrogen atom inside, and $f_{\rm coll, B}$ is the collapse fraction. Also note that the photon numbers in Eqs.~\eqref{eq:pbalance} are integrated numbers over all redshifts up-to the redshift of interest.
+
+We assume that once regions are ionized, they stay ionized. We also assume that the number of recombinations outside HII regions is negligible (we have numerically verified this in 21cmFAST runs, since the code tracks the ionization fraction outside HII regions). 
+
+Let $\mathcal{B}(z)$ denote the set of all HII regions at redshift $z$. We obtain the total number of ionizing photons absorbed upto a redshift $z$ from Eq.~\eqref{eq:absorption}:
+\begin{align}
+~~~ & \!\!\!\!
+  N_{\rm absorbed, tot}(z) \nonumber \\
+  & = f_{\rm H} \int_{\bm r \in \mathcal{B}(z)} dV n_{\rm b} + f_{\rm H}^2 \int_z^\infty dz^\prime \biggr\vert \frac{dt}{dz^\prime} \biggr\vert \int_{\bm r \in \mathcal{B}(z^\prime)} dV C n_{\rm b}^2 \alpha_{\rm B}, \label{eq:netabs}
+\end{align}
+where $n_{\rm b}$ is the baryon number density, the Jacobian $\vert dt/dz \vert$ maps between redshift and proper time, $C = \langle n^2 \rangle/\langle n \rangle^2$ is the clumping factor, and $\alpha_{\rm B}$ is the case-B recombination coefficient.
+%(this might not be true for the bubbles computed by the conditional P.S. method like 21cmFAST, but should be a reasonable estimate for counting the total photon number). 
+
+21cmFAST uses the ansatz that a self-ionized region satisfies $f_{\rm coll} = 1/\zeta$, where $\zeta$ is an efficiency factor. Using this in the volume-integrated version of Eq.~\eqref{eq:emission}, we obtain the total number of ionizing photons emitted in HII regions upto redshift $z$ as
+\begin{align}
+  N_{\rm emitted, tot}(z) & = \frac{ \overline{f_{\rm esc}}(z) f_\ast N_{\gamma/{\rm b}} }{\zeta} \int_{\bm r \in \mathcal{B}(z)} dV  n_{\rm b}, \label{eq:netem}
+\end{align}
+where $\overline{f_{\rm esc}}(z)$ an `averaged escape fraction' until each redshift. From Eq.~\eqref{eq:netabs} and \eqref{eq:netem}, we get
+\begin{align}
+~~~ & \!\!\!\!
+  \overline{f_{\rm esc}}(z) \nonumber \\
+  & = \frac{f_{\rm H} \zeta}{ f_\ast N_{\gamma/{\rm b} } } \left[ 1 + f_{\rm H} \frac{ \int_z^\infty dz^\prime \biggr\vert \frac{dt}{dz^\prime} \biggr\vert \int_{\bm r \in \mathcal{B}(z^\prime)} dV C n_{\rm b}^2 \alpha_{\rm B} }{ \int_{\bm r \in \mathcal{B}(z)} dV n_{\rm b} } \right] \\
+  & = \frac{f_{\rm H} \zeta}{ f_\ast N_{\gamma/{\rm b} } } \left[ 1 + \frac{ f_{\rm H} n_{\rm b, 0} }{ \int_{\bm x \in \mathcal{B}(z)} d^3 \bm{x} [1 + \delta(\bm x, z)] } \times \right. \nonumber \\
+  & ~~~ \left. \int_z^\infty dz^\prime \biggr\vert \frac{dt}{dz^\prime} \biggr\vert (1 + z^\prime)^3 \int_{\bm x \in \mathcal{B}(z^\prime)} d^3 \bm{x} \ C [1 + \delta(\bm x, z^\prime)]^2 \alpha_{\rm B} \right] \mbox{.}
+\end{align}
+In the second line, we have rewritten the integrals in terms of co-moving coordinates and the over-density $\delta(\bm x, z)$. 
+
+An additional subtlety is that 21cmFAST follows the kinetic temperature outside the HII regions, while the recombination coefficient $\alpha_{\rm B}$ depends on the temperature inside; this can differ from the former due to the energy deposited by the free-electrons released during photoionization. We have verified that including this contribution makes little difference during the redshifts of interest.
