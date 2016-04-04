@@ -809,14 +809,12 @@ def nest_integrator(neval=100, Nz=20,
 
 ##################################################
 #####testing functions for integrand for B0/xi.:
-def test_integrand_k(z=30,Nks=1000,
-                   kmin=0.0001,kmax=10,
-                   thetak=0.1,phik=0.,logplot=True,
+def test_integrand_k(z=21,Nks=20,
+                   kmin=0.0001,kmax=0.5,
+                   thetak=1.75,phik=0.79,logplot=True,
                    mode='B0'):
 
     res = np.zeros(Nks)
-    G = np.zeros(Nks)
-    dGdB = np.zeros(Nks)
     ks = np.linspace(kmin,kmax,Nks)
     for i,k in enumerate(ks):
         x = np.array([z,k,thetak,phik])
@@ -830,13 +828,15 @@ def test_integrand_k(z=30,Nks=1000,
     print(ks[res.argmax()],res.max())
     return ks,res
 
-def test_integrand_theta(z=30,Ns=1000,
+
+
+
+
+def test_integrand_theta(z=21,Ns=100,
                          k=0.1,phik=0.,
                          mode='B0'):
 
     res = np.zeros(Ns)
-    G = np.zeros(Ns)
-    dGdB = np.zeros(Ns)
     thetas = np.linspace(0.,np.pi,Ns)
     for i,thetak in enumerate(thetas):
         x = np.array([z,k,thetak,phik])
@@ -848,13 +848,11 @@ def test_integrand_theta(z=30,Ns=1000,
     print(thetas[res.argmax()],res.max())
     return thetas,res
 
-def test_integrand_phi(z=30,Ns=1000,
+def test_integrand_phi(z=21,Ns=100,
                          k=0.1,thetak=0.2,
                          mode='B0'):
 
     res = np.zeros(Ns)
-    G = np.zeros(Ns)
-    dGdB = np.zeros(Ns)
     phis = np.linspace(0.,np.pi,Ns)
     for i,phik in enumerate(phis):
         x = np.array([z,k,thetak,phik])
