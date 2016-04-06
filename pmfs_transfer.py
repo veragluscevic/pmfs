@@ -115,7 +115,8 @@ def calc_G(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
 @jit#(nopython=True)
 def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4., 
             Ts=11.1, Tg=57.23508, z=20, verbose=False,
-            xalpha=34.247221, xc=0.004176, xBcoeff=3.65092e18, x1s=1.):
+            xalpha=34.247221, xc=0.004176, xBcoeff=3.65092e18, x1s=1.,
+            debug=False):
 
     """Calculates the derivative of the transfer function wrt the magnitude of a homogeneous component
     of the magnetic field B(z) *at a given redshift* ( such that B(z)=B0*(1+z)^2 ), evaluated at B=0, 
@@ -136,6 +137,9 @@ def calc_dGdB(thetak=np.pi/2., phik=0., thetan=np.pi/2., phin=np.pi/4.,
     summ *= xBcoeff / ( 1. + xalpha + xc )**2
     
     res = (0.128*4.*np.pi/75.) * x1s**2 * ( 1 - Tg/Ts ) * (Tg/Ts) * (1 + z)/10. * summ
+    if debug:
+        xs = xBcoeff / ( 1. + xalpha + xc )**2
+        return res/1000., summ, xs
     return res/1000. #this is to make it to K from mK.
 
 

@@ -272,7 +272,13 @@ def integrand(x, mode='B0',
 
 
     if debug:
-        return res,Pnoise,nk,Numerator,G,dGdB
+        dGdB, summ, xs = pt.calc_dGdB(thetak=thetak, phik=phik, 
+                            thetan=thetan, phin=phin,
+                            Ts=Ts, Tg=Tg, z=z, 
+                            verbose=False, 
+                            xalpha=xalpha, xc=xc, 
+                            xBcoeff=xBcoeff, x1s=1.,debug=True)
+        return res, Numerator, Denominator, Psignal, Pnoise, G, dGdB, Pdelta, Ts, Tg, summ, xs
     return res
 
 
@@ -865,31 +871,98 @@ def test_integrand_phi(z=21,Ns=100,
     return phis,res
 
 
-def test_integrand_z(Ns=1000,
-                     zmin=10,zmax=35,
-                     k=0.1,thetak=0.2,phik=0.3,
-                     mode='B0'):
+def test_integrand_z(Ns=20,
+                     zmin=15,zmax=30,
+                     k=0.1,thetak=1.75,phik=0.79,
+                     mode='B0',debug=False):
 
     res = np.zeros(Ns)
     G = np.zeros(Ns)
     dGdB = np.zeros(Ns)
-    num = np.zeros(Ns)
-    den = np.zeros(Ns)
-    pnoise = np.zeros(Ns)
-    psig = np.zeros(Ns)
-    ns = np.zeros(Ns)
+    Numerator = np.zeros(Ns)
+    Denominator = np.zeros(Ns)
+    Pnoise = np.zeros(Ns)
+    Psignal = np.zeros(Ns)
+    Pdelta = np.zeros(Ns)
+    Tg = np.zeros(Ns)
+    Ts = np.zeros(Ns)
+    summ = np.zeros(Ns)
+    xs = np.zeros(Ns)
 
-    #print(pnoise,ns)
+   
     zs = np.linspace(zmin,zmax,Ns)
     for i,z in enumerate(zs):
         x = np.array([z,k,thetak,phik])
-        #res[i],G[i],dGdB[i],num[i],den[i],pnoise[i],psig[i] = integrand(x,debug=True)
-        #res[i],pnoise[i],ns[i] = integrand(x,debug=True,mode=mode)3
-        res[i] = integrand(x,mode=mode)
+        if debug:
+            res[i], Numerator[i], Denominator[i], Psignal[i], Pnoise[i], G[i], dGdB[i], Pdelta[i], Ts[i], Tg[i],summ[i], xs[i] = integrand(x,debug=True)
+        else:
+            res[i] = integrand(x,mode=mode)
 
-    #pl.figure()
-    pl.semilogy(zs,res,label='k={},thetak={:.2f},phik={:.2f}'.format(k,thetak,phik))
-    pl.xlabel('z')
-    print(zs[res.argmax()],res.max())
+    if not debug:
+        pl.semilogy(zs,res,label='k={},thetak={:.2f},phik={:.2f}'.format(k,thetak,phik))
+        pl.xlabel('z')
+    else:
+        pl.figure()
+        pl.semilogy(zs,res)
+        pl.xlabel('z')
+        pl.title('integrand')
+
+        pl.figure()
+        pl.semilogy(zs,Numerator)
+        pl.xlabel('z')
+        pl.title('Numerator')
+
+        pl.figure()
+        pl.semilogy(zs,1./Denominator)
+        pl.xlabel('z')
+        pl.title('1/Denominator')
+
+        pl.figure()
+        pl.semilogy(zs,np.abs(G))
+        pl.xlabel('z')
+        pl.title('|G|')
+
+        pl.figure()
+        pl.semilogy(zs,np.abs(dGdB))
+        pl.xlabel('z')
+        pl.title('|dG/dB|')
+
+        pl.figure()
+        pl.semilogy(zs,Psignal)
+        pl.semilogy(zs,Pnoise)
+        pl.xlabel('z')
+        pl.title('Psignal and Pnoise')
+
+        #pl.figure()
+        #pl.semilogy(zs,Pnoise)
+        #pl.xlabel('z')
+        #pl.title('Pnoise')
+
+        pl.figure()
+        pl.semilogy(zs,Pdelta)
+        pl.xlabel('z')
+        pl.title('Pdelta')
+
+        pl.figure()
+        pl.semilogy(zs,(Tg/Ts*(1-Tg/Ts)*(1 + zs))**2)
+        pl.xlabel('z')
+        pl.title('[Tg/Ts*(1-Tg/Ts)*(1 + z)]^2')
+
+        pl.figure()
+        pl.semilogy(zs,(G*dGdB*Pdelta)**2)
+        pl.xlabel('z')
+        pl.title('[G * dG/dB * Pdelta]^2')
+
+        #pl.figure()
+        #pl.semilogy(zs,summ**2)
+        #pl.xlabel('z')
+        #pl.title('summ^2')
+
+        pl.figure()
+        pl.semilogy(zs,xs**2)
+        pl.xlabel('z')
+        pl.title('xs^2')
+
+    #print(zs[res.argmax()],res.max())
     #return zs,res,pnoise,ns
-    return zs,res
+    #return zs,res
