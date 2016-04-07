@@ -11,7 +11,7 @@ In the presence of lensing, coordinate $\theta_i^S$, where $i\in\{1,2,3\}$, maps
 \end{equation}
 where $\psi$ is the lensing potential. The full Jacobian of this coordinate transformation is
 \begin{align}
-\frac{\partial\theta_i^S}{\partial\theta_j}&=\delta_{ij}+\left(\begin{array}{ccc}
+\mathcal{J}_{ij}&=\frac{\partial\theta_i^S}{\partial\theta_j}=\delta_{ij}+\left(\begin{array}{ccc}
 \psi_{,11} & \psi_{,12} & \psi_{,13}\\
 \psi_{,21} & \psi_{,22} & \psi_{,23}\\
 0&0&0
@@ -22,7 +22,7 @@ where $\psi$ is the lensing potential. The full Jacobian of this coordinate tran
 0&0&0
 \end{array}\right)_{ij}+\left(\begin{array}{ccc}
 \gamma_{11} & \gamma_{12} & \gamma_{13}\\
-\gamma_{12} & \gamma_{22} & \gamma_{23}\\
+\gamma_{12} & -\gamma_{11} & \gamma_{23}\\
 0&0&0
 \end{array}\right)_{ij},\nonumber\\
 &(i,j=1,2,3),
@@ -121,21 +121,20 @@ In Figure \ref{fig:Pt}, we show the transverse power spectra for a range of $z$,
 \label{fig:Pt}
 \end{figure}
 
-Now that we have computed the transverse power spectrum $P_t$, we move on to evaluating the contamination it produces for the measurement of the magnetic field. We consider a configuration where the magnetic field is along the direction 2, ${\bf{\widehat k}}=(\sin\varphi,0,\cos\varphi)$, and the line of sight is along the direction 3, $\ {\bf{\widehat n}}=(0,0,1)$ in the three-dimensional Cartesian reference frame where $x$, $y$, and $z$ axes correspond to 3, 1, and 2, respectively; $\varphi$ is the angle between 3 and ${\bf{\widehat k}}$. Lensing distorts ${\bf{\widehat k}}$ and ${\bf{\widehat n}}$ into
-\begin{align}
-{\bf{\widehat k}}'&=\left(\begin{array}{c}
-(1+\kappa+\gamma_{11})\sin\varphi+\gamma_{13}\cos\varphi\\
-\gamma_{12}\sin\varphi+\gamma_{23}\cos\varphi\\
-\cos\varphi
-\end{array}\right),\nonumber\\
-{\bf{\widehat n}}'&=\left(\begin{array}{c}
-\gamma_{13}\\
-\gamma_{23}\\
-1
-\end{array}\right),
+Now that we have computed the transverse power spectrum $P_t$, we move on to evaluating the contamination it produces for the measurement of the magnetic field. We consider a configuration where the magnetic field is along the direction 2, ${\bf{\widehat k}}=(\sin\varphi,0,\cos\varphi)$, and the line of sight is along the direction 3, $\ {\bf{\widehat n}}=(0,0,1)$ in the three-dimensional Cartesian reference frame where $x$, $y$, and $z$ axes correspond to 1, 2, and 3, respectively; $\varphi$ is the angle between 3 and ${\bf{\widehat k}}$. Lensing distorts ${\bf{k}}$ into
+\begin{equation}
+{\bf{k}}'=[\mathcal{J}^{-1}]^{\rm T}\cdot{\bf{k}}=\left(\begin{array}{c}
+(1-\kappa-\gamma_{11})\sin\varphi\\
+-\gamma_{12}\sin\varphi\\
+-\gamma_{13}\sin\varphi+\cos\varphi
+\end{array}\right)k,
 \label{eq:distorted_kn}
+\end{equation}
+which changes both the direction and the magnitude of ${\bf{k}}$.
+\begin{align}
+&\frac{\Delta k}{k}\equiv \frac{k'-k}{k}=-(\kappa+\gamma_{11})\sin^2\varphi-\gamma_{13}\sin\varphi\cos\varphi\nonumber\\
+&\Delta(\cos 2\varphi)=-\gamma_{13}\sin 2\varphi+\lbrace{\rm non-quadrupole}\rbrace.
 \end{align}
-and the shear only changes $\varphi$ by $-\gamma_{13}$, to first order.
 %The key to relating the shear effect to the magnetic fields is that the shear produces a similar precession of the quadrupole feature in the power spectrum of the brightness temperature. Since $P^S(\vec{k})=G^2({\bf{\widehat k}})P_\delta(k)$, the quadrupole feature can arise from both the transfer function and the lensed matter power spectrum. 
 
 For conciseness, we define the coefficient $\bar{x}_{\rm B}\equiv x_{\rm B}/{B}$, and introduce the following short notation
@@ -159,28 +158,25 @@ where the $\sin 2\varphi$ term represents a precession of the emission quadrupol
 \beq
 \bga
 G^{(\text{lens, 13})}=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2}\\
-\times \left[\mu_0+\mu_1(\cos 2\varphi+2\gamma_{13}\sin 2\varphi)\right].
+\times \left[\mu_0+\mu_1(\cos 2\varphi-\gamma_{13}\sin 2\varphi)\right].
 \ega
 \eeq
-In addition, it affects the magnitude $k$, such that
-\begin{equation}
-k'=k[1+2(\kappa+\gamma_{11})\sin^2\varphi+2\gamma_{13}\sin\varphi\cos\varphi].
-\end{equation}
-to first order. Assuming $P_\delta(k)\propto k^{n_{\rm eff}}$, due solely to the lensing--shear $13$ component (and no magnetic field), we get
+In addition, the change of the magnitude $k$ also affects the matter power spectrum. Assuming $P_\delta(k)\propto k^{n_{\rm eff}}$, due solely to the lensing--shear $13$ component (and no magnetic field), we get
 \beq
 \bga
 P^S(\vec{k}')=\left\vert G^{(\text{lens,
-13})} \times [1+2(\kappa+\gamma_{11})\sin^2\varphi\right.\\
-\left.+2\gamma_{13}\sin\varphi\cos\varphi]^{n_{\rm
+13})} \times [1-(\kappa+\gamma_{11})\sin^2\varphi\right.\\
+\left.-\gamma_{13}\sin\varphi\cos\varphi]^{n_{\rm
 eff}/2}\right\vert^2P_\delta(k)
 \equiv \vert G'^{(\text{lens})}({\bf{\widehat k}'})\vert^2P_{\delta}(k).
 \ega
 \eeq
-where $n_{\rm eff}$ is an effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.274$). Expanding $G'^{(\text{lens})}$, we find the $\sin 2\varphi$ term produced by the transverse lensing shear component, which mimics the precession effect due to the magnetic field, such that ${\mu_2}/{\mu_1}=\left[2+{n_{\rm eff}\mu_0}/({2}\mu_1)\right]\gamma_{13}$,
+where $n_{\rm eff}$ is an effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.274$). Expanding $G'^{(\text{lens})}$, we find the $\sin 2\varphi$ term produced by the transverse lensing shear component, which mimics the precession effect due to the magnetic field, such that ${\mu_2}/{\mu_1}=\left[1+{n_{\rm eff}\mu_0}/({4}\mu_1)\right]\gamma_{13}$,
 where we can solve for the spurious ``comoving magnetic field'',
 \beq
 \bga
-B^{(\text{lens, 13})}=\frac{10(1+x_{\alpha,(2)}+x_{c,(2)})^2(2\mu_1+\frac{n_{\rm eff}}{2}\mu_0)}{C\bar{x}_{\rm B}(1+z)^2}\gamma_{13}\nonumber\\
+B^{(\text{lens, 13})}=1.478\times 10^{-18}{\rm G}\ \left[1+\frac{n_{\rm eff}}{4}\right]x_{\rm 1s}^{-1}\left(\frac{T_\gamma}{T_s}\right)^{-1}\nonumber\\
+\times(1+x_{\alpha,(2)}+x_{c,(2)})^2\left(\frac{10}{1+z}\right)^{\frac{3}{2}}\gamma_{13}\nonumber\\
 \equiv\alpha\gamma_{13}.
 \ega
 \eeq
