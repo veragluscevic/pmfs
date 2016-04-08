@@ -172,6 +172,52 @@ def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
     
 
 @jit
+def arb_T_models(zmin=15,zmax=33, nzs=100,
+           fontsize=24,root=RESULTS_PATH,
+           filenames=['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__midFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__hiFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fesc-ok','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX5.0e+55_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__low-zetax'],
+           labels=['mid f*','hi f*','lo f*','fesc ok','lo zetax']):
+    """
+    """
+
+    if labels is None:
+        labels = np.arange(len(filenames))
+    Tks = {}
+    Tgs = {}
+    Tss = {}
+    Jlyas = {}
+    zs = {}
+    
+    for i,fn in enumerate(filenames):
+        file_21cmfast = np.loadtxt(INPUTS_PATH+fn)
+        Tks[labels[i]] = file_21cmfast[:,2][::-1]
+        Tgs[labels[i]] = file_21cmfast[:,5][::-1]
+        Tss[labels[i]] = file_21cmfast[:,4][::-1]
+        Jlyas[labels[i]] = file_21cmfast[:,6][::-1]
+        zs[labels[i]] = file_21cmfast[:,0][::-1]
+    
+
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel(r'$J_{Ly\alpha}$ [$cm^{-2} sec^{-1} Hz^{-1}sr^{-1}$]',fontsize=fontsize)
+    for l in labels:
+        ax.semilogy(zs[l],Jlyas[l],lw=4,label='{}'.format(l))
+    ax.set_xlim(xmin=zmin,xmax=zmax)
+    plt.legend(loc='lower left')
+
+
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel('Tspin [K]',fontsize=fontsize)
+    for l in labels:
+        plt.plot(zs[l],Tss[l],lw=4,label='{}'.format(l))
+    plt.legend(loc='upper left')
+    plt.xlim(xmin=zmin,xmax=zmax)
+    plt.ylim(ymax=100)
+
+        
+@jit
 def arb_xT(zmin=15,zmax=33, nzs=100,
            fontsize=24,root=RESULTS_PATH,
            filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__midFSTAR',
@@ -191,6 +237,24 @@ def arb_xT(zmin=15,zmax=33, nzs=100,
     zs_21cmfast = file_21cmfast[:,0][::-1]
     xH_21cmfast = file_21cmfast[:,1][::-1]
 
+
+    if filenames_uncertainty is not None:
+        file_21cmfast_lo = np.loadtxt(INPUTS_PATH+filenames_uncertainty[0])
+        Tks_21cmfast_lo  = file_21cmfast_lo [:,2][::-1]
+        Tgs_21cmfast_lo  = file_21cmfast_lo [:,5][::-1]
+        Tss_21cmfast_lo  = file_21cmfast_lo [:,4][::-1]
+        Jlyas_21cmfast_lo  = file_21cmfast_lo [:,6][::-1]
+        zs_21cmfast_lo  = file_21cmfast_lo [:,0][::-1]
+        xH_21cmfast_lo  = file_21cmfast_lo [:,1][::-1]
+        
+        file_21cmfast_hi = np.loadtxt(INPUTS_PATH+filenames_uncertainty[1])
+        Tks_21cmfast_hi  = file_21cmfast_hi [:,2][::-1]
+        Tgs_21cmfast_hi  = file_21cmfast_hi [:,5][::-1]
+        Tss_21cmfast_hi  = file_21cmfast_hi [:,4][::-1]
+        Jlyas_21cmfast_hi = file_21cmfast_hi[:,6][::-1]
+        zs_21cmfast_hi = file_21cmfast_hi[:,0][::-1]
+        xH_21cmfast_hi  = file_21cmfast_hi [:,1][::-1]
+
     # plot J_Lya 
     plt.figure()
     ax = plt.gca()
@@ -201,15 +265,8 @@ def arb_xT(zmin=15,zmax=33, nzs=100,
     
     # if uncertainty files given, plot band around Jlya
     if filenames_uncertainty is not None:
-        file_21cmfast_lo = np.loadtxt(INPUTS_PATH+filenames_uncertainty[0])
-        Jlyas_21cmfast_lo = file_21cmfast_lo[:,6][::-1]
-        zs_21cmfast_lo = file_21cmfast_lo[:,0][::-1]
-        
-        file_21cmfast_hi = np.loadtxt(INPUTS_PATH+filenames_uncertainty[1])
-        Jlyas_21cmfast_hi = file_21cmfast_hi[:,6][::-1]
-        zs_21cmfast_hi = file_21cmfast_hi[:,0][::-1]
-
-        ax.fill_between(zs_21cmfast_lo, Jlyas_21cmfast_lo, Jlyas_21cmfast_hi, 
+        maxind = min(len(Jlyas_21cmfast_lo),len(Jlyas_21cmfast_hi))-1
+        ax.fill_between(zs_21cmfast_lo[:maxind], Jlyas_21cmfast_lo[:maxind], Jlyas_21cmfast_hi[:maxind], 
                         facecolor='gray', interpolate=True, alpha=0.4, lw=0)
     plt.savefig(RESULTS_PATH+'Jlya{}.pdf'.format(label), 
                 bbox_extra_artists=[xlabel, ylabel], 
@@ -268,6 +325,10 @@ def arb_xT(zmin=15,zmax=33, nzs=100,
     plt.legend(fontsize=fontsize,frameon=False,loc='upper left')
     plt.xlim(xmin=zmin,xmax=zmax)
     plt.ylim(ymax=ymax_T)
+    if filenames_uncertainty is not None:
+        maxind = min(len(Tss_21cmfast_lo),len(Tss_21cmfast_hi))-1
+        ax.fill_between(zs_21cmfast_lo[:maxind], Tss_21cmfast_lo[:maxind], Tss_21cmfast_hi[:maxind], 
+                        facecolor='gray', interpolate=True, alpha=0.4, lw=0)
     plt.savefig(RESULTS_PATH+'Ts{}.pdf'.format(label), 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
