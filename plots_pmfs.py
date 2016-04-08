@@ -172,10 +172,10 @@ def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
     
 
 @jit
-def arb_T_models(zmin=15,zmax=33, nzs=100,
+def arb_reion_models(zmin=15,zmax=27, nzs=100,
            fontsize=24,root=RESULTS_PATH,
-           filenames=['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__midFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__hiFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fesc-ok','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX5.0e+55_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__low-zetax'],
-           labels=['mid f*','hi f*','lo f*','fesc ok','lo zetax']):
+           filenames=['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__midFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__hiFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fesc-ok','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX5.0e+55_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__low-zetax','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX2.0e+55_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc'],
+           labels=['mid f*','hi f*','lo f*','fesc ok','zetax 0.5', 'zetax 0.2']):
     """
     """
 
@@ -209,19 +209,42 @@ def arb_T_models(zmin=15,zmax=33, nzs=100,
     plt.figure()
     ax = plt.gca()
     xlabel = ax.set_xlabel('z',fontsize=fontsize)
-    ylabel = ax.set_ylabel('Tspin [K]',fontsize=fontsize)
+    ylabel = ax.set_ylabel(r'$T_S$ [K]',fontsize=fontsize)
     for l in labels:
         plt.plot(zs[l],Tss[l],lw=4,label='{}'.format(l))
-    plt.legend(loc='upper left')
+    plt.legend(loc='upper left',fontsize=fontsize)
     plt.xlim(xmin=zmin,xmax=zmax)
     plt.ylim(ymax=100)
 
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel(r'$T_K$ [K]',fontsize=fontsize)
+    for l in labels:
+        plt.plot(zs[l],Tks[l],lw=4,label='{}'.format(l))
+    plt.legend(loc='upper left',fontsize=fontsize)
+    plt.xlim(xmin=zmin,xmax=zmax)
+    plt.ylim(ymax=100)
+
+    plt.figure()
+    ax = plt.gca()
+    xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    ylabel = ax.set_ylabel(r'$x_c$',fontsize=fontsize)
+    for l in labels:
+        xc = []
+        for i,z in enumerate(zs[l]):
+            xc.append(rf.val_xc(z, Tk=Tks[l][i], Tg=Tgs[l][i]))
+        plt.semilogy(zs[l],xc,lw=4,label='{}'.format(l))
+    plt.legend(loc='lower right',fontsize=fontsize)
+    plt.xlim(xmin=zmin,xmax=zmax)
+    plt.ylim(ymin=1e-6)
+
         
 @jit
-def arb_xT(zmin=15,zmax=33, nzs=100,
+def arb_xT(zmin=15,zmax=30, nzs=100,
            fontsize=24,root=RESULTS_PATH,
-           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__midFSTAR',
-           filenames_uncertainty=['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__hiFSTAR'],
+           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fesc-ok',
+           filenames_uncertainty=['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.0074485','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.029794'],
            label='',B0=1e-22,
            ymax_T=100,ymin_x=1e-6):
     """Takes filenames_uncertainty as a list of 2 filenames, no root,
@@ -261,13 +284,13 @@ def arb_xT(zmin=15,zmax=33, nzs=100,
     xlabel = ax.set_xlabel('z',fontsize=fontsize)
     ylabel = ax.set_ylabel(r'$J_{Ly\alpha}$ [$cm^{-2} sec^{-1} Hz^{-1}sr^{-1}$]',fontsize=fontsize)
     ax.semilogy(zs_21cmfast,Jlyas_21cmfast,lw=4,color='Black')
-    ax.set_xlim(xmin=zmin,xmax=zmax)
     
     # if uncertainty files given, plot band around Jlya
     if filenames_uncertainty is not None:
         maxind = min(len(Jlyas_21cmfast_lo),len(Jlyas_21cmfast_hi))-1
         ax.fill_between(zs_21cmfast_lo[:maxind], Jlyas_21cmfast_lo[:maxind], Jlyas_21cmfast_hi[:maxind], 
                         facecolor='gray', interpolate=True, alpha=0.4, lw=0)
+    ax.set_xlim(xmin=zmin,xmax=27)
     plt.savefig(RESULTS_PATH+'Jlya{}.pdf'.format(label), 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
@@ -305,14 +328,14 @@ def arb_xT(zmin=15,zmax=33, nzs=100,
 
     
     # plot ionization history
-    plt.figure()
-    ax = plt.gca()
-    xlabel = ax.set_xlabel('z',fontsize=fontsize)
-    ylabel = ax.set_ylabel('$x_H$',fontsize=fontsize)
-    plt.plot(zs_21cmfast,xH_21cmfast,lw=4,color='red')
-    plt.savefig(RESULTS_PATH+'xion{}.pdf'.format(label), 
-                bbox_extra_artists=[xlabel, ylabel], 
-                bbox_inches='tight')
+    #plt.figure()
+    #ax = plt.gca()
+    #xlabel = ax.set_xlabel('z',fontsize=fontsize)
+    #ylabel = ax.set_ylabel('$x_H$',fontsize=fontsize)
+    #plt.plot(zs_21cmfast,xH_21cmfast,lw=4,color='red')
+    #plt.savefig(RESULTS_PATH+'xion{}.pdf'.format(label), 
+    #            bbox_extra_artists=[xlabel, ylabel], 
+    #            bbox_inches='tight')
 
     # plot T's
     plt.figure()
@@ -401,7 +424,7 @@ def vis_xT(zmin=15,zmax=35, nzs=100,
 
 
 def grid_DeltaL(modes=['B0','SI'],t_yr=1., 
-                folder='midFSTAR',
+                folder='fesc-ok',
                 folders_uncertainty=None,                
                 Omega=1.,
                 fontsize=24,
