@@ -121,83 +121,90 @@ In Figure \ref{fig:Pt}, we show the transverse power spectra for a range of $z$,
 \label{fig:Pt}
 \end{figure}
 
-Now that we have computed the transverse power spectrum $P_t$, we move on to evaluating the contamination it produces for the measurement of the magnetic field. We consider a configuration where the magnetic field is along the direction 2, ${\bf{\widehat k}}=(\sin\varphi,0,\cos\varphi)$, and the line of sight is along the direction 3, $\ {\bf{\widehat n}}=(0,0,1)$ in the three-dimensional Cartesian reference frame where $x$, $y$, and $z$ axes correspond to 1, 2, and 3, respectively; $\varphi$ is the angle between 3 and ${\bf{\widehat k}}$. Lensing distorts ${\bf{k}}$ into
-\begin{equation}
-{\bf{k}}'=[\mathcal{J}^{-1}]^{\rm T}\cdot{\bf{k}}=\left(\begin{array}{c}
-(1-\kappa-\gamma_{11})\sin\varphi\\
--\gamma_{12}\sin\varphi\\
--\gamma_{13}\sin\varphi+\cos\varphi
-\end{array}\right)k,
-\label{eq:distorted_kn}
-\end{equation}
-which changes both the direction and the magnitude of ${\bf{k}}$.
+Now that we have computed the transverse power spectrum $P_t$, we move on to evaluating the contamination it produces for the measurement of the magnetic field. Suppose ${\bf{\widehat k}}=(\sin\theta\cos\phi,\sin\theta\sin\phi,\cos\theta)^{\rm T}$, and the line of sight is along the direction 3, ${\bf{\widehat n}}=(0,0,1)^{\rm T}$ in the three-dimensional Cartesian reference frame where $x$, $y$, and $z$ axes correspond to 1, 2, and 3, respectively; $\theta$ is the angle between 3 and ${\bf{\widehat k}}$. Lensing distorts ${\bf{k}}$ into
 \begin{align}
-&\frac{\Delta k}{k}\equiv \frac{k'-k}{k}=-(\kappa+\gamma_{11})\sin^2\varphi-\gamma_{13}\sin\varphi\cos\varphi\nonumber\\
-&\Delta(\cos 2\varphi)=-\gamma_{13}\sin 2\varphi+\lbrace{\rm non-quadrupole}\rbrace.
+\label{eq:distorted_kn}
+{\bf{k}}'&=[\mathcal{J}^{-1}]^{\rm T}\cdot{\bf{k}}=\left(1-\frac{2\kappa}{3}\right){\bf{k}}+{\bm{\sigma}}\cdot{\bf{k}}+{\bf{\Omega}}\times{\bf{k}}~,\\
+\bm{\sigma}&=\left(\begin{array}{ccc}
+-\kappa/3-\gamma_{11} & -\gamma_{12} & -\gamma_{13}/2 \\
+-\gamma_{12} & -\kappa/3+\gamma_{11} & -\gamma_{23}/2 \\
+-\gamma_{23}/2 & -\gamma_{23}/2 & 2\kappa/3
+\end{array}\right)~,\nonumber\\
+\bm{\Omega}&=(-\gamma_{23}/2,\gamma_{13}/2,0)^{\rm T}~,\nonumber
 \end{align}
-%The key to relating the shear effect to the magnetic fields is that the shear produces a similar precession of the quadrupole feature in the power spectrum of the brightness temperature. Since $P^S(\vec{k})=G^2({\bf{\widehat k}})P_\delta(k)$, the quadrupole feature can arise from both the transfer function and the lensed matter power spectrum. 
-
-For conciseness, we define the coefficient $\bar{x}_{\rm B}\equiv x_{\rm B}/{B}$, and introduce the following short notation
-\beq
-\bga
-%A&\equiv\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2},\\
-C\equiv0.128 \ {\rm mK} \left( \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2},\\
-\mu_0\equiv 39.6-3C-\frac{C}{60}\frac{1}{1+x_{\alpha,(2)}+x_{c,(2)}},\\
-\mu_1\equiv 13.2-C-\frac{C}{20}\frac{1}{1+x_{\alpha,(2)}+x_{c,(2)}},\\
-\mu_2\equiv\frac{C}{10}\frac{x_B}{(1+x_{\alpha,(2)}+x_{c,(2)})^2}.
-\ega
-\eeq
-For the configuration we chose, the transfer function in the presence of a small magnetic field reads
-\beq
-\bga
-G^{(B)}=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2}\\
-\times(\mu_0+\mu_1\cos 2\varphi+\mu_2\sin 2\varphi),
-\ega
-\eeq
-where the $\sin 2\varphi$ term represents a precession of the emission quadrupole by a small angle $\epsilon$, in the sense that $\mu_1\cos 2\varphi+\mu_2\sin 2\varphi = \sqrt{\mu_1^2+\mu_2^2}\cos[2(\varphi+\epsilon)]$, where $2\epsilon\simeq\tan(2\epsilon)=-{\mu_2}/{\mu_1}$. Similarly, lensing also gives rise to $\sin 2\varphi$ term, such that
-\beq
-\bga
-G^{(\text{lens, 13})}=\left( 1 - \frac{T_\gamma}{T_{\rm s}} \right) x_{1{\rm s}} \left( \frac{1+z}{10} \right)^{1/2}\\
-\times \left[\mu_0+\mu_1(\cos 2\varphi-\gamma_{13}\sin 2\varphi)\right].
-\ega
-\eeq
-In addition, the change of the magnitude $k$ also affects the matter power spectrum. Assuming $P_\delta(k)\propto k^{n_{\rm eff}}$, due solely to the lensing--shear $13$ component (and no magnetic field), we get
-\beq
-\bga
-P^S(\vec{k}')=\left\vert G^{(\text{lens,
-13})} \times [1-(\kappa+\gamma_{11})\sin^2\varphi\right.\\
-\left.-\gamma_{13}\sin\varphi\cos\varphi]^{n_{\rm
-eff}/2}\right\vert^2P_\delta(k)
-\equiv \vert G'^{(\text{lens})}({\bf{\widehat k}'})\vert^2P_{\delta}(k).
-\ega
-\eeq
-where $n_{\rm eff}$ is an effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.274$). Expanding $G'^{(\text{lens})}$, we find the $\sin 2\varphi$ term produced by the transverse lensing shear component, which mimics the precession effect due to the magnetic field, such that ${\mu_2}/{\mu_1}=\left[1+{n_{\rm eff}\mu_0}/({4}\mu_1)\right]\gamma_{13}$,
-where we can solve for the spurious ``comoving magnetic field'',
-\beq
-\bga
-B^{(\text{lens, 13})}=1.478\times 10^{-18}{\rm G}\ \left[1+\frac{n_{\rm eff}}{4}\right]x_{\rm 1s}^{-1}\left(\frac{T_\gamma}{T_s}\right)^{-1}\\
-\times(1+x_{\alpha,(2)}+x_{c,(2)})^2\left(\frac{10}{1+z}\right)^{\frac{3}{2}}\gamma_{13}\\
-\equiv\alpha\gamma_{13}.
-\ega
-\eeq
-Finally, the lensing contamination to the magnetic--field reconstruction from $\gamma_{13}$ component is
+where the first term only changes the magnitude of ${\bf{k}}$, the third term only changes the direction of ${\bf{k}}$, while the second term contributes to both. To the first order, the magnitude is changed by
 \begin{equation}
-P^{(\text{lens, 13})}(\ell)=\left\vert\frac{\partial B^{(\text{lens, 13})}}{\partial\gamma_{13}}\right\vert^2 P_{\gamma_{13}}(\ell)=\alpha^2 P_{\gamma_{13}}(\ell),
+\frac{k'-k}{k}=-\frac{2\kappa}{3}+\hat{\bf{k}}\cdot\bm{\sigma}\cdot\hat{\bf{k}}~.
 \end{equation}
-while the total power spectrum gets an average value, i.e.~the half maximum,
+For conciseness, we define
+\begin{equation}
+C\equiv 26.4\ {\rm mK}\ \left(1-\frac{T_\gamma}{T_{\rm s,0}}\right)x_{\rm 1s,0}\left(\frac{1+z}{10}\right)^{1/2},
+\end{equation}
+then the $\mathcal{O}$(optical depth) solution to brightness temperature is given by
+\begin{equation}
+\delta\tilde{T}_{\rm b}({\bf{k}},\widehat{\bf{n}})=C \tilde{\delta}({\bf{k}})\left(1+(\widehat{\bf{k}}\cdot\widehat{\bf{n}})^2\right).
+\end{equation}
+From Eq. (\ref{eq:distorted_kn}), in the presence of lensing, this quantity becomes
 \beq
-P_B^{\rm lens}(\ell)=\frac{\alpha^2}{2} P_t(\ell),
+\bga
+\delta\tilde{T}_{\rm b,lensed}({\bf{k}},\widehat{\bf{n}})=\frac{1}{\det(\mathcal{J})}\delta\tilde{T}_{\rm b}\left({\bf{k}}'\right) \simeq \\
+\delta\tilde{T}_{\rm b,unlensed}({\bf{k}},\widehat{\bf{n}})(1-2\kappa) +C\left\lbrace \tilde{\delta}({\bf{k}})2(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})\left[\widehat{{\bf{n}}}\cdot\bm{\sigma}\cdot\widehat{{\bf{k}}}\right.\right. \\
+\left.\left.-(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})(\widehat{\bf{k}}\cdot\bm{\sigma}\cdot\widehat{{\bf{k}}})+(\bm{\Omega}\times\widehat{{\bf{k}}})\cdot\widehat{{\bf{n}}}\right]\right.\\
+\left.+\left(-\frac{2\kappa}{3}{\bf{k}}+\bm{\sigma}\cdot{\bf{k}}
++\bm{\Omega}\times{\bf{k}}\right)\cdot\bm{\nabla}_{\bf{k}}\tilde{\delta}({\bf{k}})\left[1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right]\right\rbrace
+\ega
 \eeq
+The observable is the two-point correlation function of this brightness temperature, which, with all terms up to first order in the lensing potential included, is given by
+\beq
+\bga
+P_{T_{\rm b}}({\bf{k}})=C^2 P_{\delta}(k)\left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right) \times\\
+\left\lbrace \left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right) \left[1-2\kappa\left(1+\frac{n_{\rm eff}(k)}{3}\right)+n_{\rm eff}(k)(\widehat{\bf{k}}\cdot\bm{\sigma}\cdot\widehat{{\bf{k}}})\right]\right.\\
+\left. + 4(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})\left(\left[\widehat{\bf{n}}-(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})\widehat{\bf{k}}\right]\cdot\bm{\sigma}\cdot\widehat{\bf{k}}+(\bm{\Omega}\times\widehat{\bf{k}})\cdot\widehat{\bf{n}}\right)\right\rbrace,
+\label{eq:Tb_power}
+\ega
+\eeq
+where $n_{\rm eff}(k)\equiv d\ln P(k)/d\ln k$ is the effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.15$).
+
+From Eq. (137) of \cite{2014arXiv1410.2250V}, we obtain the power spectrum in the precence of the magnetic field
+\beq
+\bga
+P_{T_{{\rm b},{\bf{B}}}}({\bf{k}})=C^2 P_{\delta}(k)\left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right) \times\\
+\left\lbrace \left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right) + 1.353\times 10^{16}\left(\frac{1+z}{10}\right)^{-1/2}\right. \\
+\left.\times \frac{T_{\gamma}}{T_{\rm s,0}}\frac{x_{\rm 1s,0}}{(1+x_{\alpha,(2)}+x_{c,(2)})^2}\left[{\bf{B}}_{\rm G}\cdot(\widehat{\bf{k}}\times\widehat{{\bf{n}}})\right](\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})\right\rbrace,
+\label{eq:Tbmag_power}
+\ega
+\eeq
+where ${\bf{B}}_{\rm G}$ is the physical magnetic field in units of Gauss. Suppose the magnetic field is on the $1-2$ plane, ${\bf{B}}=(B_x,B_y,0)$ and define $B_{\pm}=\mp(1/\sqrt{2})(B_x\pm iB_y)$, the last term in the last set of braces in Eq. (\ref{eq:Tbmag_power}) has the following angular dependence
+\beq
+\bga
+\left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right)\left[{\bf{B}}\cdot(\widehat{\bf{k}}\times\widehat{{\bf{n}}})\right](\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})\\
+=\frac{4i}{7}\sqrt{\frac{\pi}{15}}\left[B_-\left(5Y_{21}(\theta,\phi)+\sqrt{\frac{2}{3}}Y_{41}(\theta,\phi)\right)\right.\\
+\left. -B_{+}\left(5Y_{2-1}(\theta,\phi)+\sqrt{\frac{2}{3}}Y_{4-1}(\theta,\phi)\right)\right]
+\ega
+\eeq
+Hence the terms that mimic some arbitrary magnetic field in the lensing case are those that produce $Y_{2\pm 1}$ and $Y_{4\pm 1}$ spherical harmonics in the observed brightness temperature power spectrum. The spherical harmonic decompositions of the terms involving $(\widehat{\bf{k}}\cdot\bm{\sigma}\cdot\widehat{{\bf{k}}})$, $(\widehat{\bf{n}}\cdot\bm{\sigma}\cdot\widehat{{\bf{k}}})$, and $(\bm{\Omega}\cdot\widehat{\bf{k}})\times\widehat{\bf{n}}$ in Eq. (\ref{eq:Tb_power}) have parts that are not symmetric around $\widehat{\bf{n}}$, such as $Y_{2\pm 1}$,  $Y_{4\pm 1}$ and  $Y_{6\pm 1}$ terms. Since the $Y_{2\pm 1}$ harmonics of the brightness temperature power spectrum represent the lowest order of the asymmetry, we only use them to study magnetic fields for now. Matching all the contributions, the "equivalent comoving magnetic field" due to lensing is
+\beq
+\bga
+{\bf{B}}^{(\rm lens)}=1.577\times 10^{-18}{\rm G}\ x_{\rm 1s,0}^{-1}\left(\frac{T_{\gamma}}{T_s}\right)^{-1}\left(\frac{10}{1+z}\right)^{3/2}\\
+\times(1+x_{\alpha,(2)}+x_{c,(2)})^2\left(1+\frac{11}{16}n_{\rm eff}(k)\right)(-\gamma_{23},\gamma_{13},0)^{\rm T}\\
+\equiv\alpha(-\gamma_{23},\gamma_{13},0)^{\rm T}~.
+\ega
+\eeq
+
+Finally, the lensing contamination to the magnetic--field reconstruction is
+\begin{equation}
+P_B^{(\text{lens})}(\ell)=P^{(\text{lens})}_{B_x}+P^{(\text{lens})}_{B_y}=\alpha^2 (P_{\gamma_{13}}+P_{\gamma_{23}})=\alpha^2 P_t(\ell),
+\end{equation}
 and the root--mean--square (rms) of the total contamination is
 \beq
-\Delta^{(\text{lens})}(\ell)=\sqrt{\frac{\ell(\ell+1)}{2\pi}P^{(\text{lens})}(\ell)}.
+\Delta_B^{(\text{lens})}(\ell)=\sqrt{\frac{\ell(\ell+1)}{2\pi}P_B^{(\text{lens})}(\ell)}.
 \eeq
 %Note that we only consider magnetic--field components perpendicular to the line of sight, where the shear contamination is maximized.  
 We show numerical results for the rms contamination in Figure \ref{fig:lensing_B}, calculated with and without the de--lensing procedure (using CMB lensing measurements), with little difference found between the two cases. Comparing this result to Figure \ref{fig:Bsat}, we can see that the contamination due to lensing shear remains below the projected sensitivities even for the case of futuristic array sizes.
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{delensingB.pdf}
-\caption{Shown is the $1\sigma$ lensing--shear contamination to the measurement of the magnetic field, usind the method discussed in this work. Contamination before (solid red line) and after (dashed blue line) the de--lensing procedure, is presented as a function of redshift. Saturation ceiling is denoted by the shaded region above the thin dashed line. Comparison with Figure \ref{fig:Bsat} reveals that lensing is below the projected sensitivity for all array sizes considered in this work.}
+\caption{Shown is the $1\sigma$ lensing--shear contamination to the measurement of the magnetic field, using the method discussed in this work. Contamination before (solid red line) and after (dashed blue line) the de--lensing procedure, is presented as a function of redshift. Saturation ceiling is denoted by the shaded region above the thin dashed line. Comparison with Figure \ref{fig:Bsat} reveals that lensing is below the projected sensitivity for all array sizes considered in this work.}
 \label{fig:lensing_B}
 \end{figure}
 %Finally, note that a survey of size $\Omega_{\rm survey}=1{\rm sr}$ corresponds to the scale of $\ell\sim6$, while the scale of the relevant matter fluctuations is determined by the resolution of the experiment from $k\sim \frac{2\pi L}{\lambda_0(1+z)D}\sim 1$, which corresponds to $n_{\rm eff}\sim -2.274$ in our case.
