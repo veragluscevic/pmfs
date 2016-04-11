@@ -158,12 +158,12 @@ The observable is the two-point correlation function of this brightness temperat
 \beq
 \bga
 P_{T_{\rm b}}({\bf{k}})=C^2 P_{\delta}(k)\left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right) \times\\
-\left\lbrace \left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right) \left[1-2\kappa\left(1+\frac{n_{\rm eff}(k)}{3}\right)+n_{\rm eff}(k)(\widehat{\bf{k}}\cdot\bm{\sigma}\cdot\widehat{{\bf{k}}})\right]\right.\\
+\left\lbrace \left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right) \left[1-2\kappa\left(1+\frac{n_{\rm eff}}{3}\right)+n_{\rm eff}(\widehat{\bf{k}}\cdot\bm{\sigma}\cdot\widehat{{\bf{k}}})\right]\right.\\
 \left. + 4(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})\left(\left[\widehat{\bf{n}}-(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})\widehat{\bf{k}}\right]\cdot\bm{\sigma}\cdot\widehat{\bf{k}}+(\bm{\Omega}\times\widehat{\bf{k}})\cdot\widehat{\bf{n}}\right)\right\rbrace,
 \label{eq:Tb_power}
 \ega
 \eeq
-where $n_{\rm eff}(k)\equiv d\ln P(k)/d\ln k$ is the effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.15$).
+where $n_{\rm eff}(k,z)\equiv \partial\ln P(k,z)/\partial\ln k$ is the effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.15$).
 
 From Eq. (137) of \cite{2014arXiv1410.2250V}, we obtain the power spectrum in the precence of the magnetic field
 \beq
@@ -186,7 +186,7 @@ Hence the terms that mimic some arbitrary magnetic field in the lensing case are
 \beq
 \bga
 {\bf{B}}^{(\rm lens)}=1.577\times 10^{-18}{\rm G}\ x_{\rm 1s,0}^{-1}\left(\frac{T_{\gamma}}{T_s}\right)^{-1}\left(\frac{10}{1+z}\right)^{3/2}\\
-\times(1+x_{\alpha,(2)}+x_{c,(2)})^2\left(1+\frac{11}{16}n_{\rm eff}(k)\right)(-\gamma_{23},\gamma_{13},0)^{\rm T}\\
+\times(1+x_{\alpha,(2)}+x_{c,(2)})^2\left(1+\frac{11}{16}n_{\rm eff}(k,z)\right)(-\gamma_{23},\gamma_{13},0)^{\rm T}\\
 \equiv\alpha(-\gamma_{23},\gamma_{13},0)^{\rm T}~.
 \ega
 \eeq
@@ -199,7 +199,8 @@ and the root--mean--square (rms) of the total contamination is
 \beq
 \Delta_B^{(\text{lens})}(\ell)=\sqrt{\frac{\ell(\ell+1)}{2\pi}P_B^{(\text{lens})}(\ell)}.
 \eeq
-%Note that we only consider magnetic--field components perpendicular to the line of sight, where the shear contamination is maximized.  
+A survey of size $\Omega_{\rm survey}=1{\rm sr}$ corresponds to the largest scale of $\ell\sim 6$, which relates to the lensing potential fluctuations of comoving scale $k_\Phi=\ell/D(z)\sim 5\times 10^{-4}{\rm Mpc}^{-1}$ at redshift $z\sim 20$. We choose this $\ell$ since it determines the average variance of transverse shear power spectrum in the survey region. This scale is much larger than the scale of matter density fluctuations ($k_\delta\sim 1$) that contribute to the signals, so that our weak lensing approximation is valid.
+
 We show numerical results for the rms contamination in Figure \ref{fig:lensing_B}, calculated with and without the de--lensing procedure (using CMB lensing measurements), with little difference found between the two cases. Comparing this result to Figure \ref{fig:Bsat}, we can see that the contamination due to lensing shear remains below the projected sensitivities even for the case of futuristic array sizes.
 \begin{figure}[h]
 \centering
@@ -207,5 +208,5 @@ We show numerical results for the rms contamination in Figure \ref{fig:lensing_B
 \caption{Shown is the $1\sigma$ lensing--shear contamination to the measurement of the magnetic field, using the method discussed in this work. Contamination before (solid red line) and after (dashed blue line) the de--lensing procedure, is presented as a function of redshift. Saturation ceiling is denoted by the shaded region above the thin dashed line. Comparison with Figure \ref{fig:Bsat} reveals that lensing is below the projected sensitivity for all array sizes considered in this work.}
 \label{fig:lensing_B}
 \end{figure}
-%Finally, note that a survey of size $\Omega_{\rm survey}=1{\rm sr}$ corresponds to the scale of $\ell\sim6$, while the scale of the relevant matter fluctuations is determined by the resolution of the experiment from $k\sim \frac{2\pi L}{\lambda_0(1+z)D}\sim 1$, which corresponds to $n_{\rm eff}\sim -2.274$ in our case.
+%Note that the scale of the relevant matter fluctuations is determined by the resolution of the experiment from $k\sim \frac{2\pi L}{\lambda_0(1+z)D}\sim 1$, which corresponds to $n_{\rm eff}\sim -2.274$ in our case.
 
