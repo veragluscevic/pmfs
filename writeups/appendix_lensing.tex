@@ -1,11 +1,11 @@
 \section{Contamination from Lensing}
 
-We now consider gravitational lensing of the 21--cm signal by the large scale structure, as a source of noise in searches for magnetic fields using the method proposed in this work. We first compute the transverse shear power spectrum and then evaluate the bias it produces for the magnetic--field estimator. We demonstrate that this bias can be expected to be negligible, even for arrays with very futuristic collecting areas of $\sim 100$ km$^2$.
+We now consider weak gravitational lensing of the 21--cm signal by the large scale structure, as a source of noise in searches for magnetic fields using the method proposed in this work. We first compute the transverse shear power spectrum and then evaluate the noise bias it produces for the magnetic--field estimator. We demonstrate that this bias can be expected to be negligible, even for arrays with futuristic collecting areas of tens of squared kilometers.
 
-To follow standard lensing notation, we no longer label cartesian coordinate axes with $x$, $y$, and $z$, but rather with numbers, using the convention where directions $1$ and $2$ lie in the plane of the sky, while $3$ lies along the line of sight. Specifically, we use angular coordinates $(\theta_1, \theta_2)$ to denote direction in the sky ${\bf{\widehat n}}$, and $\theta_3$ to denote a comoving interval $r_z/\chi(z)$ along the line of sight, located at redshift $z$, and corresponding to $\Delta z$ interval. As before, we denote variables in Fourier space with tilde, and use $\vec{\ell}\equiv(\ell_1,\ell_2)$ for a conjugate variable of ${\bf{\widehat n}}$. 
+To follow standard lensing notation, we no longer label cartesian coordinate axes with $x$, $y$, and $z$, but rather with numbers, using the convention where directions $1$ and $2$ lie in the plane of the sky, while $3$ lies along the line of sight. Specifically, we use angular coordinates $(\theta_1, \theta_2)$ to denote direction in the sky ${\bf{\widehat n}}$, and $\theta_3$ to denote a comoving interval $r_z/\chi(z)$ along the line of sight, located at redshift $z$, and corresponding to $\Delta z$ interval. As before, we denote variables in Fourier space with tilde. We use $\vec{\ell}\equiv(\ell_1,\ell_2)$ for a conjugate variable of ${\bf{\widehat n}}$. 
  
 We start by generalizing the formalism for two--dimensional weak lensing \cite{Weinberg201387} to the three--dimensional case.
-In the presence of lensing, coordinate $\theta_i^S$, where $i\in\{1,2,3\}$, maps onto the observed coordinate $\theta_i$ as follows \begin{equation}
+In the presence of lensing, a source coordinate $\theta_i^S$, where $i\in\{1,2,3\}$, maps onto the observed coordinate $\theta_i$ as follows \begin{equation}
 \theta_k^S=\theta_k+\frac{\partial\psi}{\partial\theta_k},\ k=1,2,\ \ \ \theta_3^S=\theta_3
 \label{eq:lensingmapping}
 \end{equation}
@@ -156,9 +156,9 @@ P_{T_{\rm b}}({\bf{k}})=C^2 P_{\delta}(k)\left(1+(\widehat{\bf{k}}\cdot\widehat{
 \label{eq:Tb_power}
 \ega
 \eeq
-where $n_{\rm eff}(k,z)\equiv \partial\ln P(k,z)/\partial\ln k$ is the effective spectral index (which is a function of the range of $k$ and redshift of interest; in our case, $n_{\rm eff}\sim -2.15$).
+where $n_{\rm eff}(k,z)\equiv \partial\ln P(k,z)/\partial\ln k$ is the ``effective spectral index'' (whose values is a function of the range of $k$ modes accessible to the observation; in our case, $n_{\rm eff}\sim -2.15$).
 
-From Eq. (137) of \cite{2014arXiv1410.2250V}, we obtain the power spectrum in the precence of the magnetic field
+From Eq.~(\ref{eq:tbsoln}), we can obtain the power spectrum in the precence of the magnetic field as
 \beq
 \bga
 P_{T_{{\rm b},{\bf{B}}}}({\bf{k}})=C^2 P_{\delta}(k)\left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right) \times\\
@@ -201,5 +201,3 @@ We show numerical results for the rms contamination in Fig.~\ref{fig:lensing_B},
 \caption{Shown is the $1\sigma$ lensing--shear contamination to the measurement of the magnetic field, using the method discussed in this work. Contamination before (solid red line) and after (dashed blue line) the de--lensing procedure, is presented as a function of redshift. Saturation ceiling is denoted by the shaded region above the thin dashed line. Comparison with Fig.~\ref{fig:Bsat} reveals that lensing is below the projected sensitivity for all array sizes considered in this work.}
 \label{fig:lensing_B}
 \end{figure}
-%Note that the scale of the relevant matter fluctuations is determined by the resolution of the experiment from $k\sim \frac{2\pi L}{\lambda_0(1+z)D}\sim 1$, which corresponds to $n_{\rm eff}\sim -2.274$ in our case.
-
