@@ -25,7 +25,7 @@ where $\psi$ is the lensing potential. The full Jacobian of this coordinate tran
 \ega
 \label{eq:lensingtsf}
 \eeq
-where $i,j\in\{1,2,3\}$. In the above Equation, $\kappa$ and $\gamma$ components represent the components of magnification and shear, respectively. Two--dimensional Fourier transform of the lensing potential is
+where $i,j\in\{1,2,3\}$, and the commas stand for partial derivatives with respect to the cooresponding coordinates, as usual. In the above Equation, $\kappa$ and $\gamma$ components represent the components of magnification and shear, respectively. Two--dimensional Fourier transform of the lensing potential is
 \begin{equation}
 \widetilde{\psi}(\vec{\ell},z)\equiv\int\psi({\bf\widehat{n}},z)e^{-i\vec{\ell}\cdot{\bf{\widehat n}}}\ d\theta_1 d\theta_2,
 \label{eq:potentialFourier}
@@ -115,6 +115,7 @@ P_t(\ell,z,z')\equiv P_{13}+P_{23}\\
 If $z=z'$, the above expression simplifies to
 \beq
 P_t(\ell,z)=\frac{4\ell^2}{\chi(z)^2}\int_0^{\chi(z)}d\chi_1P_{\Phi}(\ell).
+\label{eq:Pt}
 \eeq
 
 Now that we have computed the transverse power spectrum, we move on to evaluating the contamination it produces for the measurement of the magnetic field. Denoting a vector transpose with ``T'', let us set ${\bf{\widehat k}}=(\sin\theta\cos\phi,\sin\theta\sin\phi,\cos\theta)^{\rm T}$, and the line of sight along the direction 3, ${\bf{\widehat n}}=(0,0,1)^{\rm T}$ in the three--dimensional Cartesian reference frame where $x$, $y$, and $z$ axes correspond to 1, 2, and 3, respectively; $\theta$ is the angle between the direction 3 and ${\bf{\widehat k}}$. Lensing distorts ${\vec{k}}$ into
@@ -146,10 +147,10 @@ and use Eqs.~(\ref{eq:distorted_kn}) and (\ref{eq:tbsoln}) to arrive at the expr
 =T\left(\widehat{\bf{n}},{\vec{k}}\right)(1-2\kappa) +C\left\lbrace {\delta}({\vec{k}})2(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})\left[\widehat{{\bf{n}}}\cdot\bm{\sigma}\cdot\widehat{{\bf{k}}}\right.\right. \\
 \left.\left.-(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})(\widehat{\bf{k}}\cdot\bm{\sigma}\cdot\widehat{{\bf{k}}})+(\bm{\Omega}\times\widehat{{\bf{k}}})\cdot\widehat{{\bf{n}}}\right]\right.\\
 \left.+\left(-\frac{2\kappa}{3}{\vec{k}}+\bm{\sigma}\cdot{\vec{k}}
-+\bm{\Omega}\times{\vec{k}}\right)\cdot\bm{\nabla}_{\vec{k}}{\delta}({\vec{k}})\left[1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right]\right\rbrace
++\bm{\Omega}\times{\vec{k}}\right)\cdot\bm{\nabla}_{\vec{k}}{\delta}({\vec{k}})\left[1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right]\right\rbrace,
 \ega
 \eeq
-The ``signal'' power spectrum of the lensed brightness temperature is then given by
+where $\det(\mathcal{J})$ corresponds to the determinant of $\mathcal{J}$. The ``signal'' power spectrum of the lensed brightness temperature is then given by
 \beq
 \bga
 P_{\rm lensing}^S({\vec{k}})=C^2 P_{\delta}(k)\left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}}})^2\right) \\
@@ -175,29 +176,30 @@ P_B^S({\vec{k}})=C^2 P_{\delta}(k)\left(1+(\widehat{\bf{k}}\cdot\widehat{{\bf{n}
 \label{eq:Tbmag_power}
 \ega
 \eeq
-where ${\vec{B}}$ is given in units of Gauss. If we take a magnetic field in the $(1,2)$ plane, such that ${\vec{B}}=(B_x,B_y,0)$, and consider only the contribution from $Y_{2\pm 1}$ harmonics, we can match Eqs.~(\ref{Tb_power}) and (\ref{eq:Tbmag_power}) to get the lensing--induced spurious magnetic field as
+where ${\vec{B}}$ is given in units of Gauss. Let us now consider a magnetic field in the $(1,2)$ plane, such that ${\vec{B}}=(B_x,B_y,0)$; the results will be valid for any field orientation. If we expand the vector--product terms of both Eq.~(\ref{eq:Tb_power}) and Eq.~(\ref{eq:Tbmag_power}), and consider only $Y_{2\pm 1}$ harmonics (that make a dominant contribution to the induced brightness--temperature anisotropy; contribution from the higher--order harmonics is subdominant), we can match the coefficient of Eqs.~(\ref{eq:Tb_power}) that corresponds to the magnetic field in Eq.~(\ref{eq:Tbmag_power}). With this procedure, we arrive at the expression for the lensing--induced spurious magnetic field,
 \beq
 \bga
-{\vec{B}}^{(\rm lens)}=1.577\times 10^{-18}{\rm G}\ x_{\rm 1s,0}^{-1}\left(\frac{T_{\gamma}}{T_s}\right)^{-1}\left(\frac{10}{1+z}\right)^{3/2}\\
-\times(1+x_{\alpha,(2)}+x_{c,(2)})^2\left(1+\frac{11}{16}\partial\ln P_\delta(k)/\partial\ln k\right)(-\gamma_{23},\gamma_{13},0)^{\rm T}\\
-\equiv\alpha(-\gamma_{23},\gamma_{13},0)^{\rm T}~.
+{\vec{B}}_{\rm (lens)}=1.577\times 10^{-18}{\left[\rm Gauss\right]}\ \times \frac{1}{x_{\rm 1s}}\left(\frac{T_s}{T_{\gamma}}\right)\left(\frac{1+z}{10}\right)^{-3/2}\\
+\times(1+x_{\alpha,(2)}+x_{c,(2)})^2\left(1+\frac{11}{16}\frac{\partial\ln P_\delta(k)}{\partial\ln k}\right)\\
+\times(-\gamma_{23},\gamma_{13},0)^{\rm T}
+\equiv\alpha(-\gamma_{23},\gamma_{13},0)^{\rm T}.
+\label{eq:alpha_def}
 \ega
 \eeq
-
-Finally, the lensing contamination to the magnetic--field reconstruction is
-\begin{equation}
-P_B^{(\text{lens})}(\ell)=P^{(\text{lens})}_{B_x}+P^{(\text{lens})}_{B_y}=\alpha^2 (P_{\gamma_{13}}+P_{\gamma_{23}})=\alpha^2 P_t(\ell),
-\end{equation}
-and the root--mean--square (rms) of the total contamination is
+The lensing noise bias for magnetic--field reconstruction reads
 \beq
-\Delta_B^{(\text{lens})}(\ell)=\sqrt{\frac{\ell(\ell+1)}{2\pi}P_B^{(\text{lens})}(\ell)}.
+P_{(\text{lens})}^{\rm noise}(\ell)=P_{(\text{lens})}^{\rm noise, B_x}+P_{(\text{lens})}^{\rm noise, B_y}=\alpha^2 P_t(\ell),
 \eeq
-A survey of size $\Omega_{\rm survey}=1{\rm sr}$ corresponds to the largest scale of $\ell\sim 6$, which relates to the lensing potential fluctuations of comoving scale $k_\Phi=\ell/D(z)\sim 5\times 10^{-4}{\rm Mpc}^{-1}$ at redshift $z\sim 20$. We choose this $\ell$ since it determines the average variance of transverse shear power spectrum in the survey region. This scale is much larger than the scale of matter density fluctuations ($k_\delta\sim 1$) that contribute to the signals, so that our weak lensing approximation is valid.
+where $\alpha$ is given by Eq.~(\ref{eq:alpha_def}) and $P_t(\ell)$ is given by Eq.~(\ref{eq:Pt}). Finally, the root--mean--square of the contamination is given by
+\beq
+\Delta_{(\text{lens})}(\ell)=\sqrt{\frac{\ell(\ell+1)}{2\pi}P_{(\text{lens})}^{\rm noise}(\ell)}.
+\label{eq:delta_lens}
+\eeq
 
-We show numerical results for the rms contamination in Fig.~\ref{fig:lensing_B}, calculated with and without the de--lensing procedure (using CMB lensing measurements), with little difference found between the two cases. Comparing this result to Fig.~\ref{fig:Bsat}, we can see that the contamination due to lensing shear remains below the projected sensitivities even for the case of futuristic array sizes.
+A survey size $\Omega_{\rm survey}=1{\rm sr}$ corresponds to $\ell\sim 6$, which relates to the lensing--potential fluctuations on comoving scale $\ell/D(z)\sim 5\times 10^{-4}{\rm Mpc}^{-1}$ at $z\sim 20$; we evaluate the contamination of Eq.~(\ref{eq:delta_lens}) at this multipole, which should have a dominant contribution to the noise bias for a survey of that size.\footnote{Note that the derivations shown in this Appendix holds only if the scale of matter--fluctuations that contribute most to the lensing contamination are much larger than than those that contribute most signal--to--noise for magnetic--field measurements, which is indeed the case here.} The results are shown in Fig.~\ref{fig:lensing_B}. Comparing this Figure to Fig.~\ref{fig:Bsat}, we see that the contamination due to lensing shear remains below the projected sensitivities even for the case of futuristic array sizes. It may further be possible to distinguish lensing contribution from that from magnetic fields using the shape of the inferred spectrum of their fluctuations; however, these detailed considerations are beyond the scope of the current work.
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{delensingB.pdf}
-\caption{Shown is the $1\sigma$ lensing--shear contamination to the measurement of the magnetic field, using the method discussed in this work. Contamination before (solid red line) and after (dashed blue line) the de--lensing procedure, is presented as a function of redshift. Saturation ceiling is denoted by the shaded region above the thin dashed line. Comparison with Fig.~\ref{fig:Bsat} reveals that lensing is below the projected sensitivity for all array sizes considered in this work.}
+\caption{Shown is the lensing--shear noise bias for the measurement of the magnetic field, using the method discussed in this work. Contamination before (solid red line) and after (dashed blue line) a de--lensing procedure is applied, is presented as a function of redshift. Saturation ceiling is denoted by the shaded region above the thin dashed line. Comparison with Fig.~\ref{fig:Bsat} reveals that lensing noise is below the projected sensitivity even for futuristic array sizes.}
 \label{fig:lensing_B}
 \end{figure}
