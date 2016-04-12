@@ -348,10 +348,10 @@ def arb_xT(zmin=15,zmax=30, nzs=100,
     plt.legend(fontsize=fontsize,frameon=False,loc='upper left')
     plt.xlim(xmin=zmin,xmax=zmax)
     plt.ylim(ymax=ymax_T)
-    if filenames_uncertainty is not None:
-        maxind = min(len(Tss_21cmfast_lo),len(Tss_21cmfast_hi))-1
-        ax.fill_between(zs_21cmfast_lo[:maxind], Tss_21cmfast_lo[:maxind], Tss_21cmfast_hi[:maxind], 
-                        facecolor='gray', interpolate=True, alpha=0.4, lw=0)
+    #if filenames_uncertainty is not None:
+    #    maxind = min(len(Tss_21cmfast_lo),len(Tss_21cmfast_hi))-1
+    #    ax.fill_between(zs_21cmfast_lo[:maxind], Tss_21cmfast_lo[:maxind], Tss_21cmfast_hi[:maxind], 
+    #                    facecolor='gray', interpolate=True, alpha=0.4, lw=0)
     plt.savefig(RESULTS_PATH+'Ts{}.pdf'.format(label), 
                 bbox_extra_artists=[xlabel, ylabel], 
                 bbox_inches='tight')
