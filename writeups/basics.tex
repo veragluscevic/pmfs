@@ -124,17 +124,18 @@ v = u_\perp \sin\phi_k,
 \ega
 \label{eq:k_uv}
 \eeq
-where subscript $\perp$ denotes components perpendicular to the line-of-sight direction ${\bf{\widehat n}}$, which, in this case, is along the $z$ axis. From this, the corresponding number of baselines observing a given $\vec k$ is
+where subscript $\perp$ denotes components perpendicular to the line--of--sight direction ${\bf{\widehat n}}$, which, in this case, is along the $z$ axis. From this, the corresponding number of baselines observing a given $\vec k$ is
 \beq
 \bga
 n_\text{base}(\vec k) = (\frac{\Delta L}{\lambda} - \frac{\chi(z)}{2\pi}k\sin\theta_k\cos\phi_k)\\\times (\frac{\Delta L}{\lambda} - \frac{\chi(z)}{2\pi}k\sin\theta_k\sin\phi_k).
 \ega
 \label{eq:nk_fftt}
 \eeq
-As a last note, when computing numerical results in \S\ref{sec:results}, we substitute $\phi_k$-averaged version of this quantity (between $0$ and $\pi/2$ only, due to the four-fold symmetry of the experimental setup of a square of dipoles) when computing the noise power, in order to account for the rotation of the baselines with respect to the modes. This average number density reads
+As a last note, when computing numerical results in \S\ref{sec:results}, we substitute $\phi_k$--averaged version of this quantity (between $0$ and $\pi/2$ only, due to the four--fold symmetry of the experimental setup of a square of dipoles) when computing the noise power, in order to account for the rotation of the baselines with respect to the modes. This average number density reads
 \beq
 \bga
-\langle n_\text{base}(\vec k) \rangle_{\phi_k}= \left(\frac{\Delta L}{\lambda}\right)^2 -\frac{4}{\pi}\frac{\Delta L}{\lambda}\frac{\chi(z)}{2\pi}k\sin\theta_k \\+ \left(\frac{\chi(z)}{2\pi}k\sin\theta_k\right)^2.
+\langle n_\text{base}(\vec k) \rangle_{\phi_k}= \left(\frac{\Delta L}{\lambda}\right)^2 -\frac{4}{\pi}\frac{\Delta L}{\lambda}\frac{\chi(z)}{2\pi}k\sin\theta_k \\+ \frac{1}{\pi}\left(\frac{\chi(z)}{2\pi}k\sin\theta_k\right)^2,
 \ega
 \label{eq:nk_fftt_mean}
 \eeq
+assuming a given mode $k$ is observable by the array, such that its value is between $2\pi L_\text{min}/(\lambda(z)\chi(z)\sin\theta_k)$ and $2\pi L_\text{max}/(\lambda(z)\chi(z)\sin\theta_k)$, where $L_\text{min}$ and $L_\text{max}$ are the maximum and minimum baseline, respectively. If this condition is not satisfied, $\langle n_\text{base}(\vec k) \rangle_{\phi_k}=0$.
