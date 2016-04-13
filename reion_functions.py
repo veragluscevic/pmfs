@@ -42,9 +42,9 @@ Pnp_tuple = ((2,1.), (3,0), (4,0.2609), (5,0.3078), (6,0.3259), (7,0.3353), (8,0
 #file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fesc-ok') #F_STAR=0.014897
 
 #the model above, but with F_STAR=0.014897/2
-#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.0074485') 
+file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.0074485') 
 #the model above, but with F_STAR=0.014897*2
-file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.029794') 
+#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.029794') 
 
 
 
