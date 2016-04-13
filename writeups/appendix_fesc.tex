@@ -1,12 +1,10 @@
 \section{Estimating the escape fraction of ionizing photons}
 
-This Appendix describes our method for estimating the escape fraction of ionizing photons in semi--numerical simulations of the high--redshift 21--cm signal. We use this estimate to perform a sanity--check on the fiducial model of the Lyman--$\alpha$ flux evolution (shown in Fig.~\ref{fig:cosmo}) that we used for the sensitivity calculations in the body of this paper. We obtained this model from the publicly available \texttt{21CMFAST} code \cite{2011MNRAS.411..955M}.  
-
-In order for our fiducial model to match the calculations of Ref.~\cite{2012ApJ...746..125H} at the lower end of the relevant redshift range ($z\sim 15$), we changed two of the default \texttt{21CMFAST} input parameters, setting the star--formation efficiency  \verb|F_STAR|=$0.015$, and the population of ionizing sources to population III stars, \texttt{Pop} $=3$. We then checked that these parameters satisfy the constraint that the escape fraction of ionizing photons is bound to be less than one, at all redshifts of interest. 
+This Appendix describes our method for estimating the escape fraction of ionizing photons in semi--numerical simulations of the high--redshift 21--cm signal. We use this estimate to perform a sanity--check on the fiducial model of the Lyman--$\alpha$ flux evolution (shown in Fig.~\ref{fig:cosmo}) used for the sensitivity calculations shown in \S\ref{sec:results}. We obtained this model from the publicly available \texttt{21CMFAST} code. In order for this fiducial model to match the calculations of Ref.~\cite{2012ApJ...746..125H} at the lower end of the relevant redshift range ($z\sim 15$), we changed two of the default \texttt{21CMFAST} input parameters, setting the star--formation efficiency to \verb|F_STAR|=$0.014897$, and the population of ionizing sources to Population III stars, \texttt{Pop} $=3$. We then checked that these parameters satisfy the constraint that the escape fraction of ionizing photons is bound to be less than one, at all redshifts of interest. 
 
 \texttt{21CMFAST} sidesteps the computationally expensive tasks of tracking individual radiation sources and performing the radiative transfer of ionizing photons (needed to simulate HII regions in the early universe). It uses an approximate relation between the statistics of HII regions and those of collapsed structures, the latter of which can be efficiently computed in pure large--scale--structure simulations \cite{2004ApJ...613....1F}. Thus, the escape fraction of ionizing photons is not a direct input to these simulations, but can be indirectly estimated using the procedure we describe below. 
 
-The number of ionizing photons that were emitted in a given ionized region, integrated up to a fixed redshift, should equal the number of absorbed ionized photons. These read, respectively, 
+The number of ionizing photons emitted in a given ionized region, integrated up to a fixed redshift, should equal the number of absorbed ionized photons. These read, respectively, 
 \beq    
 \bga
 N_{\rm em} = \langle f_{\rm esc} \rangle f_\ast N_{\gamma/{\rm b}} f_{\rm coll} N_{\rm b}\\
@@ -14,9 +12,9 @@ N_{\rm abs} = f_{\rm H} (1 + \langle n_{\rm rec} \rangle) N_{\rm b},
 \ega
 \label{eq:pbalance}
 \eeq 
-where $f_{\rm H} = 0.924$ is the hydrogen number fraction; $f_\ast$ is the star--formation efficiency (the fraction of galactic baryonic mass in stars; this is an input parameter to \texttt{21CMFAST}); $N_{\gamma/{\rm b}}$ is the number of ionizing photons produced by stars per nucleus; $N_{\rm b}$ is the total number of nuclei within a given ionized region; $\langle f_{\rm esc} \rangle$ is the average escape fraction associated with a given region; $\langle n_{\rm rec} \rangle$ is the average number of recombinations per hydrogen atom inside that region; and $f_{\rm coll}$ is the collapse fraction therein. We assumed that once regions are ionized, they stay ionized, and we also verified that the number of recombinations outside the ionized regions is negligible. 
+where $f_{\rm H} = 0.924$ is the hydrogen number fraction; $f_\ast$ is the star--formation efficiency (the fraction of galactic baryonic mass in stars; this is an input parameter to \texttt{21CMFAST}); $N_{\gamma/{\rm b}}$ is the number of ionizing photons produced by stars per nucleus; $N_{\rm b}$ is the total number of nuclei within a given ionized region; $\langle f_{\rm esc} \rangle$ is the average escape fraction associated with a given region; $\langle n_{\rm rec} \rangle$ is the average number of recombinations per hydrogen atom inside that region; and $f_{\rm coll}$ is the collapse fraction therein. We assume that once regions are ionized, they stay ionized, and we also verified that the number of recombinations outside the ionized regions is negligible. 
 
-Integrating the number of absorptions in Eq.~(\ref{eq:pbalance}) over the set of all ionized regions at a given redshift, $\mathcal{R}(z)$, we get the total number of absorbed ionizing photons,
+Integrating the number of absorbed photons given in Eq.~(\ref{eq:pbalance}) over the set of all ionized regions at a given redshift, $\mathcal{R}(z)$, we get the total number of absorbed ionizing photons,
 \beq
 \bga
 N_{\rm abs, tot}(z) = f_{\rm H} \int_{\mathcal{R}(z)} n_{\rm b} dV  \\
@@ -24,14 +22,14 @@ N_{\rm abs, tot}(z) = f_{\rm H} \int_{\mathcal{R}(z)} n_{\rm b} dV  \\
 \ega
 \label{eq:netabs}
 \eeq
-where $n_{\rm b}$ is the baryon number density; the Jacobian $|dt/dz|$ maps between redshift and proper time; $\mathcal{C} \equiv \langle n_\text{b}^2 \rangle/\langle n_\text{b} \rangle^2$ is the clumping factor; and $\alpha_{\rm B}$ is the case-B recombination coefficient (varies from ionized region to ionized region). On the other hand, using the \texttt{21CMFAST} ansatz that $f_{\rm coll} = 1/\zeta$, where $\zeta$ is an efficiency factor (also given as an input to the code), the total number of ionizing photons emitted in all ionized regions reads
+where $n_{\rm b}$ is the baryon number density; the Jacobian $|dt/dz|$ maps between redshift and proper time; $\mathcal{C} \equiv \langle n_\text{b}^2 \rangle/\langle n_\text{b} \rangle^2$ is the clumping factor; and $\alpha_{\rm B}$ is the case--B recombination coefficient (varies from ionized region to ionized region). On the other hand, using the \texttt{21CMFAST} ansatz that $f_{\rm coll} = 1/\zeta$, where $\zeta$ is an efficiency factor (also given as an input to the code), the total number of emitted ionizing photons reads
 \beq
 \bga
 N_{\rm em, tot}(z)  = \frac{ \overline{f_{\rm esc}}(z) f_\ast N_{\gamma/{\rm b}} }{\zeta} \int_{\mathcal{R}(z)}  n_{\rm b} \ dV,
 \ega 
 \label{eq:netem}
 \eeq
-where $\overline{f_{\rm esc}}(z)$ is the overall averaged escape fraction upto redshift $z$---the quantity we aim to estimate. Combining Eqs.~(\ref{eq:netabs}) and (\ref{eq:netem}), we get
+where $\overline{f_{\rm esc}}(z)$ is the overall averaged escape fraction up to redshift $z$---the quantity we aim to estimate. Combining Eqs.~(\ref{eq:netabs}) and (\ref{eq:netem}), we get
 \beq
 \bga
   \overline{f_{\rm esc}}(z) = \frac{f_{\rm H} \zeta}{ f_\ast N_{\gamma/{\rm b} } } \\
@@ -46,6 +44,4 @@ Rewriting the above integrals in terms of comoving coordinates $\vec r$, and the
 \times \left. (1 + z^\prime)^3 \int_{\mathcal{R}(z^\prime)} d\vec r \ \mathcal{C} [1 + \delta(\vec r, z^\prime)]^2 \alpha_{\rm B} \right] .
 \ega
 \eeq 
-where $n_{\rm b, \text{today}}$ is the current--day number density of baryons.
-
-An additional subtlety is that \texttt{21CMFAST} follows the kinetic temperature in the IGM outside the ionized regions, while the recombination coefficient $\alpha_{\rm B}$ depends on the temperature inside these regions. In general, the latter differs from the former due to the energy deposited by the free--electrons released during photoionization. We verified that accounting for this makes little difference during the redshifts of interest, and hence the values of the kinetic temperature computed by 21cmFAST can be used in the above calculation.
+where $n_{\rm b, \text{today}}$ is the number density of baryons today. An additional subtlety is that \texttt{21CMFAST} follows the kinetic temperature in the IGM outside the ionized regions, while the recombination coefficient $\alpha_{\rm B}$ depends on the temperature inside these regions. In general, the latter differs from the former due to the energy deposited by the free--electrons released during photoionization. We verified that accounting for this makes little difference during the redshifts of interest, and hence the values of the kinetic temperature computed by \texttt{21CMFAST} can be used in the above estimation.

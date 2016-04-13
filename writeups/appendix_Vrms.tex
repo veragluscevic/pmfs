@@ -1,7 +1,7 @@
 \section{Visibility variance}
 \label{app:Vrms}
 
-Here we derive the variance of the visibility for an interferometric array of two antennas separated by a baseline $\vec{b}=(b_x,b_y)$, each with an effective collecting area $A_e$, observing a single element in the $uv$ plane for time duration $t_1$, with total bandwidth $\Delta \nu = \nu_\text{max}-\nu_\text{min}$. A schematic of this setup is shown in Figure \ref{fig:2antennae}. Modes with frequencies that differ by less than $1/t_1$ cannot be distinguished, and modes with frequencies in each interval $1/t_1$ are collapsed into a discrete mode with frequency $\nu_n = n/t_1$, where $n\in Z$. Thus, the number of measured (discrete) frequencies is $N_\nu=t_1\Delta \nu$. Electric field induced in a single antenna is
+Here we derive the variance of the visibility for an interferometric array of two antennas separated by a baseline $\vec{b}=(b_x,b_y)$, each with an effective collecting area $A_e$, observing a single element in the $uv$ plane for time duration $t_1$, with total bandwidth $\Delta \nu = \nu_\text{max}-\nu_\text{min}$. A schematic of this setup is shown in Fig.~\ref{fig:2antennae}. Modes with frequencies that differ by less than $1/t_1$ cannot be distinguished, and modes with frequencies in each interval $1/t_1$ are collapsed into a discrete mode with frequency $\nu_n = n/t_1$, where $n\in Z$. Thus, the number of measured (discrete) frequencies is $N_\nu=t_1\Delta \nu$. Electric field induced in a single antenna is
 \beq
 E(t) = \sum_{n}^{N_\nu}\widetilde{E}(\nu_n)e^{2\pi i\nu_nt},
 \eeq
@@ -95,6 +95,6 @@ Combining the above expression and \eq{\ref{eq:var_rho}}, we get the final resul
 \ega
 \label{eq:Vrms_final}
 \eeq
-where the visibility $\mathcal{V}$ is a complex Gaussian variable, centered at zero, and uncorrelated for different values of its arguments, and the factor of $\Omega_\text{beam}$ came from converting from Kronecker delta to a  Dirac delta function.
+where the visibility $\mathcal{V}$ is a complex Gaussian variable, centered at zero, and uncorrelated for different values of its arguments, and the factor of $\Omega_\text{beam}$ came from converting from Kronecker delta to a  Dirac delta function. Versions of this Equation can be found in the radio astronomy literature (see e.g.~Refs.~\cite{2001isra.book.....T,1986sicn.book.....P}). We have chosen to include a derivation from first principles for the sake of clarity and consistency with the notation in the body of the paper, which is adapted to the purpose of measuring cosmological fluctuations (as opposed to the traditional context of radio imaging).
 
 It should be noted at the end that we were calculating the contribution to the visibility from the noise only (the system temperature + the foreground sky temperature, in the absence of a signal). In case we want to repeat the computation in the presence of a signal, $T_\text{sky}$ should instead be the sum of the signal and the noise temperatures.
