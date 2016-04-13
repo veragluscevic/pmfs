@@ -1,5 +1,5 @@
 """
-This module plot the shear transverse power spectrum as shown in the paper
+This module plot the shear transverse power spectrum calculated by pt.py
 
 ---Xiao Fang, 2015.01
 """
