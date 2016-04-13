@@ -2,9 +2,9 @@ these steps will produce all the results in the paper:
 
 1.  >>cd ~/Projects/Repositories/pmfs 
 
-2.  open for editing reion_functions.py and choose (uncomment) the appropriate input file for 21cmfast stuff, lines below "# 21cmFAST inputs:" to set file_21cmfast=… to either "…midFSTAR" (default model) or "…loFSTAR" or "…hiFSTAR"
+2.  open for editing reion_functions.py and choose (uncomment) the appropriate input file for 21cmfast stuff, lines below "# 21cmFAST inputs:" to set file_21cmfast=… to either "…fesc-ok" (default model) or the other two options below it
 
-3.  make sure results has these folders: loFSTAR, hiFSTAR, midFSTAR, and that there is rns_pmfs folder
+3.  make sure results has these folders: fesc-ok-loFSTAR, fesc-ok-hiFSTAR, fesc-ok, and that there is runs_pmfs folder
 
 4. >>ssh minerva 
 (or another linux machine)
@@ -14,19 +14,21 @@ these steps will produce all the results in the paper:
 6. 
 
 if you want xi plot: 
->>./cluster_runner.py --mode xi --folder 'midFSTAR' 
+>>./cluster_runner.py --mode xi --folder 'fesc-ok' 
 (or another folder, depending what you want)
 >>cd runs_pmfs
->>qsub go_xi_midFSTAR.sh
+>>qsub go_xi_fesc-ok.sh
 
 if you want B0 & SI plot:
->>./cluster_runner.py --mode B0 --folder 'midFSTAR' 
->>./cluster_runner.py --mode SI --folder 'midFSTAR' 
+>>./cluster_runner.py --mode B0 --folder 'fesc-ok' 
+>>./cluster_runner.py --mode SI --folder 'fesc-ok' 
 >>cd runs_pmfs
->>qsub go_B0_midFSTAR.sh
->>qsub go_SI_midFSTAR.sh
+>>qsub go_B0_fesc-ok.sh
+>>qsub go_SI_fesc-ok.sh
 
-the results will be in midFSTAR (or another) folder within results
+to get the ''uncertainty band'' on xi, set file_21cmfast in reion_functions.py to appropriate model and then repeat this step, for fesc-ok-hiFSTAR or fesc-ok-loFSTAR folder names
+
+the results will be in results/fesc-ok (or equivalent) folder
 
 7. done!
 

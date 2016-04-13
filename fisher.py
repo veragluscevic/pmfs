@@ -80,7 +80,7 @@ def FFTT_nk(k, Ntot=0, lambda_z=443.1, dA=3.1695653382881032e+28,
     #this is WRONG: var2 = k* dA * sin_thetak_n
     #this is WRONG: res = var1**2 - 4.*var1*var2/np.pi + var2**2/np.pi
     var2 = k* dA * sin_thetak_n / (2.*np.pi)
-    res = var1**2 - 4./np.pi*var1*var2 + var2**2
+    res = var1**2 - 4./np.pi*var1*var2 + var2**2/np.pi
     
     return res
 
