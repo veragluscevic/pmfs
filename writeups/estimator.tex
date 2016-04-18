@@ -157,6 +157,23 @@ Its variance is given by
 \eeq
 where the sums are unrestricted. Note that $\widehat B_0^{\vec k}=\widehat B_0^{-\vec k}$; this follows from the reality condition on the temperature field, $T(\vec k)=T^*(-\vec k)$, and from the isotropy of space in the null--assumption case, $G_0({\bf{\widehat k}})=G_0(-{\bf{\widehat k}})$. Thus, in order to avoid double--counting of modes, factor of $1/2$ appears at the right--hand--side of Eq.~(\ref{eq:B_estimator_var}).
 
+Finally, the total sensitivity of a tomography survey over a range of redshifts is given by integrating the above Equation over the available redshift range,
+\beq
+\bga
+\sigma_{ B_0,\text{tot}}^{-2} = 
+\frac{1}{2}\int dV_\mathrm{}(z)
+\frac{k^2dk d\phi_k\sin \theta_kd\theta_k}{(2\pi)^3}\\
+\times\left( \frac{2P_\delta(k,z)G_0(\theta_k,\phi_k,z)\frac{\partial G_0}{\partial B_0}(\theta_k, \phi_k,z)}{P^N(k,\theta_k,z) + P_\delta(k,z)G_0^2(\theta_k,\phi_k,z)} \right)^2,
+\ega
+\label{eq:fisher_patch}
+\eeq
+where we transitioned from a sum over $\vec k$ modes to an integral, using $\sum_{\vec k} \to V\int d\vec k /(2\pi)^3$. 
+The integral is performed over the (comoving) volume of the survey of angular size $\Omega_\mathrm{survey}$ (in steradians) at a given redshift, such that the volume element reads
+\beq
+dV_\mathrm{} = \frac{c}{H(z)}\chi^2(z)\Omega_\mathrm{survey}dz.
+\label{eq:dVpatch}
+\eeq
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Stochastic field}
@@ -222,5 +239,16 @@ P^N_{B_0}(\vec K) = \\
 \ega
 \eeq
 %\end{widetext}
+Finally, transitioning from a sum to the integral (like in \S\ref{subsec:uniform_fisher}), we get the following expression for the noise power spectrum of one of the components $B_{0,i}$ of the magnetic field in the plane of the sky,
+%\begin{widetext}
+\beq
+\bga
+\left(P^N_{B_{0,i}}(\vec K)\right)^{-1} = \int k^2d{k}\sin \theta_kd\theta_kd\phi_k \\
+\times\frac{\left(P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k'}}) + P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k}})\right)^2}{2(2\pi)^3P_\text{null}(\vec k) P_\text{null}(\vec k') } ,
+\ega
+\label{eq:NK2}
+\eeq
+%\end{widetext}
+where $\vec k'=\vec K -\vec k$ and the above expression is evaluated at a particular redshift.
 
-Only the components of the magnetic field in the plane of the sky have an effect of the observed brightness temperature, and so Eq.~(\ref{eq:NK}) can be used to evaluate the noise power spectrum for either one of those two (uncorrelated) components. The noise in the direction along the line of sight can be considered infinite. Finally, note that we can construct a similar estimator for the direction of the magnetic field, in a given patch of the sky. However, in this work we only focus on the magnitude of the field and ignore considerations with regard to its direction.
+Only the components of the magnetic field in the plane of the sky have an effect of the observed brightness temperature, and so Eq.~(\ref{eq:NK2}) can be used to evaluate the noise power spectrum for either one of those two (uncorrelated) components. The noise in the direction along the line of sight can be considered infinite. Finally, note that we can construct a similar estimator for the direction of the magnetic field, in a given patch of the sky. However, in this work we only focus on the magnitude of the field and ignore considerations with regard to its direction.

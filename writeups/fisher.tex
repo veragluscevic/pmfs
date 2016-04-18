@@ -6,23 +6,7 @@ We now use the key results of \S\ref{sec:estimators} to evaluate sensitivity of 
 \subsection{Uniform field case}
 \label{subsec:uniform_fisher}
 
-Eq.~(\ref{eq:B_estimator_var}) provides an expression for evaluating $1\sigma$ sensitivity to measuring a uniform $B_0$ at a given redshift. The total sensitivity of a tomography survey over a range of redshifts is given by integrating over the available redshift range,
-\beq
-\bga
-\sigma_{ B_0,\text{tot}}^{-2} = 
-\frac{1}{2}\int dV_\mathrm{}(z)
-\frac{k^2dk d\phi_k\sin \theta_kd\theta_k}{(2\pi)^3}\\
-\times\left( \frac{2P_\delta(k,z)G_0(\theta_k,\phi_k,z)\frac{\partial G_0}{\partial B_0}(\theta_k, \phi_k,z)}{P^N(k,\theta_k,z) + P_\delta(k,z)G_0^2(\theta_k,\phi_k,z)} \right)^2,
-\ega
-\label{eq:fisher_patch}
-\eeq
-where we transitioned from a sum over $\vec k$ modes to an integral, using $\sum_{\vec k} \to V\int d\vec k /(2\pi)^3$. 
-The integral is performed over the (comoving) volume of the survey of angular size $\Omega_\mathrm{survey}$ (in steradians) at a given redshift, such that the volume element reads
-\beq
-dV_\mathrm{} = \frac{c}{H(z)}\chi^2(z)\Omega_\mathrm{survey}dz.
-\label{eq:dVpatch}
-\eeq
-The integration limits are: $\phi_k\in[0,2\pi]$; $\theta_k\in [0,\pi]$; and $k\in[2\pi u_\mathrm{min}/(\chi(z)\sin\theta_k),2\pi u_\mathrm{max}/(\chi(z)\sin\theta_k)]$, where $u_\mathrm{min, max}=\frac{L_\text{min, max}}{\lambda}$ correspond to the maximum and minimum baseline, $L_\text{min}$ and $L_\text{max}$, respectively. If the survey area is big enough that the flat--sky approximation breaks down, $\sigma_{B_0}^{-2} $ can be computed on small (approximately flat) patch of  size $\Omega_\text{patch}$ and centered on the line of sight, and then corrected to account for the total survey volume
+Eq.~(\ref{eq:B_estimator_var}) provides an expression for evaluating $1\sigma$ sensitivity to measuring a uniform $B_0$ at a given redshift. For our numerical calculations, we take the following integration limits: $\phi_k\in[0,2\pi]$; $\theta_k\in [0,\pi]$; and $k\in[2\pi u_\mathrm{min}/(\chi(z)\sin\theta_k),2\pi u_\mathrm{max}/(\chi(z)\sin\theta_k)]$, where $u_\mathrm{min, max}=\frac{L_\text{min, max}}{\lambda}$ correspond to the maximum and minimum baseline, $L_\text{min}$ and $L_\text{max}$, respectively. If the survey area is big enough that the flat--sky approximation breaks down, $\sigma_{B_0}^{-2} $ can be computed on small (approximately flat) patch of  size $\Omega_\text{patch}$ and centered on the line of sight, and then corrected to account for the total survey volume
 \footnote{This accounts for the change in the angle that a uniform magnetic field makes with a line of sight, as the line of sight ``scans'' through the survey area.}. The corrected sensitivity can be evaluated as
 \beq
 \bga
@@ -71,17 +55,6 @@ in the reference frame where the magnetic field is along the $z$ axis, and the l
 \subsection{Stochastic field case}
 \label{subsec:SI_fisher}
 
-Using \eq{\ref{eq:NK}} and transitioning from a sum to the integral (like in \S\ref{subsec:uniform_fisher}), we get the following expression for the noise power spectrum of one of the components $B_{0,i}$ of the magnetic field in the plane of the sky,
-%\begin{widetext}
-\beq
-\bga
-\left(P^N_{B_{0,i}}(\vec K)\right)^{-1} = \int k^2d{k}\sin \theta_kd\theta_kd\phi_k \\
-\times\frac{\left(P_\delta(k')G_0^*({\bf{\widehat k'}})\frac{\partial G_0}{\partial B_i}({\bf{\widehat k'}}) + P_\delta(k)G_0({\bf{\widehat k}})\frac{\partial G_0^*}{\partial B_i}({\bf{\widehat k}})\right)^2}{2(2\pi)^3P_\text{null}(\vec k) P_\text{null}(\vec k') } ,
-\ega
-\label{eq:NK2}
-\eeq
-%\end{widetext}
-where $\vec k'=\vec K -\vec k$ and the above expression is evaluated at a particular redshift.
 To compute signal--to--noise ratio (SNR) for measuring the amplitude of a stochastic--field power spectrum, at a given redshift, we start with the general expression  
 \beq
 \text{SNR}^2 = \frac{1}{2} \text{Tr} \left( N^{-1}SN^{-1}S\right),
