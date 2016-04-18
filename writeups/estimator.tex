@@ -8,14 +8,14 @@ B(z) = B_0(1+z)^2,
 \eeq
 where $B_0$ is its present--day value (its value in comoving units), and the corresponding estimator is denoted with a hat sign, $\widehat B_0$. 
 
-We start by noting that the observed brightness temperature $T(\vec k)$ contains contributions from the noise $T^N(\vec k)$ (from the instrumental noise plus Galactic foreground emission) and the signal $T^S(\vec k)$, 
+We start by noting that the observed brightness--temperature fluctuation $T(\vec k)$ contains contributions from the noise fluctuation $T^N(\vec k)$ (from the instrumental noise plus Galactic foreground emission; this term adds variance to the visibilities due to foregrounds, but we assume the bias in the visibilities is removed via foreground cleaning) and the signal $T^S(\vec k)$, 
 \beq
 \bga
 T(\vec k) = T^N(\vec k) + T^S(\vec k),
 \ega
 \label{eq:Ttot}
 \eeq
-where the ``signal'' may have contributions from previously discussed magnetic--field effects, as well as the null--case 21--cm emission (with no magnetic field present), $T^S_0(\vec k)$. Note that we use the subscript ``0'' for functions evaluated at $B_0=0$. Signal temperature is proportional to the density fluctuation $\delta$, with transfer function $G({\bf{\widehat k}})$ as the proportionality factor, 
+where the ``signal'' may have contributions from previously discussed magnetic--field effects, as well as the null--case 21--cm emission (with no magnetic field present), $T^S_0(\vec k)$. Note that we use the subscript ``0'' on the transfer function $G$, temperature fluctuation $T$, their derivatives, and the power spectrum $P$ to denote when these quantities are evaluated at $B_0=0$. Signal temperature is proportional to the density fluctuation $\delta$, with transfer function $G({\bf{\widehat k}})$ as the proportionality factor, 
 \beq
 \bga
 G({\bf{\widehat k}}) \equiv \frac{\partial T}{\partial\delta}({\bf{\widehat k}},\delta=0)
@@ -162,7 +162,7 @@ where the sums are unrestricted. Note that $\widehat B_0^{\vec k}=\widehat B_0^{
 \subsection{Stochastic field}
 \label{subsec:SI}
 
-We now examine the case where both the magnitude and the direction of the magnetic field are stochastic random variables, with spatial variation. Note that in this Section we do \textit{not} assume a particular model for their power spectra. We use $B_0$ to denote a component of the magnetic field along one of the three Cartesian--system axes, and $\vec r$ to denote position vector in physical space, as before, and start with 
+We now examine the case where both the magnitude and the direction of the magnetic field are stochastic random variables, with spatial variation. Note that in this Section we do \textit{not} assume a particular model for their power spectra; however, we do assume a separation of scales, in the sense that we are only concerned with the modes $\vec K$ of the magnetic field that correspond to scales much larger than the density and temperature modes used for estimating the field, $|\vec K|\ll|\vec k|,|\vec k'|$. We use $B_0$ to denote a component of the magnetic field along one of the three Cartesian--system axes, and $\vec r$ to denote position vector in physical space, as before, and start with 
 \beq
 T(\vec r) = T^S_0(\vec r) + B_0(\vec r)\frac{\partial T^S_0}{\partial B_0}(\vec r),
 \eeq
@@ -194,7 +194,7 @@ where we also use the reality condition $B_0^*(-\vec K) = B_0(\vec K)$. In analo
 \label{eq:Bkkp_estimator}
 \eeq
 where we only focus on terms $\vec K\ne0$ ($\vec k \ne\vec k'$).
-The variance $\left< \widehat B_0^{\vec k\vec k'}(\vec K)\left(\widehat B_0^{\vec k\vec k'}(\vec K')\right)^*\right>$ of this estimator (under the null assumption) can we evaluated using the above expression.
+The variance $\left< \widehat B_0^{\vec k\vec k'}(\vec K)\left(\widehat B_0^{\vec k\vec k'}(\vec K')\right)^*\right>$ of this estimator (under the null assumption) can be evaluated using the above expression.
 %\begin{widetext}
 %\begin{equation}
 %\left< \widehat B_0^{\vec k\vec k'}(\vec K)\left(\widehat B_0^{\vec k\vec k'}(\vec K')\right)^*\right> = 

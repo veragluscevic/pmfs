@@ -1,7 +1,7 @@
 \section{Fisher analysis}
 \label{sec:fisher}
 
-We now use the key results of \S\ref{sec:estimators} to evaluate sensitivity of future tomographic 21--cm surveys to detecting presence of magnetic fields in high---redshift IGM. In \S\ref{subsec:uniform_fisher}, we derive the expression for sensitivity to a field uniform in the entire survey volume. We start with the unsaturated case, and consider the limit where the field (in the classical picture) produces less than 1 radian of precession at all redshifts of interest, and then move on to the saturated (strong field) limit. In \S\ref{subsec:SI_fisher}, we derive the expression for sensitivity to detecting a stochastic magnetic field described by a specific, scale--invariant, power spectrum.
+We now use the key results of \S\ref{sec:estimators} to evaluate sensitivity of future tomographic 21--cm surveys to detecting presence of magnetic fields in high--redshift IGM. In \S\ref{subsec:uniform_fisher}, we derive the expression for sensitivity to a field uniform in the entire survey volume. We start with the unsaturated case, and consider the limit where the field (in the classical picture) produces less than 1 radian of precession at all redshifts of interest, and then move on to the saturated (strong field) limit. In \S\ref{subsec:SI_fisher}, we derive the expression for sensitivity to detecting a stochastic magnetic field described by a specific, scale--invariant, power spectrum.
 
 \subsection{Uniform field case}
 \label{subsec:uniform_fisher}
@@ -65,7 +65,7 @@ G({\bf{\widehat k}}, B\to \infty)
 \label{eq:G_Binf}
 \ega
 \eeq
-in the reference frame where the magnetic field is along the $z$ axis, and the line-of-sight direction is perpendicular to it; when using this expression to derive numerical results in the following Section, we are only interested in this configuration, since we only evaluate detectability of the components of $\vec B$ in the plane of the sky. We interpret $\sigma_\xi$ as 1$\sigma$ sensitivity to \textit{detecting} presence of a strong magnetic field. 
+in the reference frame where the magnetic field is along the $z$ axis, and the line-of-sight direction is perpendicular to it; when using this expression to derive numerical results in the following Section, we are only interested in this configuration, since we only evaluate detectability of the components of $\vec B$ in the plane of the sky. We interpret $\sigma_\xi^{-1}$ as 1$\sigma$ sensitivity to \textit{detecting} presence of a strong magnetic field. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Stochastic field case}
@@ -153,4 +153,4 @@ Finally, from the above expression, $1\sigma$ sensitivity to measuring $A_0^2$ i
 \sigma^2_{A_0^2} =  \left[\frac{1}{10\pi^2} \int_{z_\text{min}}^{z_\text{max}}\frac{dV_\text{patch}}{{(P^N_{B_{0,i}}(z))^2}} \left(\frac{1}{K_\text{min}^3}-\frac{1}{K_\text{max}^3}\right)\right]^{-1}.
 \label{eq:sigma_A0}
 \eeq
-Note at the end that, for our choice of the SI power spectrum, the choice of $K_\text{max}$ does not matter, while we choose $K_\text{min}$ to match the survey size at a given redshift. 
+Note at the end that, for our choice of the SI power spectrum, the choice of $K_\text{max}$ does not matter, while we choose $K_\text{min}=2\pi /(\chi(z)\sin\theta_k)$ to match the survey size at a given redshift, for the array configuration considered throughout this work. 
