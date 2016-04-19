@@ -37,26 +37,23 @@ Pnp_tuple = ((2,1.), (3,0), (4,0.2609), (5,0.3078), (6,0.3259), (7,0.3353), (8,0
 # 21cmFAST inputs:
 
 ##VG last version:
+#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__loFSTAR') #F_STAR=2.5e-3
+file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__midFSTAR') #F_STAR=7.5e-3
+#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__hiFSTAR') #F_STAR=1.875e-2
 
-#teja's model that satisefies fesc test:
+
+#TV model that satisefies fesc test---too strict!!!:
 #file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fesc-ok') #F_STAR=0.014897
-
 #the model above, but with F_STAR=0.014897/2
-file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.0074485') 
+#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.0074485') 
 #the model above, but with F_STAR=0.014897*2
 #file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.029794') 
 
-
-
-#same as teja's fesc-ok model with lower zeta_x=0.5:
+#same as TV fesc-ok model with lower zeta_x=0.5:
 #file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX5.0e+55_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__low-zetax') #F_STAR=0.014897
 #same model with even lower zeta_x=0.2:
 #file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX2.0e+55_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc') #F_STAR=0.014897
 
-#VG models:
-#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__loFSTAR') #F_STAR=2.5e-3
-#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__midFSTAR') #F_STAR=7.5e-3
-#file_21cmfast = np.loadtxt(INPUTS_PATH+'global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__hiFSTAR') #F_STAR=1.875e-2
 
 Tks_21cmfast = file_21cmfast[:,2][::-1]
 Tgs_21cmfast = file_21cmfast[:,5][::-1]

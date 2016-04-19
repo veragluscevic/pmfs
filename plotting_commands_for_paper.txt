@@ -7,6 +7,6 @@ import plots_pmfs as pp
 
 pp.visualize_hp()
 pp.arb_xT()
-pp.grid_DeltaL(modes=['xi'],ymax=1,folder='fesc-ok',folders_uncertainty=['fesc-ok-loFSTAR','fesc-ok-hiFSTAR'],ymin=0.05)
-pp.grid_DeltaL(modes=['B0', 'SI'],folder='fesc-ok')
+pp.grid_DeltaL(modes=['xi'],ymax=1,folder='midFSTAR',folders_uncertainty=['loFSTAR','hiFSTAR'],ymin=0.05)
+pp.grid_DeltaL(modes=['B0', 'SI'],folder='midFSTAR')
 pp.sigma_z()

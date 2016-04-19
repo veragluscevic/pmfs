@@ -243,8 +243,8 @@ def arb_reion_models(zmin=15,zmax=27, nzs=100,
 @jit
 def arb_xT(zmin=15,zmax=30, nzs=100,
            fontsize=24,root=RESULTS_PATH,
-           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fesc-ok',
-           filenames_uncertainty=['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.0074485','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__fstar-0.029794'],
+           filename='global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__midFSTAR',
+           filenames_uncertainty=['global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__loFSTAR','global_evolution_zetaIon31.50_Nsteps40_zprimestepfactor1.020_zetaX1.0e+56_alphaX1.2_TvirminX1.0e+04_Pop3_300_200Mpc__hiFSTAR'],
            label='',B0=1e-22,
            ymax_T=100,ymin_x=1e-6):
     """Takes filenames_uncertainty as a list of 2 filenames, no root,
