@@ -15,7 +15,7 @@ The redshifted 21--cm signal can be represented with specific intensity at a loc
 \end{gathered}
 \label{eq:fourier_duals}
 \end{equation} 
-where $\nu_{21}=1420.4$MHz is the frequency corresponding to the 21--cm line in the rest frame of the emitting atoms; $H(z)$ is the Hubble parameter; and $\chi(z)$ is the comoving distance to redshift $z$ which marks the middle of the observed data cube where $r_z$ and $\theta_\nu$ intervals are evaluated. Note that $2\pi\theta_iu = r_ik_i$, for $i\in\{x,y\}$. The convention we use for the Fourier transform is 
+where $\nu_{21}=1420.4$ MHz is the frequency corresponding to the 21--cm line in the rest frame of the emitting atoms; $H(z)$ is the Hubble parameter; and $\chi(z)$ is the comoving distance to redshift $z$ which marks the middle of the observed data cube where $r_z$ and $\theta_\nu$ intervals are evaluated. Note that $2\pi\theta_iu = r_ik_i$, for $i\in\{x,y\}$. The convention we use for the Fourier transform is 
 \beq
 \bga
 I(\vec{r}) = \frac{1}{(2\pi)^3}\int\widetilde{I}(\vec{k})e^{i\vec{k} \cdot \vec{r}}d\vec{k},\\
@@ -110,7 +110,7 @@ N_\text{base}=\frac{1}{2}N_\text{ant}(N_\text{ant}+1) = \int_\text{half} n(u,v)d
 \eeq
 where $N_\text{ant}$ is the number of antennas in the array, and the integration is done on one half of the $uv$ plane\footnote{This is because the visibility has the following property $V(u,v,\theta_\nu)=V^*(-u,-v,\theta_\nu)$, and only a half of the plane contains independent samples.}. We assume that the array consists of many antennas, so that time dependence of $n(u,v)$ is negligible; if this is not the case, time average of this quantity should be computed to account for Earth's rotation.
 
-In this work, we focus on a specific array configuration that is of particular interest to cosmology---a compact grid of dipole antennas, with a total collecting area of $(\Delta L)^2$. In this setup, the beam solid angle is 1 sr, the effective area of a single dipole is $A_e = \lambda^2$, and the effective number of antennas is $N_\text{ant} = \frac{(\Delta L)^2}{\lambda^2}$. For such a configuration, the number density of baselines entering the calculation of the noise power spectrum reads
+In this work, we focus on a specific array configuration that is of particular interest to cosmology---a compact grid of dipole antennas, with a total collecting area of $(\Delta L)^2$, and a maximum baseline length\footnote{Note that for a square with area $(\Delta L)^2$ tiled in dipoles, there is a very small number of baselines longer than $\Delta L$, but we neglect this for simplicity.} of $\Delta L$. In this setup, the beam solid angle is 1 sr, the effective area of a single dipole is $A_e = \lambda^2$, and the effective number of antennas is $N_\text{ant} = \frac{(\Delta L)^2}{\lambda^2}$. For such a configuration, the number density of baselines entering the calculation of the noise power spectrum reads
 \beq
 n(u,v) = (\frac{\Delta L}{\lambda} - u)(\frac{\Delta L}{\lambda} - v).
 \label{eq:nuv_fftt}
@@ -132,7 +132,7 @@ n_\text{base}(\vec k) = (\frac{\Delta L}{\lambda} - \frac{\chi(z)}{2\pi}k\sin\th
 \label{eq:nk_fftt}
 \eeq
 
-As a last note, when computing numerical results in \S\ref{sec:results}, we substitute $\phi_k$--averaged version of the above quantity (averaged between $0$ and $\pi/2$ only, due to the four--fold symmetry of the experimental setup of a square of dipoles) when computing the noise power, in order to account for the rotation of the baselines with respect to the modes in the sky. This average number density reads
+As a last note, when computing numerical results in \S\ref{sec:results}, we substitute the $\phi_k$--averaged version of the above quantity (averaged between $0$ and $\pi/2$ only, due to the four--fold symmetry of the experimental setup of a square of dipoles) when computing the noise power, in order to account for the rotation of the baselines with respect to the modes in the sky. This average number density reads
 \beq
 \bga
 \langle n_\text{base}(\vec k) \rangle_{\phi_k}= \left(\frac{\Delta L}{\lambda}\right)^2 -\frac{4}{\pi}\frac{\Delta L}{\lambda}\frac{\chi(z)}{2\pi}k\sin\theta_k \\+ \frac{1}{\pi}\left(\frac{\chi(z)}{2\pi}k\sin\theta_k\right)^2,
