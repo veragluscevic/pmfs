@@ -35,12 +35,13 @@ def get_coeff_Bsat():
 	ratio_TgammaTs=Tg/Tspin
 	ns=-2.15
 
-	C=0.128*ratio_TgammaTs*x1s*np.sqrt((1.+z)/10.)
-	print(C/20.0/(1.+xalpha2+xc2),'C')
-	lamda=13.2-C-C/20.0/(1.+xalpha2+xc2)
-	q=3.*(13.2-C)-C/60.0/(1.+xalpha2+xc2)
-	#print(-4*lamda/q)
-	A=np.absolute(10*(1.+xalpha2+xc2)**2*(lamda+(ns)/4.*q*4./3./16.*11.)/C / xBcoeff /(1.+z)**2)/1.478*1.577
+	# C=0.128*ratio_TgammaTs*x1s*np.sqrt((1.+z)/10.)
+	# print(C/20.0/(1.+xalpha2+xc2),'C')
+	# lamda=13.2-C-C/20.0/(1.+xalpha2+xc2)
+	# q=3.*(13.2-C)-C/60.0/(1.+xalpha2+xc2)
+	# #print(-4*lamda/q)
+	# A=np.absolute(10*(1.+xalpha2+xc2)**2*(lamda+(ns)/4.*q*4./3./16.*11.)/C / xBcoeff /(1.+z)**2)/1.478*1.577
+	A=np.absolute(1.577*10**(-18) /x1s/ratio_TgammaTs *(1.+xalpha2+xc2)**2 *(1+11./16*ns)/((1.+z)/10.)**(1.5) )
 	Bsat =(1.+xalpha2+xc2)/xBcoeff/(1.+z)**2
 
 	return z, A, Bsat, Pt_lensing, Pt_delensing
