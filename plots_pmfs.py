@@ -135,7 +135,7 @@ def sigma_z(zmin=15,zmax=28,
 @jit
 def visualize_hp(thetak=np.pi/2.,phik=np.pi/2.,
                  nside=64, npix=None,
-                fileroot=RESULTS_PATH, z=30,
+                fileroot=RESULTS_PATH, z=21,
                 fontsize=24):
     """This produces healpy visualization of the quadrupole pattern,
     in the frame of the atom.
