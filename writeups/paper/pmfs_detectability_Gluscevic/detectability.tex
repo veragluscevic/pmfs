@@ -1,0 +1,87 @@
+\documentclass[aps,prd,twocolumn,floatfix,showpacs,superscriptaddress,nofootinbib]{revtex4-1}  
+                
+\usepackage{graphicx}  
+\usepackage{dcolumn}   
+\usepackage{bm}        
+\usepackage{amssymb}   
+\usepackage{epsfig}  
+\usepackage{latexsym}
+\usepackage{amssymb} 
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{enumerate}
+  
+\newcommand{\apjl}{Astrophys. J. Lett.}
+\newcommand{\aap}{Astron. Astrophys.}
+\newcommand{\apjs}{Astrophys. J. Suppl. Ser.}
+\newcommand{\sa}{Sov. Astron.}
+\newcommand{\jpb}{J. Phys. B.}
+\newcommand{\natu}{Nature}
+\newcommand{\aaps}{Astron. Astrophys. Supp. Ser.}
+\newcommand{\aj}{Astron. J.}
+\newcommand{\aas}{Bull. Am. Astron. Soc.}
+\newcommand{\mnras}{Mon. Not. R. Astron. Soc.}
+\newcommand{\pasp}{Publ. Astron. Soc. Pac.}
+\newcommand{\memras}{Mem. R. Astr. Soc. }
+\newcommand{\physrep}{Phys. Rep.}
+\newcommand{\araa}{Annual Rev. Astron. Astrophys.}
+\newcommand{\jcap}{Journal of Cosmology and Astroparticle Physics}
+\newcommand{\ssr}{Space Science Reviews}
+\newcommand{\aapr}{Astron. and Astrophys. Review}
+\newcommand{\solphys}{Solar Physics}
+\newcommand{\jqsrt}{J. Quant. Spec. Rad. Trans.}
+    
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\bga}{\begin{gathered}}
+\newcommand{\ega}{\end{gathered}}
+\newcommand{\eq}[1]{{Eq.~(#1)}}
+\hyphenation{ALPGEN}
+\hyphenation{EVTGEN}
+\hyphenation{PYTHIA}
+
+
+\begin{document}
+
+\widetext    
+\title{A new probe of magnetic fields in the pre--reionization epoch: II. Detectability}
+\author{Vera Gluscevic}
+\author{Tejaswi Venumadhav}
+\affiliation{Institute for Advanced Study, Einstein Drive, Princeton, NJ 08540, USA} 
+\author{Xiao Fang}
+\author{Christopher Hirata}
+\affiliation{Center for Cosmology and Astroparticle Physics, The Ohio State University, 191 West Woodruff Lane, Columbus, Ohio 43210, USA}
+\author{Antonija Oklop\v ci\' c}
+\author{Abhilash Mishra} 
+\affiliation{California Institute of Technology, Mail Code 350-17, Pasadena, CA 91125, USA}
+\date{\today}  
+    
+ 
+\begin{abstract} 
+In the first paper of this series, we proposed a novel method to probe large--scale intergalactic magnetic fields during the cosmic Dark Ages, using 21--cm tomography. This method relies on the effect of spin--alignment of hydrogen atoms in a cosmological setting, and on the effect of magnetic precession of the atoms on the statisics of the 21--cm brightness--temperature fluctuations. In this paper, we forecast the sensitivity of future tomographic surveys to detecting magnetic fields using this method. For this purpose, we develop a minimum--variance estimator formalism to capture the characteristic anisotropy signal using the two--point statistics of the brightness--temperature fluctuations. We find that, depending on the reionization history, and subject to the control of systematics from foreground subtraction, an array of dipole antennas in a compact--grid configuration with a collecting area slightly exceeding one square kilometer can achieve a detection threshold of $\sim 10^{-21}$ Gauss comoving (scaled to present--day value) within three years of observation. Using this method, tomographic 21--cm surveys that are presently under construction could thus probe ten orders of magnitude below the current constraint on primordial magnetic fields from the CMB observations. In the future, this method will provide exquisite sensitivity to magnetic fields \textit{in situ} at high redshift. 
+\end{abstract} 
+        
+\pacs{} 
+\maketitle  
+\input introduction.tex
+\input method_summary.tex
+\vspace{-12pt}
+\input basics.tex
+\input estimator.tex
+\input fisher.tex
+\input results.tex
+\input conclusions.tex
+\input acknowledgements.tex  
+\appendix 
+\input appendix_Vrms.tex
+\label{app:Vrms} 
+\input appendix_lensing.tex
+\label{app:lensing}
+\vspace{-10pt}
+\input appendix_fesc.tex
+\label{app:fesc}
+
+\bibliographystyle{apsrev4-1}
+\bibliography{detectability}
+
+\end{document}
