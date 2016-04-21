@@ -1,29 +1,30 @@
 pmfs
 ====
-Code accompanying Gluscevic et al. (2016a) that can be used to:
+Data and code accompanying `Gluscevic et al. (2016a) <>_`. This code can be used to:
 
 *  Calculate the effect of cosmological magnetic fields on 21-cm brightness-temperature fluctuations
 *  Forecast sensitivities of 21-cm tomographic surveys to detecting cosmological magnetic fields using the method of Venumadhav et al. (2014)
+*  
 
-Dependencies
+Data
+----
+
+Figures in `Gluscevic et al. (2016a) <>_` use outputs of ``21CMFAST`` code that are in ``code/inputs`` and outputs of the ``CAMB`` code in ``code/matter_power``. Numerical results represented in our Figures are in ``code/results``.
+
+
+Code dependencies
 ------------
-This code will only work for python 2.
-
-For calculations, you will need:
+This code will only work for python 2. For calculations, you will need:
 
 * basic python scientific packages contained within the `Anaconda python distribution <http://continuum.io/downloads>`_ (``numpy``, ``scipy``, ``matplotlib``)
 * ``cosmolopy``
 * ``numba``
 
-For plotting (just for figures like Fig. 2 in the paper) you may also need ``Healpix`` and ``Healpy`` (see `here <https://github.com/healpy/healpy>`_).
-
-Data
-----
-
-Figures in Gluscevic et al. (2016a) use outputs of ``21CMFAST`` code that are contained in ``code/inputs`` and outputs of the ``CAMB`` code contained in ``code/matter_power``. Numerical results represented in our Figures is contained in ``code/results``.
-
-Usage
-------
+For producing Fig. 2, you will also need ``Healpix`` and ``Healpy`` (see `here <https://github.com/healpy/healpy>`_).
+ 
+ 
+Code usage
+----------
 There are three main scripts you may want to use and can import from python command line: 
 
 * ``fisher.py``: Enables computation of the detection threshold for a given 21-cm survey (note: only implemented for an array of dipoles in a compact-grid configuration). The main routines are:
@@ -39,12 +40,13 @@ There are three main scripts you may want to use and can import from python comm
 
       - for implementation of Eq. (1) (computation of the brightness-temperature fluctuation in presence of a magnetic field) use ``calc_Tb`` 
       - for Eq. (24) (the corresponding transfer function) use ``calc_G`` 
+      
   Both routines take on input:
-       - values of $x_{\alpha,(2)}$, $x_{c,(2)}$, and $x_B$ (see paper for definitions) which are all functions of redshift,
+       - values of $x_{\alpha,(2)}$, $x_{c,(2)}$, and $x_B$ (all are functions of redshift; see `paper <>_` for definitions),
        - coordinates of the wavevector $\vec k$ and the line of sight $\widehat n$ (both in the frame where the magnetic field is along the z axis; angle coordinates are in radians),
   while the second routine also takes spin and CMB temperatures at a given redshift (in Kelvin).
 
-
+This should get you quickly started if you wish to reproduce our results, but for more details, see documentation within the source code and in the `paper <>_`.
 
 Additional notes
 ----------------
