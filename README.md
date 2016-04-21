@@ -1,6 +1,6 @@
 pmfs
 ====
-Data and code accompanying `Gluscevic et al. (2016a)`. The code in this repository can be used to:
+Data and code accompanying [Gluscevic et al. (2016a)](). The code in this repository can be used to:
 
 *  Calculate the effect of cosmological magnetic fields on 21-cm brightness-temperature fluctuations
 *  Forecast sensitivities of 21-cm tomographic surveys to detecting cosmological magnetic fields, using the new method of this paper series
@@ -9,7 +9,7 @@ Data and code accompanying `Gluscevic et al. (2016a)`. The code in this reposito
 Data
 ----
 
-Figures in `Gluscevic et al. (2016a) <>`_ use outputs of ``21CMFAST`` code that are in ``code/inputs`` and outputs of the ``CAMB`` code in ``code/matter_power``. Numerical results represented in our Figures are in ``code/results``.
+Figures in Gluscevic et al. (2016a) use outputs of ``21CMFAST`` code that are in ``code/inputs`` and outputs of the ``CAMB`` code in ``code/matter_power``. Numerical results represented in our Figures are in ``code/results``.
 
 
 Dependencies
