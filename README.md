@@ -19,16 +19,9 @@ For plotting (just for figures like Fig. 2 in the paper) you may also need ``Hea
 
 Usage
 ------
-There are 3 main scripts you may wish to use: ``pmfs_transfer.py``, ``fisher.py``, and ``plots_pmfs.py``.
+There are three main scripts you can import from python command line: ``pmfs_transfer.py``, ``fisher.py``, and ``plots_pmfs.py``. 
 
-* Numerical results
-
-To compute brightness-temperature fluctuation from Eq. (1) of the paper, from pyhton command line:
-
->> import fisher as f
->> f.calc_Tb()
-
-where in particular you need to pass values of x_\alpha, x_c, and xB, and the coordinates of wavevector k and line of sight n, both in the frame where the magnetic field is along the z axis. You can similarly compute the transfer function G using the same script, and calling f.calc_G().
+* For the implementation of Eqs. (1) and (24) of Gluscevic et al. 2016a (computation of the brightness-temperature fluctuation and the corresponding transfer function, in presence of a magnetic field, respectively), use routines ``calc_Tb`` and ``calc_G`` from ``fisher.py``. The first routine will take values of $x_{\alpha,(2)}$, $x_{c,(2)}$, and $x_B$, and the coordinates of wavevector k and line of sight n, both in the frame where the magnetic field is along the z axis. You can similarly compute the transfer function G using the same script, and calling f.calc_G().
 
 To compute detection threshold for experiments:
 
