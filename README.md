@@ -1,6 +1,6 @@
 pmfs
 ====
-Data and code accompanying `Gluscevic et al. (2016a) <>_`. This code can be used to:
+Data and code accompanying `Gluscevic et al. (2016a) <>_`. The code in this repository can be used to:
 
 *  Calculate the effect of cosmological magnetic fields on 21-cm brightness-temperature fluctuations
 *  Forecast sensitivities of 21-cm tomographic surveys to detecting cosmological magnetic fields, using the new method of this paper series
@@ -33,7 +33,7 @@ There are three main scripts you may want to use and can import from python comm
     - ``calc_SNR``: It takes the same survey parameters as ``rand_integrator``. If you use default parameters, you will get the first data point of Fig. 5 for the SI case.
 
 
-* ``plots_pmfs.py``: If you are looking to use this module to reproduce figures of the paper, read ``code/plotting_commands_for_paper.txt``. Note that the plotting routine that produces Figs. 4 and 5 is ``grid_DeltaL``, and it requires that you first compute sensitivities for a range of maximum baselines, using appropriate routines of ``fisher``. The format of this input is as contained in ``code/results/midFSTAR``, ``code/results/loFSTAR``, and ``code/results/hiFSTAR``. You can also just run the plotting routines for the our results in ``results`` to get the figures.
+* ``plots_pmfs.py``: If you are looking to use this module to reproduce Figures in the paper, you will need this routine and you can read ``code/plotting_commands_for_paper.txt`` on how to use it to do that. Note that the plotting routine that produces Figs. 4 and 5 (the main result of the paper) is ``grid_DeltaL``, and it requires that you first compute sensitivities for a range of maximum baselines, using appropriate routines of ``fisher``. The format of the inputs to the plotting routine is as contained in ``code/results/midFSTAR``, ``code/results/loFSTAR``, and ``code/results/hiFSTAR``. You can also just run the plotting routine for the our results in ``results`` to get the figures.
 
 
 * ``pmfs_transfer.py``: Basic implementation of the brightness-temperature calculation.
