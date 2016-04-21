@@ -3,8 +3,8 @@ pmfs
 Data and code accompanying `Gluscevic et al. (2016a) <>_`. This code can be used to:
 
 *  Calculate the effect of cosmological magnetic fields on 21-cm brightness-temperature fluctuations
-*  Forecast sensitivities of 21-cm tomographic surveys to detecting cosmological magnetic fields using the method of Venumadhav et al. (2014)
-*  
+*  Forecast sensitivities of 21-cm tomographic surveys to detecting cosmological magnetic fields, using the new method of this paper series
+
 
 Data
 ----
@@ -12,7 +12,7 @@ Data
 Figures in `Gluscevic et al. (2016a) <>_` use outputs of ``21CMFAST`` code that are in ``code/inputs`` and outputs of the ``CAMB`` code in ``code/matter_power``. Numerical results represented in our Figures are in ``code/results``.
 
 
-Code dependencies
+Dependencies
 ------------
 This code will only work for python 2. For calculations, you will need:
 
@@ -23,7 +23,7 @@ This code will only work for python 2. For calculations, you will need:
 For producing Fig. 2, you will also need ``Healpix`` and ``Healpy`` (see `here <https://github.com/healpy/healpy>`_).
  
  
-Code usage
+Usage
 ----------
 There are three main scripts you may want to use and can import from python command line: 
 
