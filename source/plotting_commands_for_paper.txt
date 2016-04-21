@@ -1,12 +1,34 @@
-the following command line commands produce all the plots that appear in Paper II:
-(make sure reion_functions.py has 21cmfile set to "mid", i.e. the fiducial model!)
+**********************************
+*** Vera Gluscevic, April 2016 ***
+**********************************
+
+This document explains how to produce all the plots from Gluscevic et al 2016a (not illustrations, and not the Appendix). 
+
+
+
+First step (general preps):
+
+-- create pmfs/source/results/ directory to store the plots; otherwise, change RESULTS_PATH in globals.py to where you want the plots to go.
+-- if you want to create Fig 2, make sure you install healpix and healpy (see: https://github.com/healpy/healpy)
+-- if you want to call pp.grid_DeltaL to make Figs 4 and 5, you must have numerical results somewhere (see README on how to produce those and what the expected format is; they usually go to directories midFSTAR, hiFSTAR, and loFSTAR inside of results/, for default paths) and pass those paths to appropriate functions in plots_pmfs.py (check that source for documentation)
+-- reion_functions.py must have file_21cmfast variable set to "…__midFSTAR" 
+
+
+
+Second step (from python command line):
+
 
 import pylab as pl
 pl.ion()
 import plots_pmfs as pp
 
-pp.visualize_hp()
+#Fig 2
+pp.visualize_hp() 
+# Fig 3
 pp.arb_xT()
+# Fig 4
 pp.grid_DeltaL(modes=['xi'],ymax=1,folder='midFSTAR',folders_uncertainty=['loFSTAR','hiFSTAR'],ymin=0.05)
+# Fig 5
 pp.grid_DeltaL(modes=['B0', 'SI'],folder='midFSTAR')
+# Fig 6
 pp.sigma_z()

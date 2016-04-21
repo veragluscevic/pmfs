@@ -28,8 +28,6 @@ if args.mode=='SI':
 
 Omegasurvey = args.Omegasurvey
 
-RUNNER_PATH = '/home/verag/Projects/Repositories/'
-
 NGROUPS = args.ngroups
 DeltaLs = np.linspace(args.DeltaLmin,args.DeltaLmax,args.NDeltaL)
 filename = '/DeltaLs_{}_tyr_{:.2f}_Omega_{:.2f}.npy'.format(args.mode,args.tyr,args.Omegasurvey)
