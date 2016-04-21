@@ -1,0 +1,2 @@
+B0[Gauss]  Omega_survey[sr]  DeltaL^2[km^2]  tobs[yr]
+2.61741088787e-22  1.0  7.44968858134 1.0

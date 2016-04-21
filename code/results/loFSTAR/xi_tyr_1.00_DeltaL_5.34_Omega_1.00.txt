@@ -1,0 +1,2 @@
+xi  Omega_survey[sr]  DeltaL^2[km^2]  tobs[yr]
+0.122652346015  1.0  28.52816609 1.0

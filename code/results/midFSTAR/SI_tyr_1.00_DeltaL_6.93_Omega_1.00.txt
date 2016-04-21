@@ -1,0 +1,2 @@
+sigma(sqrt[SI amplitude])  Omega_survey[sr]  DeltaL^2[km^2]  tobs[yr]
+1.55959604046e-21  1.0  48.0167474049 1.0
