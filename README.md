@@ -1,6 +1,6 @@
 pmfs
 ====
-Data and code accompanying [Gluscevic et al. (2016a)](https://github.com/veragluscevic/pmfs/blob/master/paper/detectability.pdf). The code in this repository can be used to:
+Data and code accompanying [Gluscevic et al. (2016a)](http://arxiv.org/abs/1604.06327). The code in this repository can be used to:
 
 *  Calculate the effect of cosmological magnetic fields on 21-cm brightness-temperature fluctuations
 *  Forecast sensitivities of 21-cm tomographic surveys to detecting cosmological magnetic fields, using the new method of this paper series
