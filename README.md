@@ -20,7 +20,7 @@ This code will only work for python 2. For calculations, you will need:
 * ``cosmolopy``
 * ``numba``
 
-For producing Fig. 2, you will also need ``Healpix`` and ``Healpy`` (see [here](https://github.com/healpy/healpy>)).
+To reproduce our Fig. 2, you will also need ``Healpix`` and ``Healpy`` (see [here](https://github.com/healpy/healpy>)).
  
  
 Usage
