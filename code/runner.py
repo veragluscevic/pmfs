@@ -26,7 +26,7 @@ parser.add_argument('--folder', default=None)
 parser.add_argument('--resfile', default='test.txt') # e.g.: B0_tyr_1_DeltaL_2.00_Omega_1.txt
 #parser.add_argument('--fastfile', default=INPUTS_PATH+'21cmfast_teja_nov2014.txt')
 parser.add_argument('--neval', type=int, default=100000) # number of integrand evaluations
-parser.add_argument('--nevalPBi', type=int, default=10000) # number of integrand evaluations
+parser.add_argument('--nevalPBi', type=int, default=5000) # number of integrand evaluations
 
 parser.add_argument('--mode', default='B0') # 'B0' or 'xi' or 'SI' 
 

@@ -421,10 +421,10 @@ def integrand_PBi(x,
 
 
 @jit#(nopython=True)
-def rand_integrator(neval=1000, DeltaL_km=1.,
+def rand_integrator(neval=100000, DeltaL_km=1.,
                     t_yr=1.,
                     kminmin=0.01,kmaxmax=1.,
-                    zmax=35,zmin=10,
+                    zmax=25,zmin=15,
                     Omega_survey=1.,
                     Omega_patch=1.,
                     thetan=np.pi/2.,phin=0.,
@@ -632,11 +632,11 @@ def calc_PBi(z, neval=1000,
     return res
 
 @jit 
-def calc_SNR(zmin=10,zmax=35,
+def calc_SNR(zmin=15,zmax=25,
              t_yr=1.,
               DeltaL_km=1.,
               kminmin=0.01,kmaxmax=1.,
-              neval=100,neval_PBi=100,
+              neval=100,neval_PBi=5000,
               Omega_survey=1.,
               thetan=np.pi/2.,phin=0.,
               debug=False,
