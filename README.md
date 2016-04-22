@@ -58,7 +58,7 @@ Additional notes
 Attribution
 -----------
 
-If you use this code, please cite Gluscevic et al. (2016a) and Venumadhav et al (2014).
+If you use this code, please cite [Gluscevic et al. (2016a)](http://arxiv.org/abs/1604.06327) and [Venumadhav et al (2014)](http://arxiv.org/abs/1410.2250).
 
 
 
