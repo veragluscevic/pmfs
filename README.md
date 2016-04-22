@@ -16,7 +16,7 @@ Dependencies
 ------------
 This code will only work for python 2. For calculations, you will need:
 
-* basic python scientific packages contained within the `Anaconda python distribution <http://continuum.io/downloads>`_ (``numpy``, ``scipy``, ``matplotlib``)
+* basic python scientific packages contained within the [Anaconda python distribution](http://continuum.io/downloads) (``numpy``, ``scipy``, ``matplotlib``)
 * ``cosmolopy``
 * ``numba``
 
