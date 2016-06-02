@@ -16,11 +16,11 @@ Dependencies
 ------------
 This code will only work for python 2. For calculations, you will need:
 
-* basic python scientific packages contained within the `Anaconda python distribution <http://continuum.io/downloads>`_ (``numpy``, ``scipy``, ``matplotlib``)
+* basic python scientific packages contained within the [Anaconda python distribution](http://continuum.io/downloads) (``numpy``, ``scipy``, ``matplotlib``)
 * ``cosmolopy``
 * ``numba``
 
-For producing Fig. 2, you will also need ``Healpix`` and ``Healpy`` (see [here](https://github.com/healpy/healpy>)).
+To reproduce our Fig. 2, you will also need ``Healpix`` and ``Healpy`` (see [here](https://github.com/healpy/healpy>)).
  
  
 Usage
@@ -33,7 +33,7 @@ There are three main scripts you may want to use and can import from python comm
     - ``calc_SNR``: It takes the same survey parameters as ``rand_integrator``. If you use default parameters, you will get the first data point of Fig. 5 for the SI case ($A_0$ corresponding to that point). One call takes about 10mins with default parameters.
 
 
-* ``plots_pmfs.py``: If you are looking to use this module to reproduce Figures in the [paper](https://github.com/veragluscevic/pmfs/blob/master/paper/detectability.pdf), you will need this routine and you can read ``code/plotting_commands_for_paper.txt`` on how to use it to do that. Note that the plotting routine that produces Figs. 4 and 5 (the main result of the [paper](https://github.com/veragluscevic/pmfs/blob/master/paper/detectability.pdf)) is ``grid_DeltaL``, and it requires that you first compute sensitivities for a range of maximum baselines, using appropriate routines of ``fisher``. The format of the inputs to the plotting routine is as contained in ``code/results/midFSTAR``, ``code/results/loFSTAR``, and ``code/results/hiFSTAR``. You can also just run the plotting routine for the our results in ``results`` to get the figures.
+* ``plots_pmfs.py``: If you are looking to use this module to reproduce Figures in the [paper](https://github.com/veragluscevic/pmfs/blob/master/paper/detectability.pdf), you will need this routine and you can read ``code/plotting_commands_for_paper.txt`` on how to use it to do that. Note that the plotting routine that produces Figs. 4 and 5 (the main result of the [paper](https://github.com/veragluscevic/pmfs/blob/master/paper/detectability.pdf)) is ``grid_DeltaL``, and it requires that you first compute sensitivities for a range of maximum baselines, using appropriate routines of ``fisher``. The format of the inputs to the plotting routine is as contained in ``code/results/midFSTAR``, ``code/results/loFSTAR``, and ``code/results/hiFSTAR``. You can also just run the plotting routine on our numerical results (they are in ``results``) to get the figures.
 
 
 * ``pmfs_transfer.py``: This module contains a basic implementation of the brightness-temperature calculation. The main routines are:
